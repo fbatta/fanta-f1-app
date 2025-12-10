@@ -27,7 +27,7 @@ class UserProvider extends _$UserProvider {
     return await _userRepository.findUser(userId!);
   }
 
-  Future<void> updateUserDisplayName(String displayName) async {
+  Future<void> updateDisplayName(String displayName) async {
     if(!_isValidDisplayName(displayName)) {
       throw ValidationException("Display name must be between 3 and 80 characters");
     }
