@@ -10,6 +10,8 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.2.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth-6.1.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.3.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.11.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-13.0.4" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

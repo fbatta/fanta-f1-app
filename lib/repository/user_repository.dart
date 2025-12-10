@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_already_exists_exception.dart';
 import 'package:fanta_f1/exception/user_not_found_exception.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserRepository {
   late final FirebaseFirestore _firestore;
+  late final FirebaseStorage _storage;
   late final CollectionReference _usersCollection;
 
-  UserRepository(FirebaseFirestore instance) {
-    _firestore = instance;
+  UserRepository(FirebaseFirestore firestoreInstance, FirebaseStorage storageInstance) {
+    _firestore = firestoreInstance;
+    _storage = storageInstance;
     _usersCollection = _firestore.collection('users');
   }
 
@@ -61,5 +66,11 @@ class UserRepository {
       throw UserNotFoundException("Cannot find user with id ${user.userId}");
     }
     await ref.update(user.toJson());
+  }
+
+  Future<String> uploadAvatar(String userId, File file) async {
+    final ref = _storage.ref('/avatars/$userId');
+    final task = await ref.putFile(file);
+    return task.ref.getDownloadURL();
   }
 }

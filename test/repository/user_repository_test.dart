@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_already_exists_exception.dart';
 import 'package:fanta_f1/exception/user_not_found_exception.dart';
@@ -6,10 +5,12 @@ import 'package:fanta_f1/repository/user_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../mock/firebase_storage.mocks.dart';
 import '../mock/firestore.mocks.dart';
 
 void main() {
   final mockFirestore = MockFirebaseFirestore();
+  final mockStorage = MockFirebaseStorage();
   final mockCollectionReference = MockCollectionReference();
   final mockDocumentReference = MockDocumentReference();
   final mockDocumentSnapshot = MockDocumentSnapshot();
@@ -24,6 +25,7 @@ void main() {
   group("User repository", () {
     setUp(() {
       reset(mockFirestore);
+      reset(mockStorage);
       reset(mockCollectionReference);
       reset(mockDocumentReference);
       reset(mockDocumentSnapshot);
@@ -38,7 +40,7 @@ void main() {
       when(mockDocumentSnapshot.data()).thenReturn(mockUser.toJson());
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       final user = await userRepository.getUser('1');
 
       // then
@@ -53,7 +55,7 @@ void main() {
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       expect(() async => await userRepository.getUser('2'), throwsA(isA<UserNotFoundException>()));
     });
 
@@ -65,7 +67,7 @@ void main() {
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       final user = await userRepository.findUser('2');
 
       // then
@@ -80,7 +82,7 @@ void main() {
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       await userRepository.createUser(mockUser);
 
       // then
@@ -95,7 +97,7 @@ void main() {
       when(mockDocumentSnapshot.exists).thenReturn(true);
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       expect(() async => await userRepository.createUser(mockUser), throwsA(isA<UserAlreadyExistsException>()));
     });
 
@@ -107,7 +109,7 @@ void main() {
       when(mockDocumentSnapshot.exists).thenReturn(true);
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       await userRepository.updateUser(mockUser);
 
       // then
@@ -122,7 +124,7 @@ void main() {
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
-      final userRepository = UserRepository(mockFirestore);
+      final userRepository = UserRepository(mockFirestore, mockStorage);
       expect(() async => await userRepository.updateUser(mockUser), throwsA(isA<UserNotFoundException>()));
     });
   });
