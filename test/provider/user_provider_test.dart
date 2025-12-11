@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/validation_exception.dart';
 import 'package:fanta_f1/provider/user_provider.dart';
@@ -10,6 +12,7 @@ import 'package:mockito/mockito.dart';
 
 import '../helper/random_string.dart';
 import '../mock/firebase_auth.mocks.dart';
+import '../mock/firestore.mocks.dart';
 import '../mock/repository.mocks.dart';
 
 void main() {
@@ -94,6 +97,64 @@ void main() {
       expect(() async => await container.read(userProviderProvider.notifier).updateDisplayName('AA'), throwsA(isA<ValidationException>()));
       expect(() async => await container.read(userProviderProvider.notifier).updateDisplayName(generateRandomString(81)), throwsA(isA<ValidationException>()));
       verifyNever(mockUserRepository.updateUser(any));
+    });
+
+    test("Should throw validation when avatar file size is too large", () async {
+      // if
+      when(mockFirebaseAuth.currentUser).thenReturn(mockFirebaseUser);
+      when(mockFirebaseUser.uid).thenReturn('1');
+      when(mockUserRepository.findUser('1')).thenAnswer((_) async => mockUser);
+      final mockFile = MockFile();
+      final mockFileStat = MockFileStat();
+      when(mockFile.stat()).thenAnswer((_) async => mockFileStat);
+      when(mockFileStat.size).thenReturn(10 * 1024 * 1024);
+
+      // when
+      final container = ProviderContainer.test();
+      await expectLater(container.read(userProviderProvider.future), completion(mockUser));
+
+      // then
+      expect(() async => await container.read(userProviderProvider.notifier).uploadAvatar(mockFile), throwsA(isA<ValidationException>()));
+    });
+
+    test("Should throw when avatar mime type is not an image", () async {
+      // if
+      when(mockFirebaseAuth.currentUser).thenReturn(mockFirebaseUser);
+      when(mockFirebaseUser.uid).thenReturn('1');
+      when(mockUserRepository.findUser('1')).thenAnswer((_) async => mockUser);
+      final mockFile = MockFile();
+      when(mockFile.path).thenReturn('file.pdf');
+      final mockFileStat = MockFileStat();
+      when(mockFile.stat()).thenAnswer((_) async => mockFileStat);
+      when(mockFileStat.size).thenReturn(1 * 512 * 1024);
+
+      // when
+      final container = ProviderContainer.test();
+      await expectLater(container.read(userProviderProvider.future), completion(mockUser));
+
+      // then
+      expect(() async => await container.read(userProviderProvider.notifier).uploadAvatar(mockFile), throwsA(isA<ValidationException>()));
+    });
+
+    test("Should allow to upload a new avatar", () async {
+      // if
+      when(mockFirebaseAuth.currentUser).thenReturn(mockFirebaseUser);
+      when(mockFirebaseUser.uid).thenReturn('1');
+      when(mockUserRepository.findUser('1')).thenAnswer((_) async => mockUser);
+      final mockFile = MockFile();
+      when(mockFile.path).thenReturn('file.png');
+      final mockFileStat = MockFileStat();
+      when(mockFile.stat()).thenAnswer((_) async => mockFileStat);
+      when(mockFileStat.size).thenReturn(1 * 512 * 1024);
+
+      // when
+      final container = ProviderContainer.test();
+      await expectLater(container.read(userProviderProvider.future), completion(mockUser));
+      await container.read(userProviderProvider.notifier).uploadAvatar(mockFile);
+
+      // then
+      verify(mockUserRepository.uploadAvatar('1', mockFile)).called(1);
+      verify(mockUserRepository.updateUser(any)).called(1);
     });
   });
 }

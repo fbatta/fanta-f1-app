@@ -68,9 +68,13 @@ class UserRepository {
     await ref.update(user.toJson());
   }
 
+  ///
+  /// Allows to upload an avatar for a user
+  /// by supplying the [userId] and a [file]
+  ///
   Future<String> uploadAvatar(String userId, File file) async {
     final ref = _storage.ref('/avatars/$userId');
-    final task = await ref.putFile(file);
-    return task.ref.getDownloadURL();
+    final task = ref.putFile(file);
+    return task.then((snapshot) => snapshot.ref.getDownloadURL());
   }
 }

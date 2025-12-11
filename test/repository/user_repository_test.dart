@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_already_exists_exception.dart';
 import 'package:fanta_f1/exception/user_not_found_exception.dart';
 import 'package:fanta_f1/repository/user_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../mock/firebase_storage.mocks.dart';
@@ -13,6 +16,7 @@ void main() {
   final mockStorage = MockFirebaseStorage();
   final mockCollectionReference = MockCollectionReference();
   final mockDocumentReference = MockDocumentReference();
+  final mockStorageReference = MockReference();
   final mockDocumentSnapshot = MockDocumentSnapshot();
   final mockUser = User(
     userId: '1',
@@ -28,14 +32,17 @@ void main() {
       reset(mockStorage);
       reset(mockCollectionReference);
       reset(mockDocumentReference);
+      reset(mockStorageReference);
       reset(mockDocumentSnapshot);
     });
 
     test("Should return a user when found", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('1')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(true);
       when(mockDocumentSnapshot.data()).thenReturn(mockUser.toJson());
 
@@ -47,23 +54,30 @@ void main() {
       expect(user, mockUser);
     });
 
-    test("Should throw an exception when user is not found and using getUser", () async {
+    test(
+        "Should throw an exception when user is not found and using getUser", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('2')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
       final userRepository = UserRepository(mockFirestore, mockStorage);
-      expect(() async => await userRepository.getUser('2'), throwsA(isA<UserNotFoundException>()));
+      expect(() async => await userRepository.getUser('2'),
+          throwsA(isA<UserNotFoundException>()));
     });
 
-    test("Should return null if a user is not found and using findUser", () async {
+    test(
+        "Should return null if a user is not found and using findUser", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('2')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
@@ -76,9 +90,11 @@ void main() {
 
     test("Should create a user", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('1')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
@@ -89,23 +105,29 @@ void main() {
       verify(mockDocumentReference.set(mockUser.toJson())).called(1);
     });
 
-    test("Should throw an exception when user already exists and trying to create it", () async {
+    test(
+        "Should throw an exception when user already exists and trying to create it", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('1')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(true);
 
       // when
       final userRepository = UserRepository(mockFirestore, mockStorage);
-      expect(() async => await userRepository.createUser(mockUser), throwsA(isA<UserAlreadyExistsException>()));
+      expect(() async => await userRepository.createUser(mockUser),
+          throwsA(isA<UserAlreadyExistsException>()));
     });
 
     test("Should update a user", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('1')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(true);
 
       // when
@@ -116,16 +138,37 @@ void main() {
       verify(mockDocumentReference.update(mockUser.toJson())).called(1);
     });
 
-    test("Should throw error when user is not found and trying to update it", () async {
+    test(
+        "Should throw error when user is not found and trying to update it", () async {
       // if
-      when(mockFirestore.collection('users')).thenReturn(mockCollectionReference);
+      when(mockFirestore.collection('users')).thenReturn(
+          mockCollectionReference);
       when(mockCollectionReference.doc('1')).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.get()).thenAnswer((_) async => mockDocumentSnapshot);
+      when(mockDocumentReference.get()).thenAnswer((
+          _) async => mockDocumentSnapshot);
       when(mockDocumentSnapshot.exists).thenReturn(false);
 
       // when
       final userRepository = UserRepository(mockFirestore, mockStorage);
-      expect(() async => await userRepository.updateUser(mockUser), throwsA(isA<UserNotFoundException>()));
+      expect(() async => await userRepository.updateUser(mockUser),
+          throwsA(isA<UserNotFoundException>()));
+    });
+
+    test("Should upload a user's avatar to storage", () async {
+      // if
+      final mockUploadTask = MockUploadTask();
+      final mockFile = MockFile();
+      when(mockStorage.ref('/avatars/1')).thenReturn(mockStorageReference);
+      when(mockStorageReference.putFile(any)).thenAnswer((_) => mockUploadTask);
+      when(mockUploadTask.then(any)).thenAnswer((_) async => 'https://example.com/avatar.png');
+
+      // when
+      final repository = UserRepository(mockFirestore, mockStorage);
+      final url = await repository.uploadAvatar('1', mockFile);
+
+      // then
+      verify(mockStorageReference.putFile(mockFile)).called(1);
+      expect(url, 'https://example.com/avatar.png');
     });
   });
 }
