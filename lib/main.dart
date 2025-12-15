@@ -1,7 +1,9 @@
 import 'package:fanta_f1/route/router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 
 import 'firebase_options.dart';
 
@@ -10,7 +12,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  _registerInstances();
   runApp(ProviderScope(child: const MyApp()));
+}
+
+void _registerInstances() {
+  final getIt = GetIt.instance;
+  getIt.registerSingleton(FirebaseAuth.instance);
 }
 
 class MyApp extends StatelessWidget {

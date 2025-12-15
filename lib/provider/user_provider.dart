@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_not_found_exception.dart';
 import 'package:fanta_f1/helper/get_network_time.dart';

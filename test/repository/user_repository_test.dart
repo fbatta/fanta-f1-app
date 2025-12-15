@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_already_exists_exception.dart';
 import 'package:fanta_f1/exception/user_not_found_exception.dart';
 import 'package:fanta_f1/repository/user_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../mock/firebase_storage.mocks.dart';
