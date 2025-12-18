@@ -3,6 +3,7 @@ import 'package:mockito/annotations.dart';
 
 @GenerateNiceMocks([
   MockSpec<FirebaseAuth>(),
-  MockSpec<User>()
+  MockSpec<User>(),
+  MockSpec<GoogleAuthProvider>()
 ])
 void main() {}

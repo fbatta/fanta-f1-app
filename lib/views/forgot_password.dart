@@ -1,8 +1,6 @@
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -40,7 +38,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Forgot my password'),),
+      appBar: AppBar(title: Text('Forgot my password')),
       body: Center(
         child: Form(
           key: formKey,
@@ -68,13 +66,20 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(onPressed: () => context.goNamed(RouteNames.signIn.toString()), child: Text('Go back')),
+                    TextButton(
+                      onPressed: () =>
+                          context.goNamed(RouteNames.signIn.toString()),
+                      child: Text('Go back'),
+                    ),
                     const SizedBox(width: 8),
-                    FilledButton(onPressed: _onPasswordResetPressed, child: Text('Reset password')),
+                    FilledButton(
+                      onPressed: _onPasswordResetPressed,
+                      child: Text('Reset password'),
+                    ),
                   ],
-                )
+                ),
               ],
-            )
+            ),
           ),
         ),
       ),
@@ -99,7 +104,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
         isLoading = true;
       });
       await _auth.sendPasswordResetEmail(email: textEditingController.text);
-      if(context.mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Password reset email sent'),
@@ -107,8 +112,8 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
           ),
         );
       }
-    } on FirebaseAuthException catch(e) {
-      switch(e.code) {
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
         case 'auth/invalid-email':
           setState(() {
             errorText = 'Invalid email address';

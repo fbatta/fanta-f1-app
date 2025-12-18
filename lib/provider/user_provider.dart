@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_not_found_exception.dart';
-import 'package:fanta_f1/helper/get_network_time.dart';
+import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:get_it/get_it.dart';
@@ -18,15 +18,17 @@ class UserProvider extends _$UserProvider {
   late final GetIt _getIt = GetIt.instance;
   late final UserRepository _userRepository;
   late final FirebaseAuth _firebaseAuth;
+  late final TimeUtils _timeUtils;
   late final String? userId;
 
   @override
   FutureOr<User?> build() async {
     _userRepository = _getIt<UserRepository>();
     _firebaseAuth = _getIt<FirebaseAuth>();
+    _timeUtils = _getIt<TimeUtils>();
     userId = _firebaseAuth.currentUser?.uid;
 
-    if(userId == null) return null;
+    if (userId == null) return null;
 
     return await _userRepository.findUser(userId!);
   }
@@ -36,15 +38,20 @@ class UserProvider extends _$UserProvider {
   /// [displayName] is the new display name
   ///
   Future<void> updateDisplayName(String displayName) async {
-    if(!_isValidDisplayName(displayName)) {
-      throw ValidationException("Display name must be between 3 and 80 characters");
+    if (!_isValidDisplayName(displayName)) {
+      throw ValidationException(
+        "Display name must be between 3 and 80 characters",
+      );
     }
+    final now = await _timeUtils.tryGetNetworkTime();
     final user = state.value?.copyWith(
-        displayName: displayName,
-        updatedAt: getNetworkTime()
+      displayName: displayName,
+      updatedAt: now,
     );
-    if(user == null) {
-      throw UserNotFoundException("Cannot update display name for user because it doesn't exist");
+    if (user == null) {
+      throw UserNotFoundException(
+        "Cannot update display name for user because it doesn't exist",
+      );
     }
     await _userRepository.updateUser(user);
     state = AsyncValue.data(user);
@@ -55,21 +62,21 @@ class UserProvider extends _$UserProvider {
   /// [file] is the candidate for uploading
   ///
   Future<void> uploadAvatar(File file) async {
-    if(userId == null || state.value == null ) {
-      throw UserNotFoundException('Cannot upload avatar because user is not signed in');
+    if (userId == null || state.value == null) {
+      throw UserNotFoundException(
+        'Cannot upload avatar because user is not signed in',
+      );
     }
     final fileStat = await file.stat();
-    if(!_validateAvatarFileSize(fileStat)) {
+    if (!_validateAvatarFileSize(fileStat)) {
       throw ValidationException("The uploaded file is too large");
     }
-    if(!_validateAvatarMimeType(file)) {
+    if (!_validateAvatarMimeType(file)) {
       throw ValidationException("The uploaded file is not an image");
     }
     final downloadUrl = await _userRepository.uploadAvatar(userId!, file);
-    final user = state.value!.copyWith(
-      avatarUrl: downloadUrl,
-      updatedAt: getNetworkTime()
-    );
+    final now = await _timeUtils.tryGetNetworkTime();
+    final user = state.value!.copyWith(avatarUrl: downloadUrl, updatedAt: now);
     await _userRepository.updateUser(user);
     state = AsyncValue.data(user);
   }

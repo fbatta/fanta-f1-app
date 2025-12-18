@@ -76,6 +76,12 @@ class _FakeUser_8 extends _i1.SmartFake implements _i4.User {
     : super(parent, parentInvocation);
 }
 
+class _FakeGoogleAuthProvider_9 extends _i1.SmartFake
+    implements _i3.GoogleAuthProvider {
+  _FakeGoogleAuthProvider_9(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [FirebaseAuth].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1015,4 +1021,75 @@ class MockUser extends _i1.Mock implements _i4.User {
             returnValueForMissingStub: _i5.Future<void>.value(),
           )
           as _i5.Future<void>);
+}
+
+/// A class which mocks [GoogleAuthProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGoogleAuthProvider extends _i1.Mock
+    implements _i3.GoogleAuthProvider {
+  @override
+  List<String> get scopes =>
+      (super.noSuchMethod(
+            Invocation.getter(#scopes),
+            returnValue: <String>[],
+            returnValueForMissingStub: <String>[],
+          )
+          as List<String>);
+
+  @override
+  Map<dynamic, dynamic> get parameters =>
+      (super.noSuchMethod(
+            Invocation.getter(#parameters),
+            returnValue: <dynamic, dynamic>{},
+            returnValueForMissingStub: <dynamic, dynamic>{},
+          )
+          as Map<dynamic, dynamic>);
+
+  @override
+  String get providerId =>
+      (super.noSuchMethod(
+            Invocation.getter(#providerId),
+            returnValue: _i6.dummyValue<String>(
+              this,
+              Invocation.getter(#providerId),
+            ),
+            returnValueForMissingStub: _i6.dummyValue<String>(
+              this,
+              Invocation.getter(#providerId),
+            ),
+          )
+          as String);
+
+  @override
+  _i3.GoogleAuthProvider addScope(String? scope) =>
+      (super.noSuchMethod(
+            Invocation.method(#addScope, [scope]),
+            returnValue: _FakeGoogleAuthProvider_9(
+              this,
+              Invocation.method(#addScope, [scope]),
+            ),
+            returnValueForMissingStub: _FakeGoogleAuthProvider_9(
+              this,
+              Invocation.method(#addScope, [scope]),
+            ),
+          )
+          as _i3.GoogleAuthProvider);
+
+  @override
+  _i3.GoogleAuthProvider setCustomParameters(
+    Map<dynamic, dynamic>? customOAuthParameters,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#setCustomParameters, [customOAuthParameters]),
+            returnValue: _FakeGoogleAuthProvider_9(
+              this,
+              Invocation.method(#setCustomParameters, [customOAuthParameters]),
+            ),
+            returnValueForMissingStub: _FakeGoogleAuthProvider_9(
+              this,
+              Invocation.method(#setCustomParameters, [customOAuthParameters]),
+            ),
+          )
+          as _i3.GoogleAuthProvider);
 }

@@ -20,6 +20,7 @@ class SignIn extends ConsumerStatefulWidget {
 class _SignInState extends ConsumerState<SignIn> {
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
+  late final GoogleAuthProvider _googleAuthProvider;
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -38,6 +39,7 @@ class _SignInState extends ConsumerState<SignIn> {
 
   _SignInState() {
     _auth = _getIt<FirebaseAuth>();
+    _googleAuthProvider = _getIt<GoogleAuthProvider>();
   }
 
   @override
@@ -54,7 +56,11 @@ class _SignInState extends ConsumerState<SignIn> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextFormField(
-                    autofillHints: [AutofillHints.email, AutofillHints.username],
+                    key: ValueKey('Username'),
+                    autofillHints: [
+                      AutofillHints.email,
+                      AutofillHints.username,
+                    ],
                     controller: usernameController,
                     decoration: const InputDecoration(
                       labelText: 'Username',
@@ -71,6 +77,7 @@ class _SignInState extends ConsumerState<SignIn> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    key: ValueKey('Password'),
                     autofillHints: [AutofillHints.password],
                     controller: passwordController,
                     decoration: const InputDecoration(
@@ -91,12 +98,23 @@ class _SignInState extends ConsumerState<SignIn> {
                     children: [
                       TextButton(
                         child: Text('Forgot password'),
-                        onPressed: () => context.pushNamed(RouteNames.forgotPassword.toString()),
+                        onPressed: () => context.pushNamed(
+                          RouteNames.forgotPassword.toString(),
+                        ),
                       ),
                       const SizedBox(width: 8),
-                      FilledButton(onPressed: _onSignInPressed, child: Text('Sign In')),
+                      FilledButton(
+                        key: ValueKey('Sign In'),
+                        onPressed: _onSignInPressed,
+                        child: Text('Sign In'),
+                      ),
                     ],
-                  )
+                  ),
+                  const SizedBox(height: 96),
+                  FilledButton(
+                    onPressed: _onGoogleSignInPressed,
+                    child: const Text('Google sign in'),
+                  ),
                 ],
               ),
             ),
@@ -122,6 +140,23 @@ class _SignInState extends ConsumerState<SignIn> {
     }
   }
 
+  void _onSignInSuccessful() async {
+    context.goNamed(RouteNames.home.toString());
+  }
+
+  void _onGoogleSignInPressed() async {
+    try {
+      final userCredential = await _auth.signInWithProvider(
+        _googleAuthProvider,
+      );
+      if (userCredential.user != null && context.mounted) {
+        return _onSignInSuccessful();
+      }
+    } on FirebaseAuthException catch (e) {
+      _onAuthFailed(e);
+    }
+  }
+
   void _onSignInPressed() async {
     try {
       final bool isValid = formKey.currentState?.validate() ?? false;
@@ -137,43 +172,47 @@ class _SignInState extends ConsumerState<SignIn> {
       );
       TextInput.finishAutofillContext();
     } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'invalid-email':
-          setState(() {
-            usernameErrorText = 'Invalid email';
-          });
-          break;
-        case 'user-not-found':
-          setState(() {
-            usernameErrorText = 'User not found';
-          });
-          break;
-        case 'invalid-credential':
-          setState(() {
-            usernameErrorText = e.message;
-          });
-          break;
-        case 'wrong-password':
-          setState(() {
-            passwordErrorText = 'Wrong password';
-          });
-          break;
-        case 'user-disabled':
-          setState(() {
-            usernameErrorText = 'User disabled';
-          });
-          break;
-        default:
-          setState(() {
-            usernameErrorText =
-                'An unknown error occurred. Try again in a little bit';
-          });
-          break;
-      }
+      _onAuthFailed(e);
     } finally {
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  void _onAuthFailed(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-email':
+        setState(() {
+          usernameErrorText = 'Invalid email';
+        });
+        break;
+      case 'user-not-found':
+        setState(() {
+          usernameErrorText = 'User not found';
+        });
+        break;
+      case 'invalid-credential':
+        setState(() {
+          usernameErrorText = e.message;
+        });
+        break;
+      case 'wrong-password':
+        setState(() {
+          passwordErrorText = 'Wrong password';
+        });
+        break;
+      case 'user-disabled':
+        setState(() {
+          usernameErrorText = 'User disabled';
+        });
+        break;
+      default:
+        setState(() {
+          usernameErrorText =
+              'An unknown error occurred. Try again in a little bit';
+        });
+        break;
     }
   }
 }

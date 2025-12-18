@@ -1,3 +1,4 @@
+import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/route/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,9 +10,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   _registerInstances();
   runApp(ProviderScope(child: const MyApp()));
 }
@@ -19,6 +18,8 @@ Future<void> main() async {
 void _registerInstances() {
   final getIt = GetIt.instance;
   getIt.registerSingleton(FirebaseAuth.instance);
+  getIt.registerSingleton(GoogleAuthProvider());
+  getIt.registerSingleton(TimeUtils());
 }
 
 class MyApp extends StatelessWidget {
