@@ -34,7 +34,7 @@ final router = GoRouter(
       path: RouteNames.home.path,
       name: RouteNames.home.toString(),
       builder: (BuildContext context, GoRouterState state) =>
-          const Home()
+          Home()
     )
   ],
 );

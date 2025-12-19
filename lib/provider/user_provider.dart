@@ -34,30 +34,6 @@ class UserProvider extends _$UserProvider {
   }
 
   ///
-  /// Update the user's display name
-  /// [displayName] is the new display name
-  ///
-  Future<void> updateDisplayName(String displayName) async {
-    if (!_isValidDisplayName(displayName)) {
-      throw ValidationException(
-        "Display name must be between 3 and 80 characters",
-      );
-    }
-    final now = await _timeUtils.tryGetNetworkTime();
-    final user = state.value?.copyWith(
-      displayName: displayName,
-      updatedAt: now,
-    );
-    if (user == null) {
-      throw UserNotFoundException(
-        "Cannot update display name for user because it doesn't exist",
-      );
-    }
-    await _userRepository.updateUser(user);
-    state = AsyncValue.data(user);
-  }
-
-  ///
   /// Upload an avatar for the current user
   /// [file] is the candidate for uploading
   ///

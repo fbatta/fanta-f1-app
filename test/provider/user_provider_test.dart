@@ -77,63 +77,6 @@ void main() {
       );
     });
 
-    test("Should allow updating a user's display name", () async {
-      // if
-      when(mockFirebaseAuth.currentUser).thenReturn(mockFirebaseUser);
-      when(mockFirebaseUser.uid).thenReturn('1');
-      when(mockUserRepository.findUser('1')).thenAnswer((_) async => mockUser);
-      when(
-        mockTimeUtils.tryGetNetworkTime(),
-      ).thenAnswer((_) async => DateTime.fromMillisecondsSinceEpoch(0));
-
-      // when
-      final container = ProviderContainer.test();
-      await expectLater(
-        container.read(userProviderProvider.future),
-        completion(mockUser),
-      );
-      await container
-          .read(userProviderProvider.notifier)
-          .updateDisplayName('Giggi');
-
-      // then
-      verify(mockUserRepository.updateUser(any));
-    });
-
-    test(
-      "Should throw an error if a new name is shorter than 3 characters, or longer than 80 characters",
-      () async {
-        // if
-        when(mockFirebaseAuth.currentUser).thenReturn(mockFirebaseUser);
-        when(mockFirebaseUser.uid).thenReturn('1');
-        when(
-          mockUserRepository.findUser('1'),
-        ).thenAnswer((_) async => mockUser);
-
-        // when
-        final container = ProviderContainer.test();
-        await expectLater(
-          container.read(userProviderProvider.future),
-          completion(mockUser),
-        );
-
-        // then
-        expect(
-          () async => await container
-              .read(userProviderProvider.notifier)
-              .updateDisplayName('AA'),
-          throwsA(isA<ValidationException>()),
-        );
-        expect(
-          () async => await container
-              .read(userProviderProvider.notifier)
-              .updateDisplayName(generateRandomString(81)),
-          throwsA(isA<ValidationException>()),
-        );
-        verifyNever(mockUserRepository.updateUser(any));
-      },
-    );
-
     test(
       "Should throw validation when avatar file size is too large",
       () async {
