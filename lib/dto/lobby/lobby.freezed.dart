@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Lobby {
 
- String get lobbyId; String get name; String get description; String get ownerId; List<String> get memberIds; String get inviteCode; DateTime get createdAt; DateTime? get updatedAt;
+ String get lobbyId; String get lobbyName; String get ownerId; List<String> get memberIds; String get lobbyPassword; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Lobby
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $LobbyCopyWith<Lobby> get copyWith => _$LobbyCopyWithImpl<Lobby>(this as Lobby, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Lobby&&(identical(other.lobbyId, lobbyId) || other.lobbyId == lobbyId)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&const DeepCollectionEquality().equals(other.memberIds, memberIds)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Lobby&&(identical(other.lobbyId, lobbyId) || other.lobbyId == lobbyId)&&(identical(other.lobbyName, lobbyName) || other.lobbyName == lobbyName)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&const DeepCollectionEquality().equals(other.memberIds, memberIds)&&(identical(other.lobbyPassword, lobbyPassword) || other.lobbyPassword == lobbyPassword)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lobbyId,name,description,ownerId,const DeepCollectionEquality().hash(memberIds),inviteCode,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,lobbyId,lobbyName,ownerId,const DeepCollectionEquality().hash(memberIds),lobbyPassword,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Lobby(lobbyId: $lobbyId, name: $name, description: $description, ownerId: $ownerId, memberIds: $memberIds, inviteCode: $inviteCode, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Lobby(lobbyId: $lobbyId, lobbyName: $lobbyName, ownerId: $ownerId, memberIds: $memberIds, lobbyPassword: $lobbyPassword, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $LobbyCopyWith<$Res>  {
   factory $LobbyCopyWith(Lobby value, $Res Function(Lobby) _then) = _$LobbyCopyWithImpl;
 @useResult
 $Res call({
- String lobbyId, String name, String description, String ownerId, List<String> memberIds, String inviteCode, DateTime createdAt, DateTime? updatedAt
+ String lobbyId, String lobbyName, String ownerId, List<String> memberIds, String lobbyPassword, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -63,17 +63,16 @@ class _$LobbyCopyWithImpl<$Res>
 
 /// Create a copy of Lobby
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? lobbyId = null,Object? name = null,Object? description = null,Object? ownerId = null,Object? memberIds = null,Object? inviteCode = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? lobbyId = null,Object? lobbyName = null,Object? ownerId = null,Object? memberIds = null,Object? lobbyPassword = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(Lobby(
 lobbyId: null == lobbyId ? _self.lobbyId : lobbyId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,lobbyName: null == lobbyName ? _self.lobbyName : lobbyName // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,memberIds: null == memberIds ? _self.memberIds : memberIds // ignore: cast_nullable_to_non_nullable
-as List<String>,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as List<String>,lobbyPassword: null == lobbyPassword ? _self.lobbyPassword : lobbyPassword // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
   ));
 }
 

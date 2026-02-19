@@ -2,7 +2,9 @@ enum RouteNames {
   signIn('/'),
   forgotPassword('/forgotPassword'),
   signUp('/signUp'),
-  home('/home');
+  home('/home'),
+  addTeam('/team/add'),
+  editTeam('/team/edit');
 
   final String path;
 

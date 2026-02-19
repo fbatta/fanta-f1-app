@@ -15,7 +15,7 @@ part 'user_provider.g.dart';
 
 @riverpod
 class UserProvider extends _$UserProvider {
-  late final GetIt _getIt = GetIt.instance;
+  final GetIt _getIt = GetIt.instance;
   late final UserRepository _userRepository;
   late final FirebaseAuth _firebaseAuth;
   late final TimeUtils _timeUtils;

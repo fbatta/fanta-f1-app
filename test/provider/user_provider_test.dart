@@ -9,7 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
 
-import '../helper/random_string.dart';
 import '../mock/firebase_auth.mocks.dart';
 import '../mock/firestore.mocks.dart';
 import '../mock/repository.mocks.dart';

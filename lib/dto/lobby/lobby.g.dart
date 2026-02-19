@@ -8,29 +8,22 @@ part of 'lobby.dart';
 
 Lobby _$LobbyFromJson(Map<String, dynamic> json) => Lobby(
   lobbyId: json['lobbyId'] as String,
-  name: json['name'] as String,
-  description: json['description'] as String,
+  lobbyName: json['lobbyName'] as String,
   ownerId: json['ownerId'] as String,
   memberIds: (json['memberIds'] as List<dynamic>)
       .map((e) => e as String)
       .toList(),
-  inviteCode: json['inviteCode'] as String,
-  createdAt: const TimestampConverter().fromJson(
-    json['createdAt'] as Timestamp,
-  ),
-  updatedAt: _$JsonConverterFromJson<Timestamp, DateTime>(
-    json['updatedAt'],
-    const TimestampConverter().fromJson,
-  ),
+  lobbyPassword: json['lobbyPassword'] as String,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
 
 const _$LobbyFieldMap = <String, String>{
   'lobbyId': 'lobbyId',
-  'name': 'name',
-  'description': 'description',
+  'lobbyName': 'lobbyName',
   'ownerId': 'ownerId',
   'memberIds': 'memberIds',
-  'inviteCode': 'inviteCode',
+  'lobbyPassword': 'lobbyPassword',
   'createdAt': 'createdAt',
   'updatedAt': 'updatedAt',
 };
@@ -40,46 +33,25 @@ abstract class _$LobbyPerFieldToJson {
   // ignore: unused_element
   static Object? lobbyId(String instance) => instance;
   // ignore: unused_element
-  static Object? name(String instance) => instance;
-  // ignore: unused_element
-  static Object? description(String instance) => instance;
+  static Object? lobbyName(String instance) => instance;
   // ignore: unused_element
   static Object? ownerId(String instance) => instance;
   // ignore: unused_element
   static Object? memberIds(List<String> instance) => instance;
   // ignore: unused_element
-  static Object? inviteCode(String instance) => instance;
+  static Object? lobbyPassword(String instance) => instance;
   // ignore: unused_element
-  static Object? createdAt(DateTime instance) =>
-      const TimestampConverter().toJson(instance);
+  static Object? createdAt(DateTime instance) => instance.toIso8601String();
   // ignore: unused_element
-  static Object? updatedAt(DateTime? instance) =>
-      _$JsonConverterToJson<Timestamp, DateTime>(
-        instance,
-        const TimestampConverter().toJson,
-      );
+  static Object? updatedAt(DateTime instance) => instance.toIso8601String();
 }
 
 Map<String, dynamic> _$LobbyToJson(Lobby instance) => <String, dynamic>{
   'lobbyId': instance.lobbyId,
-  'name': instance.name,
-  'description': instance.description,
+  'lobbyName': instance.lobbyName,
   'ownerId': instance.ownerId,
   'memberIds': instance.memberIds,
-  'inviteCode': instance.inviteCode,
-  'createdAt': const TimestampConverter().toJson(instance.createdAt),
-  'updatedAt': _$JsonConverterToJson<Timestamp, DateTime>(
-    instance.updatedAt,
-    const TimestampConverter().toJson,
-  ),
+  'lobbyPassword': instance.lobbyPassword,
+  'createdAt': instance.createdAt.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
 };
-
-Value? _$JsonConverterFromJson<Json, Value>(
-  Object? json,
-  Value? Function(Json json) fromJson,
-) => json == null ? null : fromJson(json as Json);
-
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) => value == null ? null : toJson(value);

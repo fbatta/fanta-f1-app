@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Lineup {
 
- String get lineupId; String get teamId; String get raceId; int get totalBudgetSpent; int get racePoints; String get captainDriverId; List<String> get selectedDriverIds; bool get hasSafetyCar; bool get hasVirtualSafetyCar; bool get hasRedFlag; bool get wetTyresUsed; bool get poleToWin; bool get sameTeamOneTwo; int get teamsInTopTenCount; int get retiredCarsCount; DateTime get createdAt; DateTime? get updatedAt;
+ String get lineupId; String get teamId; String get raceId; List<LineupDriver> get drivers; DateTime get createdAt; DateTime get updatedAt; int get version; double? get score;
 /// Create a copy of Lineup
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $LineupCopyWith<Lineup> get copyWith => _$LineupCopyWithImpl<Lineup>(this as Lin
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Lineup&&(identical(other.lineupId, lineupId) || other.lineupId == lineupId)&&(identical(other.teamId, teamId) || other.teamId == teamId)&&(identical(other.raceId, raceId) || other.raceId == raceId)&&(identical(other.totalBudgetSpent, totalBudgetSpent) || other.totalBudgetSpent == totalBudgetSpent)&&(identical(other.racePoints, racePoints) || other.racePoints == racePoints)&&(identical(other.captainDriverId, captainDriverId) || other.captainDriverId == captainDriverId)&&const DeepCollectionEquality().equals(other.selectedDriverIds, selectedDriverIds)&&(identical(other.hasSafetyCar, hasSafetyCar) || other.hasSafetyCar == hasSafetyCar)&&(identical(other.hasVirtualSafetyCar, hasVirtualSafetyCar) || other.hasVirtualSafetyCar == hasVirtualSafetyCar)&&(identical(other.hasRedFlag, hasRedFlag) || other.hasRedFlag == hasRedFlag)&&(identical(other.wetTyresUsed, wetTyresUsed) || other.wetTyresUsed == wetTyresUsed)&&(identical(other.poleToWin, poleToWin) || other.poleToWin == poleToWin)&&(identical(other.sameTeamOneTwo, sameTeamOneTwo) || other.sameTeamOneTwo == sameTeamOneTwo)&&(identical(other.teamsInTopTenCount, teamsInTopTenCount) || other.teamsInTopTenCount == teamsInTopTenCount)&&(identical(other.retiredCarsCount, retiredCarsCount) || other.retiredCarsCount == retiredCarsCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Lineup&&(identical(other.lineupId, lineupId) || other.lineupId == lineupId)&&(identical(other.teamId, teamId) || other.teamId == teamId)&&(identical(other.raceId, raceId) || other.raceId == raceId)&&const DeepCollectionEquality().equals(other.drivers, drivers)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.version, version) || other.version == version)&&(identical(other.score, score) || other.score == score));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lineupId,teamId,raceId,totalBudgetSpent,racePoints,captainDriverId,const DeepCollectionEquality().hash(selectedDriverIds),hasSafetyCar,hasVirtualSafetyCar,hasRedFlag,wetTyresUsed,poleToWin,sameTeamOneTwo,teamsInTopTenCount,retiredCarsCount,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,lineupId,teamId,raceId,const DeepCollectionEquality().hash(drivers),createdAt,updatedAt,version,score);
 
 @override
 String toString() {
-  return 'Lineup(lineupId: $lineupId, teamId: $teamId, raceId: $raceId, totalBudgetSpent: $totalBudgetSpent, racePoints: $racePoints, captainDriverId: $captainDriverId, selectedDriverIds: $selectedDriverIds, hasSafetyCar: $hasSafetyCar, hasVirtualSafetyCar: $hasVirtualSafetyCar, hasRedFlag: $hasRedFlag, wetTyresUsed: $wetTyresUsed, poleToWin: $poleToWin, sameTeamOneTwo: $sameTeamOneTwo, teamsInTopTenCount: $teamsInTopTenCount, retiredCarsCount: $retiredCarsCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Lineup(lineupId: $lineupId, teamId: $teamId, raceId: $raceId, drivers: $drivers, createdAt: $createdAt, updatedAt: $updatedAt, version: $version, score: $score)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $LineupCopyWith<$Res>  {
   factory $LineupCopyWith(Lineup value, $Res Function(Lineup) _then) = _$LineupCopyWithImpl;
 @useResult
 $Res call({
- String lineupId, String teamId, String raceId, int totalBudgetSpent, int racePoints, String captainDriverId, List<String> selectedDriverIds, bool hasSafetyCar, bool hasVirtualSafetyCar, bool hasRedFlag, bool wetTyresUsed, bool poleToWin, bool sameTeamOneTwo, int teamsInTopTenCount, int retiredCarsCount, DateTime createdAt, DateTime? updatedAt
+ String lineupId, String teamId, String raceId, List<LineupDriver> drivers, DateTime createdAt, DateTime updatedAt, int version, double? score
 });
 
 
@@ -63,26 +63,17 @@ class _$LineupCopyWithImpl<$Res>
 
 /// Create a copy of Lineup
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? lineupId = null,Object? teamId = null,Object? raceId = null,Object? totalBudgetSpent = null,Object? racePoints = null,Object? captainDriverId = null,Object? selectedDriverIds = null,Object? hasSafetyCar = null,Object? hasVirtualSafetyCar = null,Object? hasRedFlag = null,Object? wetTyresUsed = null,Object? poleToWin = null,Object? sameTeamOneTwo = null,Object? teamsInTopTenCount = null,Object? retiredCarsCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? lineupId = null,Object? teamId = null,Object? raceId = null,Object? drivers = null,Object? createdAt = null,Object? updatedAt = null,Object? version = null,Object? score = freezed,}) {
   return _then(Lineup(
 lineupId: null == lineupId ? _self.lineupId : lineupId // ignore: cast_nullable_to_non_nullable
 as String,teamId: null == teamId ? _self.teamId : teamId // ignore: cast_nullable_to_non_nullable
 as String,raceId: null == raceId ? _self.raceId : raceId // ignore: cast_nullable_to_non_nullable
-as String,totalBudgetSpent: null == totalBudgetSpent ? _self.totalBudgetSpent : totalBudgetSpent // ignore: cast_nullable_to_non_nullable
-as int,racePoints: null == racePoints ? _self.racePoints : racePoints // ignore: cast_nullable_to_non_nullable
-as int,captainDriverId: null == captainDriverId ? _self.captainDriverId : captainDriverId // ignore: cast_nullable_to_non_nullable
-as String,selectedDriverIds: null == selectedDriverIds ? _self.selectedDriverIds : selectedDriverIds // ignore: cast_nullable_to_non_nullable
-as List<String>,hasSafetyCar: null == hasSafetyCar ? _self.hasSafetyCar : hasSafetyCar // ignore: cast_nullable_to_non_nullable
-as bool,hasVirtualSafetyCar: null == hasVirtualSafetyCar ? _self.hasVirtualSafetyCar : hasVirtualSafetyCar // ignore: cast_nullable_to_non_nullable
-as bool,hasRedFlag: null == hasRedFlag ? _self.hasRedFlag : hasRedFlag // ignore: cast_nullable_to_non_nullable
-as bool,wetTyresUsed: null == wetTyresUsed ? _self.wetTyresUsed : wetTyresUsed // ignore: cast_nullable_to_non_nullable
-as bool,poleToWin: null == poleToWin ? _self.poleToWin : poleToWin // ignore: cast_nullable_to_non_nullable
-as bool,sameTeamOneTwo: null == sameTeamOneTwo ? _self.sameTeamOneTwo : sameTeamOneTwo // ignore: cast_nullable_to_non_nullable
-as bool,teamsInTopTenCount: null == teamsInTopTenCount ? _self.teamsInTopTenCount : teamsInTopTenCount // ignore: cast_nullable_to_non_nullable
-as int,retiredCarsCount: null == retiredCarsCount ? _self.retiredCarsCount : retiredCarsCount // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as String,drivers: null == drivers ? _self.drivers : drivers // ignore: cast_nullable_to_non_nullable
+as List<LineupDriver>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
+as int,score: freezed == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 

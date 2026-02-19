@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
+import 'package:fanta_f1/dto/lineup/lineup_driver.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'lineup.freezed.dart';
@@ -15,55 +15,27 @@ class Lineup with _$Lineup {
   @override
   final String raceId;
   @override
-  final int totalBudgetSpent;
-  @override
-  final int racePoints;
-  @override
-  final String captainDriverId;
-  @override
-  final List<String> selectedDriverIds;
-  @override
-  final bool hasSafetyCar;
-  @override
-  final bool hasVirtualSafetyCar;
-  @override
-  final bool hasRedFlag;
-  @override
-  final bool wetTyresUsed;
-  @override
-  final bool poleToWin;
-  @override
-  final bool sameTeamOneTwo;
-  @override
-  final int teamsInTopTenCount;
-  @override
-  final int retiredCarsCount;
+  final List<LineupDriver> drivers;
   @override
   @TimestampConverter()
   final DateTime createdAt;
   @override
   @TimestampConverter()
-  final DateTime? updatedAt;
-
+  final DateTime updatedAt;
+  @override
+  final int version;
+  @override
+  final double? score;
 
   const Lineup({
     required this.lineupId,
     required this.teamId,
     required this.raceId,
-    required this.totalBudgetSpent,
-    required this.racePoints,
-    required this.captainDriverId,
-    required this.selectedDriverIds,
-    required this.hasSafetyCar,
-    required this.hasVirtualSafetyCar,
-    required this.hasRedFlag,
-    required this.wetTyresUsed,
-    required this.poleToWin,
-    required this.sameTeamOneTwo,
-    required this.teamsInTopTenCount,
-    required this.retiredCarsCount,
+    required this.drivers,
     required this.createdAt,
-    this.updatedAt,
+    required this.updatedAt,
+    required this.version,
+    required this.score,
   });
 
   factory Lineup.fromJson(Map<String, dynamic> json) => _$LineupFromJson(json);

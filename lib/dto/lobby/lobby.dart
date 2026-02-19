@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -11,31 +10,28 @@ class Lobby with _$Lobby {
   @override
   final String lobbyId;
   @override
-  final String name;
-  @override
-  final String description;
+  final String lobbyName;
   @override
   final String ownerId;
   @override
   final List<String> memberIds;
   @override
-  final String inviteCode;
+  final String lobbyPassword;
   @override
   @TimestampConverter()
   final DateTime createdAt;
   @override
   @TimestampConverter()
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
 
   const Lobby({
     required this.lobbyId,
-    required this.name,
-    required this.description,
+    required this.lobbyName,
     required this.ownerId,
     required this.memberIds,
-    required this.inviteCode,
+    required this.lobbyPassword,
     required this.createdAt,
-    this.updatedAt,
+    required this.updatedAt,
   });
 
   factory Lobby.fromJson(Map<String, dynamic> json) => _$LobbyFromJson(json);

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,9 +12,9 @@ class Team with _$Team {
   @override
   final String ownerId;
   @override
-  final String name;
+  final String teamName;
   @override
-  final String? logoUrl;
+  final String? teamAvatarUrl;
   @override
   final String lobbyId;
   @override
@@ -23,16 +22,16 @@ class Team with _$Team {
   final DateTime createdAt;
   @override
   @TimestampConverter()
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
 
   const Team({
     required this.teamId,
     required this.ownerId,
-    required this.name,
-    this.logoUrl,
+    required this.teamName,
+    this.teamAvatarUrl,
     required this.lobbyId,
     required this.createdAt,
-    this.updatedAt
+    required this.updatedAt,
   });
 
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);

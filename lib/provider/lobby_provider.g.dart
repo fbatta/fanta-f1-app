@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_provider.dart';
+part of 'lobby_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,43 +9,43 @@ part of 'user_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(UserProvider)
-final userProviderProvider = UserProviderProvider._();
+@ProviderFor(LobbyProvider)
+final lobbyProviderProvider = LobbyProviderProvider._();
 
-final class UserProviderProvider
-    extends $AsyncNotifierProvider<UserProvider, User?> {
-  UserProviderProvider._()
+final class LobbyProviderProvider
+    extends $AsyncNotifierProvider<LobbyProvider, List<Lobby>> {
+  LobbyProviderProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'userProviderProvider',
+        name: r'lobbyProviderProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$userProviderHash();
+  String debugGetCreateSourceHash() => _$lobbyProviderHash();
 
   @$internal
   @override
-  UserProvider create() => UserProvider();
+  LobbyProvider create() => LobbyProvider();
 }
 
-String _$userProviderHash() => r'607d60e56fa62ebd567c4332199a7f49d22d7080';
+String _$lobbyProviderHash() => r'f1f988571b45fb42ea05f86410183474df92f313';
 
-abstract class _$UserProvider extends $AsyncNotifier<User?> {
-  FutureOr<User?> build();
+abstract class _$LobbyProvider extends $AsyncNotifier<List<Lobby>> {
+  FutureOr<List<Lobby>> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<User?>, User?>;
+    final ref = this.ref as $Ref<AsyncValue<List<Lobby>>, List<Lobby>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<User?>, User?>,
-              AsyncValue<User?>,
+              AnyNotifier<AsyncValue<List<Lobby>>, List<Lobby>>,
+              AsyncValue<List<Lobby>>,
               Object?,
               Object?
             >;

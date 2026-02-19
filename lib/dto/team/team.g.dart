@@ -9,23 +9,18 @@ part of 'team.dart';
 Team _$TeamFromJson(Map<String, dynamic> json) => Team(
   teamId: json['teamId'] as String,
   ownerId: json['ownerId'] as String,
-  name: json['name'] as String,
-  logoUrl: json['logoUrl'] as String?,
+  teamName: json['teamName'] as String,
+  teamAvatarUrl: json['teamAvatarUrl'] as String?,
   lobbyId: json['lobbyId'] as String,
-  createdAt: const TimestampConverter().fromJson(
-    json['createdAt'] as Timestamp,
-  ),
-  updatedAt: _$JsonConverterFromJson<Timestamp, DateTime>(
-    json['updatedAt'],
-    const TimestampConverter().fromJson,
-  ),
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
 
 const _$TeamFieldMap = <String, String>{
   'teamId': 'teamId',
   'ownerId': 'ownerId',
-  'name': 'name',
-  'logoUrl': 'logoUrl',
+  'teamName': 'teamName',
+  'teamAvatarUrl': 'teamAvatarUrl',
   'lobbyId': 'lobbyId',
   'createdAt': 'createdAt',
   'updatedAt': 'updatedAt',
@@ -38,41 +33,23 @@ abstract class _$TeamPerFieldToJson {
   // ignore: unused_element
   static Object? ownerId(String instance) => instance;
   // ignore: unused_element
-  static Object? name(String instance) => instance;
+  static Object? teamName(String instance) => instance;
   // ignore: unused_element
-  static Object? logoUrl(String? instance) => instance;
+  static Object? teamAvatarUrl(String? instance) => instance;
   // ignore: unused_element
   static Object? lobbyId(String instance) => instance;
   // ignore: unused_element
-  static Object? createdAt(DateTime instance) =>
-      const TimestampConverter().toJson(instance);
+  static Object? createdAt(DateTime instance) => instance.toIso8601String();
   // ignore: unused_element
-  static Object? updatedAt(DateTime? instance) =>
-      _$JsonConverterToJson<Timestamp, DateTime>(
-        instance,
-        const TimestampConverter().toJson,
-      );
+  static Object? updatedAt(DateTime instance) => instance.toIso8601String();
 }
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
   'teamId': instance.teamId,
   'ownerId': instance.ownerId,
-  'name': instance.name,
-  'logoUrl': instance.logoUrl,
+  'teamName': instance.teamName,
+  'teamAvatarUrl': instance.teamAvatarUrl,
   'lobbyId': instance.lobbyId,
-  'createdAt': const TimestampConverter().toJson(instance.createdAt),
-  'updatedAt': _$JsonConverterToJson<Timestamp, DateTime>(
-    instance.updatedAt,
-    const TimestampConverter().toJson,
-  ),
+  'createdAt': instance.createdAt.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
 };
-
-Value? _$JsonConverterFromJson<Json, Value>(
-  Object? json,
-  Value? Function(Json json) fromJson,
-) => json == null ? null : fromJson(json as Json);
-
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) => value == null ? null : toJson(value);
