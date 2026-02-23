@@ -13,11 +13,14 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
   privileges: (json['privileges'] as List<dynamic>)
       .map((e) => $enumDecode(_$UserPrivilegesEnumMap, e))
       .toList(),
-  createdAt: DateTime.parse(json['createdAt'] as String),
+  createdAt: const TimestampConverter().fromJson(
+    (json['createdAt'] as num).toInt(),
+  ),
   avatarUrl: json['avatarUrl'] as String?,
-  updatedAt: json['updatedAt'] == null
-      ? null
-      : DateTime.parse(json['updatedAt'] as String),
+  updatedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['updatedAt'],
+    const TimestampConverter().fromJson,
+  ),
 );
 
 const _$UserFieldMap = <String, String>{
@@ -44,9 +47,14 @@ abstract class _$UserPerFieldToJson {
   static Object? privileges(List<UserPrivileges> instance) =>
       instance.map((e) => _$UserPrivilegesEnumMap[e]!).toList();
   // ignore: unused_element
-  static Object? createdAt(DateTime instance) => instance.toIso8601String();
+  static Object? createdAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? updatedAt(DateTime? instance) => instance?.toIso8601String();
+  static Object? updatedAt(DateTime? instance) =>
+      _$JsonConverterToJson<int, DateTime>(
+        instance,
+        const TimestampConverter().toJson,
+      );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -57,8 +65,11 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
   'privileges': instance.privileges
       .map((e) => _$UserPrivilegesEnumMap[e]!)
       .toList(),
-  'createdAt': instance.createdAt.toIso8601String(),
-  'updatedAt': instance.updatedAt?.toIso8601String(),
+  'createdAt': const TimestampConverter().toJson(instance.createdAt),
+  'updatedAt': _$JsonConverterToJson<int, DateTime>(
+    instance.updatedAt,
+    const TimestampConverter().toJson,
+  ),
 };
 
 const _$UserPrivilegesEnumMap = {
@@ -69,3 +80,13 @@ const _$UserPrivilegesEnumMap = {
   UserPrivileges.modifyTeam: 'modifyTeam',
   UserPrivileges.deleteTeam: 'deleteTeam',
 };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);

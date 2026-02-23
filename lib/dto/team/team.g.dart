@@ -12,8 +12,12 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team(
   teamName: json['teamName'] as String,
   teamAvatarUrl: json['teamAvatarUrl'] as String?,
   lobbyId: json['lobbyId'] as String,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  createdAt: const TimestampConverter().fromJson(
+    (json['createdAt'] as num).toInt(),
+  ),
+  updatedAt: const TimestampConverter().fromJson(
+    (json['updatedAt'] as num).toInt(),
+  ),
 );
 
 const _$TeamFieldMap = <String, String>{
@@ -39,9 +43,11 @@ abstract class _$TeamPerFieldToJson {
   // ignore: unused_element
   static Object? lobbyId(String instance) => instance;
   // ignore: unused_element
-  static Object? createdAt(DateTime instance) => instance.toIso8601String();
+  static Object? createdAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? updatedAt(DateTime instance) => instance.toIso8601String();
+  static Object? updatedAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
 }
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
@@ -50,6 +56,6 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
   'teamName': instance.teamName,
   'teamAvatarUrl': instance.teamAvatarUrl,
   'lobbyId': instance.lobbyId,
-  'createdAt': instance.createdAt.toIso8601String(),
-  'updatedAt': instance.updatedAt.toIso8601String(),
+  'createdAt': const TimestampConverter().toJson(instance.createdAt),
+  'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
 };

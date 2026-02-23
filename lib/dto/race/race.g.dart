@@ -10,10 +10,18 @@ Race _$RaceFromJson(Map<String, dynamic> json) => Race(
   raceId: json['raceId'] as String,
   name: json['name'] as String,
   avatarUrl: json['avatarUrl'] as String,
-  eventStartDate: DateTime.parse(json['eventStartDate'] as String),
-  eventEndDate: DateTime.parse(json['eventEndDate'] as String),
-  lineupStartDate: DateTime.parse(json['lineupStartDate'] as String),
-  lineupEndDate: DateTime.parse(json['lineupEndDate'] as String),
+  eventStartDate: const TimestampConverter().fromJson(
+    (json['eventStartDate'] as num).toInt(),
+  ),
+  eventEndDate: const TimestampConverter().fromJson(
+    (json['eventEndDate'] as num).toInt(),
+  ),
+  lineupStartDate: const TimestampConverter().fromJson(
+    (json['lineupStartDate'] as num).toInt(),
+  ),
+  lineupEndDate: const TimestampConverter().fromJson(
+    (json['lineupEndDate'] as num).toInt(),
+  ),
   status: $enumDecode(_$RaceStatusEnumMap, json['status']),
 );
 
@@ -38,14 +46,16 @@ abstract class _$RacePerFieldToJson {
   static Object? avatarUrl(String instance) => instance;
   // ignore: unused_element
   static Object? eventStartDate(DateTime instance) =>
-      instance.toIso8601String();
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? eventEndDate(DateTime instance) => instance.toIso8601String();
+  static Object? eventEndDate(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
   static Object? lineupStartDate(DateTime instance) =>
-      instance.toIso8601String();
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? lineupEndDate(DateTime instance) => instance.toIso8601String();
+  static Object? lineupEndDate(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
   static Object? status(RaceStatus instance) => _$RaceStatusEnumMap[instance]!;
 }
@@ -54,10 +64,12 @@ Map<String, dynamic> _$RaceToJson(Race instance) => <String, dynamic>{
   'raceId': instance.raceId,
   'name': instance.name,
   'avatarUrl': instance.avatarUrl,
-  'eventStartDate': instance.eventStartDate.toIso8601String(),
-  'eventEndDate': instance.eventEndDate.toIso8601String(),
-  'lineupStartDate': instance.lineupStartDate.toIso8601String(),
-  'lineupEndDate': instance.lineupEndDate.toIso8601String(),
+  'eventStartDate': const TimestampConverter().toJson(instance.eventStartDate),
+  'eventEndDate': const TimestampConverter().toJson(instance.eventEndDate),
+  'lineupStartDate': const TimestampConverter().toJson(
+    instance.lineupStartDate,
+  ),
+  'lineupEndDate': const TimestampConverter().toJson(instance.lineupEndDate),
   'status': _$RaceStatusEnumMap[instance.status]!,
 };
 

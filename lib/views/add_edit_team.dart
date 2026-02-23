@@ -1,9 +1,14 @@
 import 'dart:io';
 
+import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/dto/team/team.dart';
+import 'package:fanta_f1/provider/lobby_provider.dart';
+import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class AddEditTeam extends ConsumerStatefulWidget {
   final Team? team;
@@ -19,6 +24,7 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
 
   bool _isLoading = false;
   File? _selectedAvatar;
+  Lobby? _selectedLobby;
 
   @override
   void dispose() {
@@ -28,6 +34,12 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
 
   @override
   Widget build(BuildContext context) {
+    final lobbies = ref.watch(lobbyProviderProvider);
+
+    if (lobbies.isLoading) {
+      return const Scaffold(body: SpinnerCentered());
+    }
+
     if (widget.team != null) {
       _teamNameController.text = widget.team!.teamName;
     }
@@ -53,10 +65,40 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
                       icon: Icon(Icons.person),
                     ),
                     textInputAction: TextInputAction.next,
+                    validator: _teamNameValidator,
                     autofocus: true,
                     enabled: !_isLoading,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 16.0),
+                  DropdownButtonFormField(
+                    validator: _lobbyFieldValidator,
+                    key: ValueKey('LobbyName'),
+                    decoration: const InputDecoration(
+                      labelText: 'Lobby name',
+                      border: OutlineInputBorder(),
+                      icon: Icon(Icons.groups),
+                    ),
+                    items: lobbies.requireValue.values
+                        .map(
+                          (lobby) => DropdownMenuItem(
+                            value: lobby,
+                            child: Text(lobby.lobbyName),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: _onLobbyChanged,
+                  ),
+                  const SizedBox(height: 16.0),
+                  TextFormField(
+                    key: ValueKey('LobbyPassword'),
+                    decoration: const InputDecoration(
+                      labelText: 'Lobby password',
+                      border: OutlineInputBorder(),
+                      icon: Icon(Icons.groups),
+                    ),
+                    validator: _lobbyPasswordValidator,
+                  ),
+                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -86,6 +128,11 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _onCreateTeamButtonPressed,
+        label: Text('Save'),
+        icon: Icon(Icons.save),
+      ),
     );
   }
 
@@ -99,5 +146,70 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
         _selectedAvatar = File(filePickerResult.files[0].path!);
       });
     }
+  }
+
+  String? _teamNameValidator(String? value) {
+    if (value != null && value.length > 3) {
+      return null;
+    }
+    return 'Team name must be at least 4 characters long';
+  }
+
+  void _onLobbyChanged(Lobby? value) {
+    if (value != null) {
+      setState(() {
+        _selectedLobby = value;
+      });
+    }
+  }
+
+  String? _lobbyFieldValidator(Lobby? value) {
+    if (value != null) {
+      return null;
+    }
+    return 'Please select a lobby';
+  }
+
+  Future<void> _onCreateTeamButtonPressed() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      final isValid = _formKey.currentState!.validate();
+      if (!isValid) {
+        return;
+      }
+
+      await ref
+          .read(teamProviderProvider.notifier)
+          .addTeam(
+            lobbyId: _selectedLobby!.lobbyId,
+            teamName: _teamNameController.text,
+          );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Team created')));
+        context.pop();
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  String? _lobbyPasswordValidator(String? value) {
+    if (value == null) {
+      return 'Please enter the lobby password';
+    }
+    if (_selectedLobby == null) {
+      return 'Please select a lobby';
+    }
+    if (value != _selectedLobby!.lobbyPassword) {
+      return 'Incorrect lobby password';
+    }
+    return null;
   }
 }

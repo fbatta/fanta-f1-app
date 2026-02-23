@@ -31,7 +31,7 @@ class TeamProvider extends _$TeamProvider {
     required String lobbyId,
     String? teamAvatarUrl,
   }) async {
-    final teamId = UuidV4().toString();
+    final teamId = UuidV4().generate();
 
     final team = Team(
       teamId: teamId,

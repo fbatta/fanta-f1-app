@@ -14,8 +14,12 @@ Lobby _$LobbyFromJson(Map<String, dynamic> json) => Lobby(
       .map((e) => e as String)
       .toList(),
   lobbyPassword: json['lobbyPassword'] as String,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  createdAt: const TimestampConverter().fromJson(
+    (json['createdAt'] as num).toInt(),
+  ),
+  updatedAt: const TimestampConverter().fromJson(
+    (json['updatedAt'] as num).toInt(),
+  ),
 );
 
 const _$LobbyFieldMap = <String, String>{
@@ -41,9 +45,11 @@ abstract class _$LobbyPerFieldToJson {
   // ignore: unused_element
   static Object? lobbyPassword(String instance) => instance;
   // ignore: unused_element
-  static Object? createdAt(DateTime instance) => instance.toIso8601String();
+  static Object? createdAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? updatedAt(DateTime instance) => instance.toIso8601String();
+  static Object? updatedAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
 }
 
 Map<String, dynamic> _$LobbyToJson(Lobby instance) => <String, dynamic>{
@@ -52,6 +58,6 @@ Map<String, dynamic> _$LobbyToJson(Lobby instance) => <String, dynamic>{
   'ownerId': instance.ownerId,
   'memberIds': instance.memberIds,
   'lobbyPassword': instance.lobbyPassword,
-  'createdAt': instance.createdAt.toIso8601String(),
-  'updatedAt': instance.updatedAt.toIso8601String(),
+  'createdAt': const TimestampConverter().toJson(instance.createdAt),
+  'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
 };

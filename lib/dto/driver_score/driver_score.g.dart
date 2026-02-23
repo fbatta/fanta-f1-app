@@ -20,9 +20,10 @@ DriverScore _$DriverScoreFromJson(Map<String, dynamic> json) => DriverScore(
   reachedQ3: json['reachedQ3'] as bool,
   beatTeammateInQuali: json['beatTeammateInQuali'] as bool,
   beatTeammateInRace: json['beatTeammateInRace'] as bool,
-  calculatedAt: json['calculatedAt'] == null
-      ? null
-      : DateTime.parse(json['calculatedAt'] as String),
+  calculatedAt: _$JsonConverterFromJson<int, DateTime>(
+    json['calculatedAt'],
+    const TimestampConverter().fromJson,
+  ),
 );
 
 const _$DriverScoreFieldMap = <String, String>{
@@ -72,7 +73,10 @@ abstract class _$DriverScorePerFieldToJson {
   static Object? beatTeammateInRace(bool instance) => instance;
   // ignore: unused_element
   static Object? calculatedAt(DateTime? instance) =>
-      instance?.toIso8601String();
+      _$JsonConverterToJson<int, DateTime>(
+        instance,
+        const TimestampConverter().toJson,
+      );
 }
 
 Map<String, dynamic> _$DriverScoreToJson(DriverScore instance) =>
@@ -90,5 +94,18 @@ Map<String, dynamic> _$DriverScoreToJson(DriverScore instance) =>
       'reachedQ3': instance.reachedQ3,
       'beatTeammateInQuali': instance.beatTeammateInQuali,
       'beatTeammateInRace': instance.beatTeammateInRace,
-      'calculatedAt': instance.calculatedAt?.toIso8601String(),
+      'calculatedAt': _$JsonConverterToJson<int, DateTime>(
+        instance.calculatedAt,
+        const TimestampConverter().toJson,
+      ),
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);

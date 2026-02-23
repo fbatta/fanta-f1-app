@@ -1,11 +1,8 @@
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:uuid/v4.dart';
 
 class AddEditLobby extends ConsumerStatefulWidget {
   final Lobby? lobby;
@@ -16,19 +13,11 @@ class AddEditLobby extends ConsumerStatefulWidget {
 }
 
 class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
-  final _getIt = GetIt.instance;
   final _formKey = GlobalKey<FormState>();
   final _lobbyNameController = TextEditingController();
   final _lobbyPasswordController = TextEditingController();
-  late final FirebaseAuth _auth;
 
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    _auth = _getIt();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +41,7 @@ class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
                   ),
                   validator: _lobbyNameValidator,
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 16.0),
                 TextFormField(
                   key: ValueKey('lobbyPassword'),
                   controller: _lobbyPasswordController,
@@ -85,17 +74,13 @@ class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
       if (!isValid) {
         return;
       }
-      final lobby = Lobby(
-        lobbyId: UuidV4().toString(),
-        lobbyName: _lobbyNameController.text,
-        ownerId: _auth.currentUser!.uid,
-        memberIds: [],
-        lobbyPassword: _lobbyPasswordController.text,
-        createdAt: DateTime.timestamp(),
-        updatedAt: DateTime.timestamp(),
-      );
 
-      await ref.read(lobbyProviderProvider.notifier).createLobby(lobby);
+      await ref
+          .read(lobbyProviderProvider.notifier)
+          .createLobby(
+            lobbyName: _lobbyNameController.text,
+            lobbyPassword: _lobbyPasswordController.text,
+          );
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,

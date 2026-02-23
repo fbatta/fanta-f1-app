@@ -13,8 +13,12 @@ Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
   drivers: (json['drivers'] as List<dynamic>)
       .map((e) => LineupDriver.fromJson(e as Map<String, dynamic>))
       .toList(),
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  createdAt: const TimestampConverter().fromJson(
+    (json['createdAt'] as num).toInt(),
+  ),
+  updatedAt: const TimestampConverter().fromJson(
+    (json['updatedAt'] as num).toInt(),
+  ),
   version: (json['version'] as num).toInt(),
   score: (json['score'] as num?)?.toDouble(),
 );
@@ -41,9 +45,11 @@ abstract class _$LineupPerFieldToJson {
   // ignore: unused_element
   static Object? drivers(List<LineupDriver> instance) => instance;
   // ignore: unused_element
-  static Object? createdAt(DateTime instance) => instance.toIso8601String();
+  static Object? createdAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? updatedAt(DateTime instance) => instance.toIso8601String();
+  static Object? updatedAt(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
   // ignore: unused_element
   static Object? version(int instance) => instance;
   // ignore: unused_element
@@ -55,8 +61,8 @@ Map<String, dynamic> _$LineupToJson(Lineup instance) => <String, dynamic>{
   'teamId': instance.teamId,
   'raceId': instance.raceId,
   'drivers': instance.drivers,
-  'createdAt': instance.createdAt.toIso8601String(),
-  'updatedAt': instance.updatedAt.toIso8601String(),
+  'createdAt': const TimestampConverter().toJson(instance.createdAt),
+  'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
   'version': instance.version,
   'score': instance.score,
 };
