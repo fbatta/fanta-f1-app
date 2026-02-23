@@ -27,7 +27,7 @@ class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

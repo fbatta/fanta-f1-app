@@ -1,5 +1,8 @@
 import 'package:fanta_f1/component/app_bar_user_action.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/dto/lobby/lobby.dart';
+import 'package:fanta_f1/dto/team/team.dart';
+import 'package:fanta_f1/provider/lobby_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,11 +23,15 @@ class Home extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = _auth.currentUser;
     final teams = ref.watch(teamProviderProvider);
+    final lobbies = ref.watch(lobbyProviderProvider);
 
-    if (teams.isLoading || teams.isRefreshing) {
+    if (teams.isLoading ||
+        teams.isRefreshing ||
+        lobbies.isLoading ||
+        lobbies.isRefreshing) {
       return const Scaffold(body: SpinnerCentered(text: "Loading teams..."));
     }
-    if (teams.hasError) {
+    if (teams.hasError || lobbies.hasError) {
       return Scaffold(
         appBar: _appBar(user),
         body: Center(child: Text(teams.error.toString())),
@@ -34,7 +41,50 @@ class Home extends ConsumerWidget {
       return Scaffold(appBar: _appBar(user), body: _noTeams());
     }
 
-    return Scaffold(appBar: _appBar(user), body: Center());
+    return Scaffold(
+      appBar: _appBar(user),
+      body: _teamsList(teams.requireValue, lobbies.requireValue),
+    );
+  }
+
+  Widget _teamsList(Map<String, Team> teams, Map<String, Lobby> lobbies) {
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ListView.builder(
+            itemCount: teams.length,
+            itemBuilder: (context, index) {
+              final team = teams.values.elementAt(index);
+              final lobby = lobbies[team.lobbyId];
+
+              return Card(
+                child: ListTile(
+                  title: Text(team.teamName),
+                  subtitle: Text("Lobby: ${lobby!.lobbyName}"),
+                  leading: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(25.0),
+                      image: DecorationImage(
+                        image: team.teamAvatarUrl != null
+                            ? NetworkImage(team.teamAvatarUrl!)
+                            : AssetImage(
+                                'assets/images/idgaf1_default_avatar.png',
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        Positioned(bottom: 40, right: 20, child: _createTeamOrLobbyFab()),
+      ],
+    );
   }
 
   Widget _noTeams() {
