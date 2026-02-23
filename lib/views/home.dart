@@ -40,18 +40,49 @@ class Home extends ConsumerWidget {
   Widget _noTeams() {
     return Builder(
       builder: (context) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('No teams found'),
-              const SizedBox(height: 24.0),
-              FilledButton(
-                onPressed: () => _onAddNewTeamPressed(context),
-                child: const Text('Add new'),
+        return Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('No teams found'),
+                  const SizedBox(height: 24.0),
+                  FilledButton(
+                    onPressed: () => _onAddNewTeamPressed(context),
+                    child: const Text('Add new'),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Positioned(bottom: 40, right: 20, child: _createTeamOrLobbyFab()),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _createTeamOrLobbyFab() {
+    return Builder(
+      builder: (context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FloatingActionButton.small(
+              tooltip: 'Create new lobby',
+              heroTag: 'createNewLobbyFab',
+              onPressed: () => _onAddNewLobbyPressed(context),
+              child: Icon(Icons.groups),
+            ),
+            SizedBox(height: 12.0),
+            FloatingActionButton.extended(
+              tooltip: 'Create new team',
+              heroTag: 'createNewTeamFab',
+              onPressed: () => _onAddNewTeamPressed(context),
+              icon: Icon(Icons.add),
+              label: Text('New team'),
+            ),
+          ],
         );
       },
     );
@@ -66,5 +97,9 @@ class Home extends ConsumerWidget {
 
   void _onAddNewTeamPressed(BuildContext context) {
     context.pushNamed(RouteNames.addTeam.name);
+  }
+
+  void _onAddNewLobbyPressed(BuildContext context) {
+    context.pushNamed(RouteNames.addLobby.name);
   }
 }

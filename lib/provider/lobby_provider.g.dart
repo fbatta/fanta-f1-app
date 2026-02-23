@@ -13,7 +13,7 @@ part of 'lobby_provider.dart';
 final lobbyProviderProvider = LobbyProviderProvider._();
 
 final class LobbyProviderProvider
-    extends $AsyncNotifierProvider<LobbyProvider, List<Lobby>> {
+    extends $AsyncNotifierProvider<LobbyProvider, Map<String, Lobby>> {
   LobbyProviderProvider._()
     : super(
         from: null,
@@ -33,19 +33,20 @@ final class LobbyProviderProvider
   LobbyProvider create() => LobbyProvider();
 }
 
-String _$lobbyProviderHash() => r'f1f988571b45fb42ea05f86410183474df92f313';
+String _$lobbyProviderHash() => r'c24dbf3ddb800493b3135bccc7084f112115dbda';
 
-abstract class _$LobbyProvider extends $AsyncNotifier<List<Lobby>> {
-  FutureOr<List<Lobby>> build();
+abstract class _$LobbyProvider extends $AsyncNotifier<Map<String, Lobby>> {
+  FutureOr<Map<String, Lobby>> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<Lobby>>, List<Lobby>>;
+    final ref =
+        this.ref as $Ref<AsyncValue<Map<String, Lobby>>, Map<String, Lobby>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<Lobby>>, List<Lobby>>,
-              AsyncValue<List<Lobby>>,
+              AnyNotifier<AsyncValue<Map<String, Lobby>>, Map<String, Lobby>>,
+              AsyncValue<Map<String, Lobby>>,
               Object?,
               Object?
             >;

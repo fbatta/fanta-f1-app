@@ -4,7 +4,9 @@ enum RouteNames {
   signUp('/signUp'),
   home('/home'),
   addTeam('/team/add'),
-  editTeam('/team/edit');
+  editTeam('/team/edit'),
+  addLobby('/lobby/add'),
+  editLobby('/lobby/edit');
 
   final String path;
 

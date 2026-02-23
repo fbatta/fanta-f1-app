@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
 import 'package:fanta_f1/enum/user_privileges.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -33,7 +32,7 @@ class User with _$User {
     required this.privileges,
     required this.createdAt,
     this.avatarUrl,
-    this.updatedAt
+    this.updatedAt,
   });
 
   factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);

@@ -22,4 +22,8 @@ class LobbyRepository {
   Future<void> createLobby(Lobby lobby) async {
     await _lobbies.doc(lobby.lobbyId).set(lobby.toJson());
   }
+
+  Future<void> updateLobby(Lobby lobby) async {
+    await _lobbies.doc(lobby.lobbyId).update(lobby.toJson());
+  }
 }

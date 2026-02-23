@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
 import 'package:fanta_f1/enum/race_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

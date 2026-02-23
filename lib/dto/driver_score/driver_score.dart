@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -52,10 +51,11 @@ class DriverScore with _$DriverScore {
     required this.reachedQ3,
     required this.beatTeammateInQuali,
     required this.beatTeammateInRace,
-    this.calculatedAt
+    this.calculatedAt,
   });
 
-  factory DriverScore.fromJson(Map<String, dynamic> json) => _$DriverScoreFromJson(json);
+  factory DriverScore.fromJson(Map<String, dynamic> json) =>
+      _$DriverScoreFromJson(json);
 
   Map<String, dynamic> toJson() => _$DriverScoreToJson(this);
 }

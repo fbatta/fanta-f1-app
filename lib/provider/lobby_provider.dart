@@ -11,8 +11,35 @@ class LobbyProvider extends _$LobbyProvider {
   late final LobbyRepository _lobbyRepository;
 
   @override
-  FutureOr<List<Lobby>> build() async {
+  FutureOr<Map<String, Lobby>> build() async {
     _lobbyRepository = _getIt();
-    return await _lobbyRepository.getLobbies();
+    final lobbies = await _lobbyRepository.getLobbies();
+
+    return {for (final lobby in lobbies) lobby.lobbyId: lobby};
+  }
+
+  Future<void> createLobby(Lobby lobby) async {
+    return await _lobbyRepository.createLobby(lobby);
+  }
+
+  Future<void> updateLobbyNameOrPassword({
+    required String lobbyId,
+    String? name,
+    String? password,
+  }) async {
+    final currentState = state.requireValue;
+    final lobby = currentState[lobbyId];
+
+    throwIf(lobby == null, Exception("No lobby found with id $lobbyId"));
+
+    final newLobbyDetails = lobby!.copyWith(
+      lobbyName: name ?? lobby.lobbyName,
+      lobbyPassword: password ?? lobby.lobbyPassword,
+    );
+
+    await _lobbyRepository.updateLobby(newLobbyDetails);
+
+    currentState[lobbyId] = newLobbyDetails;
+    AsyncValue.data(currentState);
   }
 }

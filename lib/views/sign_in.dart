@@ -43,6 +43,14 @@ class _SignInState extends ConsumerState<SignIn> {
   }
 
   @override
+  void initState() {
+    if (_auth.currentUser != null) {
+      _onSignInSuccessful();
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),

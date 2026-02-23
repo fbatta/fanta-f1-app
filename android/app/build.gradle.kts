@@ -62,6 +62,8 @@ android {
     }
 }
 
+task("prepareKotlinBuildScriptModel") {}
+
 flutter {
     source = "../.."
 }
