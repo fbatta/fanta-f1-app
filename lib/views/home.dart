@@ -1,4 +1,5 @@
 import 'package:fanta_f1/component/app_bar_user_action.dart';
+import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/dto/team/team.dart';
@@ -44,6 +45,7 @@ class Home extends ConsumerWidget {
     return Scaffold(
       appBar: _appBar(user),
       body: _teamsList(teams.requireValue, lobbies.requireValue),
+      bottomNavigationBar: MainBottomNavigationBar(),
     );
   }
 
