@@ -5,6 +5,7 @@ enum RouteNames {
   home('/home'),
   addTeam('/team/add'),
   editTeam('/team/edit'),
+  team('/team/:teamId'),
   addLobby('/lobby/add'),
   editLobby('/lobby/edit'),
   calendar('/calendar'),

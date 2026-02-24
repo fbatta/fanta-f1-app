@@ -29,6 +29,15 @@ class TeamRepository {
         .toList();
   }
 
+  Future<List<Team>> getTeamsInLobby(String lobbyId) async {
+    final snapshot = await _teamsCollection
+        .where('lobbyId', isEqualTo: lobbyId)
+        .get();
+    return snapshot.docs
+        .map((doc) => Team.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<void> createOrUpdateTeam(Team team) async {
     final existingTeam = await findTeamById(team.teamId);
     if (existingTeam != null) {

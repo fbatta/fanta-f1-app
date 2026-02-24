@@ -47,89 +47,105 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
       appBar: AppBar(
         title: Text(widget.team == null ? 'Add Team' : 'Edit Team'),
       ),
-      body: Center(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: AutofillGroup(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    key: ValueKey('TeamName'),
-                    controller: _teamNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Team name',
-                      border: OutlineInputBorder(),
-                      icon: Icon(Icons.person),
-                    ),
-                    textInputAction: TextInputAction.next,
-                    validator: _teamNameValidator,
-                    autofocus: true,
-                    enabled: !_isLoading,
-                  ),
-                  const SizedBox(height: 16.0),
-                  DropdownButtonFormField(
-                    validator: _lobbyFieldValidator,
-                    key: ValueKey('LobbyName'),
-                    decoration: const InputDecoration(
-                      labelText: 'Lobby name',
-                      border: OutlineInputBorder(),
-                      icon: Icon(Icons.groups),
-                    ),
-                    items: lobbies.requireValue.values
-                        .map(
-                          (lobby) => DropdownMenuItem(
-                            value: lobby,
-                            child: Text(lobby.lobbyName),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: _onLobbyChanged,
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    key: ValueKey('LobbyPassword'),
-                    decoration: const InputDecoration(
-                      labelText: 'Lobby password',
-                      border: OutlineInputBorder(),
-                      icon: Icon(Icons.groups),
-                    ),
-                    validator: _lobbyPasswordValidator,
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+      body: Stack(
+        children: [
+          Center(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: AutofillGroup(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _selectedAvatar != null
-                          ? Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(50.0),
-                                image: DecorationImage(
-                                  image: FileImage(_selectedAvatar!),
-                                ),
+                      TextFormField(
+                        key: ValueKey('TeamName'),
+                        controller: _teamNameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Team name',
+                          border: OutlineInputBorder(),
+                          icon: Icon(Icons.person),
+                        ),
+                        textInputAction: TextInputAction.next,
+                        validator: _teamNameValidator,
+                        autofocus: true,
+                        enabled: !_isLoading,
+                      ),
+                      const SizedBox(height: 16.0),
+                      DropdownButtonFormField(
+                        validator: _lobbyFieldValidator,
+                        key: ValueKey('LobbyName'),
+                        decoration: InputDecoration(
+                          labelText: 'Lobby name',
+                          border: const OutlineInputBorder(),
+                          icon: const Icon(Icons.groups),
+                          enabled: !_isLoading,
+                        ),
+                        items: lobbies.requireValue.values
+                            .map(
+                              (lobby) => DropdownMenuItem(
+                                value: lobby,
+                                child: Text(lobby.lobbyName),
                               ),
                             )
-                          : Container(),
-                      Spacer(),
-                      FilledButton(
-                        onPressed: _onSelectAvatarButtonPressed,
-                        child: const Text("Upload team logo"),
+                            .toList(),
+                        onChanged: _onLobbyChanged,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        key: ValueKey('LobbyPassword'),
+                        decoration: InputDecoration(
+                          labelText: 'Lobby password',
+                          border: const OutlineInputBorder(),
+                          icon: const Icon(Icons.groups),
+                        ),
+                        validator: _lobbyPasswordValidator,
+                        enabled: !_isLoading,
+                      ),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          _selectedAvatar != null
+                              ? Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    image: DecorationImage(
+                                      image: FileImage(_selectedAvatar!),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          Spacer(),
+                          FilledButton(
+                            onPressed: _onSelectAvatarButtonPressed,
+                            child: const Text("Upload team logo"),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+          _isLoading
+              ? Positioned(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(color: Colors.black12),
+                    child: SpinnerCentered(),
+                  ),
+                )
+              : Container(),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _onCreateTeamButtonPressed,
+        onPressed: _isLoading ? null : _onCreateTeamButtonPressed,
         label: Text('Save'),
         icon: Icon(Icons.save),
       ),

@@ -12,6 +12,9 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team(
   teamName: json['teamName'] as String,
   teamAvatarUrl: json['teamAvatarUrl'] as String?,
   lobbyId: json['lobbyId'] as String,
+  points: (json['points'] as Map<String, dynamic>).map(
+    (k, e) => MapEntry(int.parse(k), (e as num).toDouble()),
+  ),
   createdAt: const TimestampConverter().fromJson(
     (json['createdAt'] as num).toInt(),
   ),
@@ -26,6 +29,7 @@ const _$TeamFieldMap = <String, String>{
   'teamName': 'teamName',
   'teamAvatarUrl': 'teamAvatarUrl',
   'lobbyId': 'lobbyId',
+  'points': 'points',
   'createdAt': 'createdAt',
   'updatedAt': 'updatedAt',
 };
@@ -43,6 +47,9 @@ abstract class _$TeamPerFieldToJson {
   // ignore: unused_element
   static Object? lobbyId(String instance) => instance;
   // ignore: unused_element
+  static Object? points(Map<int, double> instance) =>
+      instance.map((k, e) => MapEntry(k.toString(), e));
+  // ignore: unused_element
   static Object? createdAt(DateTime instance) =>
       const TimestampConverter().toJson(instance);
   // ignore: unused_element
@@ -56,6 +63,7 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
   'teamName': instance.teamName,
   'teamAvatarUrl': instance.teamAvatarUrl,
   'lobbyId': instance.lobbyId,
+  'points': instance.points.map((k, e) => MapEntry(k.toString(), e)),
   'createdAt': const TimestampConverter().toJson(instance.createdAt),
   'updatedAt': const TimestampConverter().toJson(instance.updatedAt),
 };

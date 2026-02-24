@@ -18,6 +18,8 @@ class Team with _$Team {
   @override
   final String lobbyId;
   @override
+  final Map<int, double> points;
+  @override
   @TimestampConverter()
   final DateTime createdAt;
   @override
@@ -30,6 +32,7 @@ class Team with _$Team {
     required this.teamName,
     this.teamAvatarUrl,
     required this.lobbyId,
+    required this.points,
     required this.createdAt,
     required this.updatedAt,
   });

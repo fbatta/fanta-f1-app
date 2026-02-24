@@ -1,5 +1,6 @@
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/exception/team_not_found_exception.dart';
+import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/team_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -13,11 +14,13 @@ class TeamProvider extends _$TeamProvider {
   final GetIt _getIt = GetIt.instance;
   late TeamRepository _teamRepository;
   late FirebaseAuth _firebaseAuth;
+  late TimeUtils _timeUtils;
 
   @override
   FutureOr<Map<String, Team>> build() async {
     _teamRepository = _getIt();
     _firebaseAuth = _getIt();
+    _timeUtils = _getIt();
 
     final teams = await _teamRepository.getTeamsByOwnerId(
       _firebaseAuth.currentUser!.uid,
@@ -32,6 +35,7 @@ class TeamProvider extends _$TeamProvider {
     String? teamAvatarUrl,
   }) async {
     final teamId = UuidV4().generate();
+    final currentYear = (await _timeUtils.tryGetNetworkTime()).year;
 
     final team = Team(
       teamId: teamId,
@@ -41,6 +45,7 @@ class TeamProvider extends _$TeamProvider {
       ownerId: _firebaseAuth.currentUser!.uid,
       lobbyId: lobbyId,
       teamAvatarUrl: teamAvatarUrl,
+      points: {currentYear: 0.0},
     );
 
     await _teamRepository.createOrUpdateTeam(team);
@@ -71,5 +76,12 @@ class TeamProvider extends _$TeamProvider {
 
     currentState[teamId] = team;
     state = AsyncValue.data(currentState);
+  }
+
+  Future<List<Team>> getStandingsForLobby(String lobbyId) async {
+    final year = (await _timeUtils.tryGetNetworkTime()).year;
+    final standings = (await _teamRepository.getTeamsInLobby(lobbyId));
+    standings.sort((a, b) => b.points[year]!.compareTo(a.points[year]!));
+    return standings;
   }
 }

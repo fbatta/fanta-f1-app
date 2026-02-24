@@ -8,6 +8,8 @@ import 'package:fanta_f1/views/sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
+import '../views/team.dart';
+
 final router = GoRouter(
   redirect: (BuildContext context, GoRouterState state) {
     if (state.uri.toString().contains(
@@ -53,6 +55,12 @@ final router = GoRouter(
       path: RouteNames.calendar.path,
       name: RouteNames.calendar.toString(),
       builder: (BuildContext context, GoRouterState state) => Calendar(),
+    ),
+    GoRoute(
+      path: RouteNames.team.path,
+      name: RouteNames.team.toString(),
+      builder: (BuildContext context, GoRouterState state) =>
+          Team(teamId: state.pathParameters['teamId']!),
     ),
   ],
 );

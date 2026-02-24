@@ -86,36 +86,42 @@ class _HomeState extends ConsumerState<Home> {
           .read(lineupProviderProvider.notifier)
           .getTotalPointsForTeam(team.teamId),
       builder: (context, snapshot) {
-        return Card(
-          child: ListTile(
-            title: Text(team.teamName),
-            subtitle: Text("Lobby: ${lobby.lobbyName}"),
-            leading: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(25.0),
-                image: DecorationImage(
-                  image: team.teamAvatarUrl != null
-                      ? NetworkImage(team.teamAvatarUrl!)
-                      : AssetImage('assets/images/idgaf1_default_avatar.png'),
+        return InkWell(
+          onTap: () => context.pushNamed(
+            RouteNames.team.toString(),
+            pathParameters: {'teamId': team.teamId},
+          ),
+          child: Card(
+            child: ListTile(
+              title: Text(team.teamName),
+              subtitle: Text("Lobby: ${lobby.lobbyName}"),
+              leading: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(25.0),
+                  image: DecorationImage(
+                    image: team.teamAvatarUrl != null
+                        ? NetworkImage(team.teamAvatarUrl!)
+                        : AssetImage('assets/images/idgaf1_default_avatar.png'),
+                  ),
                 ),
               ),
-            ),
-            trailing: Builder(
-              builder: (context) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-                if (snapshot.hasError) {
-                  return Text('NaN');
-                }
-                return Text(
-                  snapshot.requireData.toString(),
-                  style: Theme.of(context).textTheme.titleLarge,
-                );
-              },
+              trailing: Builder(
+                builder: (context) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text('NaN');
+                  }
+                  return Text(
+                    snapshot.requireData.toString(),
+                    style: Theme.of(context).textTheme.titleLarge,
+                  );
+                },
+              ),
             ),
           ),
         );

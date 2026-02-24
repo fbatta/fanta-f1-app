@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Team {
 
- String get teamId; String get ownerId; String get teamName; String? get teamAvatarUrl; String get lobbyId; DateTime get createdAt; DateTime get updatedAt;
+ String get teamId; String get ownerId; String get teamName; String? get teamAvatarUrl; String get lobbyId; Map<int, double> get points; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Team
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $TeamCopyWith<Team> get copyWith => _$TeamCopyWithImpl<Team>(this as Team, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Team&&(identical(other.teamId, teamId) || other.teamId == teamId)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.teamName, teamName) || other.teamName == teamName)&&(identical(other.teamAvatarUrl, teamAvatarUrl) || other.teamAvatarUrl == teamAvatarUrl)&&(identical(other.lobbyId, lobbyId) || other.lobbyId == lobbyId)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Team&&(identical(other.teamId, teamId) || other.teamId == teamId)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.teamName, teamName) || other.teamName == teamName)&&(identical(other.teamAvatarUrl, teamAvatarUrl) || other.teamAvatarUrl == teamAvatarUrl)&&(identical(other.lobbyId, lobbyId) || other.lobbyId == lobbyId)&&const DeepCollectionEquality().equals(other.points, points)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,teamId,ownerId,teamName,teamAvatarUrl,lobbyId,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,teamId,ownerId,teamName,teamAvatarUrl,lobbyId,const DeepCollectionEquality().hash(points),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Team(teamId: $teamId, ownerId: $ownerId, teamName: $teamName, teamAvatarUrl: $teamAvatarUrl, lobbyId: $lobbyId, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Team(teamId: $teamId, ownerId: $ownerId, teamName: $teamName, teamAvatarUrl: $teamAvatarUrl, lobbyId: $lobbyId, points: $points, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $TeamCopyWith<$Res>  {
   factory $TeamCopyWith(Team value, $Res Function(Team) _then) = _$TeamCopyWithImpl;
 @useResult
 $Res call({
- String teamId, String ownerId, String teamName, String? teamAvatarUrl, String lobbyId, DateTime createdAt, DateTime updatedAt
+ String teamId, String ownerId, String teamName, String? teamAvatarUrl, String lobbyId, Map<int, double> points, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -63,14 +63,15 @@ class _$TeamCopyWithImpl<$Res>
 
 /// Create a copy of Team
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? teamId = null,Object? ownerId = null,Object? teamName = null,Object? teamAvatarUrl = freezed,Object? lobbyId = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? teamId = null,Object? ownerId = null,Object? teamName = null,Object? teamAvatarUrl = freezed,Object? lobbyId = null,Object? points = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(Team(
 teamId: null == teamId ? _self.teamId : teamId // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,teamName: null == teamName ? _self.teamName : teamName // ignore: cast_nullable_to_non_nullable
 as String,teamAvatarUrl: freezed == teamAvatarUrl ? _self.teamAvatarUrl : teamAvatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,lobbyId: null == lobbyId ? _self.lobbyId : lobbyId // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String,points: null == points ? _self.points : points // ignore: cast_nullable_to_non_nullable
+as Map<int, double>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
