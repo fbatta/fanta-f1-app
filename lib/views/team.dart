@@ -162,6 +162,7 @@ class _TeamState extends ConsumerState<Team> {
                   horizontal: 8.0,
                 ),
                 child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: lineup.drivers.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
