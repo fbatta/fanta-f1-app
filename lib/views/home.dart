@@ -3,7 +3,6 @@ import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/dto/team/team.dart';
-import 'package:fanta_f1/provider/lineup_provider.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
@@ -80,52 +79,34 @@ class _HomeState extends ConsumerState<Home> {
   }
 
   Widget _teamCard(Team team, Lobby lobby) {
-    return FutureBuilder<double>(
-      initialData: 0.0,
-      future: ref
-          .read(lineupProviderProvider.notifier)
-          .getTotalPointsForTeam(team.teamId),
-      builder: (context, snapshot) {
-        return InkWell(
-          onTap: () => context.pushNamed(
-            RouteNames.team.toString(),
-            pathParameters: {'teamId': team.teamId},
-          ),
-          child: Card(
-            child: ListTile(
-              title: Text(team.teamName),
-              subtitle: Text("Lobby: ${lobby.lobbyName}"),
-              leading: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(25.0),
-                  image: DecorationImage(
-                    image: team.teamAvatarUrl != null
-                        ? NetworkImage(team.teamAvatarUrl!)
-                        : AssetImage('assets/images/idgaf1_default_avatar.png'),
-                  ),
-                ),
-              ),
-              trailing: Builder(
-                builder: (context) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) {
-                    return Text('NaN');
-                  }
-                  return Text(
-                    snapshot.requireData.toString(),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  );
-                },
+    return InkWell(
+      onTap: () => context.pushNamed(
+        RouteNames.team.toString(),
+        pathParameters: {'teamId': team.teamId},
+      ),
+      child: Card(
+        child: ListTile(
+          title: Text(team.teamName),
+          subtitle: Text("Lobby: ${lobby.lobbyName}"),
+          leading: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(25.0),
+              image: DecorationImage(
+                image: team.teamAvatarUrl != null
+                    ? NetworkImage(team.teamAvatarUrl!)
+                    : AssetImage('assets/images/idgaf1_default_avatar.png'),
               ),
             ),
           ),
-        );
-      },
+          trailing: Text(
+            team.points[DateTime.now().year].toString(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
     );
   }
 
