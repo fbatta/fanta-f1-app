@@ -3,6 +3,7 @@ import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/dto/team/team.dart';
+import 'package:fanta_f1/provider/lineup_provider.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
@@ -12,16 +13,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-class Home extends ConsumerWidget {
+class Home extends ConsumerStatefulWidget {
+  const Home({super.key});
+
+  @override
+  ConsumerState createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<Home> {
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
 
-  Home({super.key}) {
-    _auth = _getIt.get<FirebaseAuth>();
+  @override
+  void initState() {
+    _auth = _getIt();
+    super.initState();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final user = _auth.currentUser;
     final teams = ref.watch(teamProviderProvider);
     final lobbies = ref.watch(lobbyProviderProvider);
@@ -60,32 +70,56 @@ class Home extends ConsumerWidget {
               final team = teams.values.elementAt(index);
               final lobby = lobbies[team.lobbyId];
 
-              return Card(
-                child: ListTile(
-                  title: Text(team.teamName),
-                  subtitle: Text("Lobby: ${lobby!.lobbyName}"),
-                  leading: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(25.0),
-                      image: DecorationImage(
-                        image: team.teamAvatarUrl != null
-                            ? NetworkImage(team.teamAvatarUrl!)
-                            : AssetImage(
-                                'assets/images/idgaf1_default_avatar.png',
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
+              return _teamCard(team, lobby!);
             },
           ),
         ),
         Positioned(bottom: 40, right: 20, child: _createTeamOrLobbyFab()),
       ],
+    );
+  }
+
+  Widget _teamCard(Team team, Lobby lobby) {
+    return FutureBuilder<double>(
+      initialData: 0.0,
+      future: ref
+          .read(lineupProviderProvider.notifier)
+          .getTotalPointsForTeam(team.teamId),
+      builder: (context, snapshot) {
+        return Card(
+          child: ListTile(
+            title: Text(team.teamName),
+            subtitle: Text("Lobby: ${lobby.lobbyName}"),
+            leading: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(25.0),
+                image: DecorationImage(
+                  image: team.teamAvatarUrl != null
+                      ? NetworkImage(team.teamAvatarUrl!)
+                      : AssetImage('assets/images/idgaf1_default_avatar.png'),
+                ),
+              ),
+            ),
+            trailing: Builder(
+              builder: (context) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                if (snapshot.hasError) {
+                  return Text('NaN');
+                }
+                return Text(
+                  snapshot.requireData.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 

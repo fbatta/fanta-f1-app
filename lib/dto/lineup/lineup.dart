@@ -13,6 +13,8 @@ class Lineup with _$Lineup {
   @override
   final String teamId;
   @override
+  final String ownerId;
+  @override
   final String raceId;
   @override
   final List<LineupDriver> drivers;
@@ -30,6 +32,7 @@ class Lineup with _$Lineup {
   const Lineup({
     required this.lineupId,
     required this.teamId,
+    required this.ownerId,
     required this.raceId,
     required this.drivers,
     required this.createdAt,

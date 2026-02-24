@@ -13,7 +13,8 @@ part of 'race_weekend_provider.dart';
 final raceWeekendProviderProvider = RaceWeekendProviderProvider._();
 
 final class RaceWeekendProviderProvider
-    extends $AsyncNotifierProvider<RaceWeekendProvider, List<Race>> {
+    extends
+        $AsyncNotifierProvider<RaceWeekendProvider, RaceWeekendProviderModel> {
   RaceWeekendProviderProvider._()
     : super(
         from: null,
@@ -34,19 +35,28 @@ final class RaceWeekendProviderProvider
 }
 
 String _$raceWeekendProviderHash() =>
-    r'973a7aff9cd61a62df361148aa8988391f69a38c';
+    r'966088ab7dedc2bdeaef99064271ead2b95ab992';
 
-abstract class _$RaceWeekendProvider extends $AsyncNotifier<List<Race>> {
-  FutureOr<List<Race>> build();
+abstract class _$RaceWeekendProvider
+    extends $AsyncNotifier<RaceWeekendProviderModel> {
+  FutureOr<RaceWeekendProviderModel> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<Race>>, List<Race>>;
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<RaceWeekendProviderModel>,
+              RaceWeekendProviderModel
+            >;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<Race>>, List<Race>>,
-              AsyncValue<List<Race>>,
+              AnyNotifier<
+                AsyncValue<RaceWeekendProviderModel>,
+                RaceWeekendProviderModel
+              >,
+              AsyncValue<RaceWeekendProviderModel>,
               Object?,
               Object?
             >;

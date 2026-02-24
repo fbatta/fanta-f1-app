@@ -27,20 +27,37 @@ class _CalendarState extends ConsumerState<Calendar> {
         padding: EdgeInsetsGeometry.symmetric(horizontal: 8.0),
         child: ListView(
           children: [
+            raceWeekends.requireValue.currentRace != null
+                ? _currentRaceCard(raceWeekends.requireValue.currentRace!)
+                : Container(),
             Text("Next race:", style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 8.0),
-            _raceWeekendCard(raceWeekends.requireValue.first),
+            _raceWeekendCard(raceWeekends.requireValue.futureRaces.first),
             SizedBox(height: 16.0),
             Text(
               "Future races:",
               style: Theme.of(context).textTheme.titleLarge,
             ),
             SizedBox(height: 8.0),
-            ...raceWeekends.requireValue.sublist(1).map(_raceWeekendCard),
+            ...raceWeekends.requireValue.futureRaces
+                .sublist(1)
+                .map(_raceWeekendCard),
           ],
         ),
       ),
       bottomNavigationBar: MainBottomNavigationBar(),
+    );
+  }
+
+  Widget _currentRaceCard(Race race) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Current race:', style: Theme.of(context).textTheme.titleLarge),
+        SizedBox(height: 8.0),
+        _raceWeekendCard(race),
+        SizedBox(height: 16.0),
+      ],
     );
   }
 
@@ -61,7 +78,9 @@ class _CalendarState extends ConsumerState<Calendar> {
     final difference = date.difference(DateTime.now());
     if (difference.inDays > 0) {
       return "Starts in ${difference.inDays} days";
+    } else if (difference.inHours > 0) {
+      return "Starts in ${difference.inHours} hours";
     }
-    return "Starts in ${difference.inHours} hours";
+    return "Currently running";
   }
 }

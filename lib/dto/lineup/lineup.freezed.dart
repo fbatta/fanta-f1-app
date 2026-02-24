@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Lineup {
 
- String get lineupId; String get teamId; String get raceId; List<LineupDriver> get drivers; DateTime get createdAt; DateTime get updatedAt; int get version; double? get score;
+ String get lineupId; String get teamId; String get ownerId; String get raceId; List<LineupDriver> get drivers; DateTime get createdAt; DateTime get updatedAt; int get version; double? get score;
 /// Create a copy of Lineup
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $LineupCopyWith<Lineup> get copyWith => _$LineupCopyWithImpl<Lineup>(this as Lin
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Lineup&&(identical(other.lineupId, lineupId) || other.lineupId == lineupId)&&(identical(other.teamId, teamId) || other.teamId == teamId)&&(identical(other.raceId, raceId) || other.raceId == raceId)&&const DeepCollectionEquality().equals(other.drivers, drivers)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.version, version) || other.version == version)&&(identical(other.score, score) || other.score == score));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Lineup&&(identical(other.lineupId, lineupId) || other.lineupId == lineupId)&&(identical(other.teamId, teamId) || other.teamId == teamId)&&(identical(other.ownerId, ownerId) || other.ownerId == ownerId)&&(identical(other.raceId, raceId) || other.raceId == raceId)&&const DeepCollectionEquality().equals(other.drivers, drivers)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.version, version) || other.version == version)&&(identical(other.score, score) || other.score == score));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,lineupId,teamId,raceId,const DeepCollectionEquality().hash(drivers),createdAt,updatedAt,version,score);
+int get hashCode => Object.hash(runtimeType,lineupId,teamId,ownerId,raceId,const DeepCollectionEquality().hash(drivers),createdAt,updatedAt,version,score);
 
 @override
 String toString() {
-  return 'Lineup(lineupId: $lineupId, teamId: $teamId, raceId: $raceId, drivers: $drivers, createdAt: $createdAt, updatedAt: $updatedAt, version: $version, score: $score)';
+  return 'Lineup(lineupId: $lineupId, teamId: $teamId, ownerId: $ownerId, raceId: $raceId, drivers: $drivers, createdAt: $createdAt, updatedAt: $updatedAt, version: $version, score: $score)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $LineupCopyWith<$Res>  {
   factory $LineupCopyWith(Lineup value, $Res Function(Lineup) _then) = _$LineupCopyWithImpl;
 @useResult
 $Res call({
- String lineupId, String teamId, String raceId, List<LineupDriver> drivers, DateTime createdAt, DateTime updatedAt, int version, double? score
+ String lineupId, String teamId, String ownerId, String raceId, List<LineupDriver> drivers, DateTime createdAt, DateTime updatedAt, int version, double? score
 });
 
 
@@ -63,10 +63,11 @@ class _$LineupCopyWithImpl<$Res>
 
 /// Create a copy of Lineup
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? lineupId = null,Object? teamId = null,Object? raceId = null,Object? drivers = null,Object? createdAt = null,Object? updatedAt = null,Object? version = null,Object? score = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? lineupId = null,Object? teamId = null,Object? ownerId = null,Object? raceId = null,Object? drivers = null,Object? createdAt = null,Object? updatedAt = null,Object? version = null,Object? score = freezed,}) {
   return _then(Lineup(
 lineupId: null == lineupId ? _self.lineupId : lineupId // ignore: cast_nullable_to_non_nullable
 as String,teamId: null == teamId ? _self.teamId : teamId // ignore: cast_nullable_to_non_nullable
+as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,raceId: null == raceId ? _self.raceId : raceId // ignore: cast_nullable_to_non_nullable
 as String,drivers: null == drivers ? _self.drivers : drivers // ignore: cast_nullable_to_non_nullable
 as List<LineupDriver>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable

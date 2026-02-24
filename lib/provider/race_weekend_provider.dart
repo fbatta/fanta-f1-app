@@ -11,10 +11,25 @@ class RaceWeekendProvider extends _$RaceWeekendProvider {
   late RaceWeekendRepository _raceWeekendRepository;
 
   @override
-  FutureOr<List<Race>> build() async {
+  FutureOr<RaceWeekendProviderModel> build() async {
     _raceWeekendRepository = _getIt();
 
     final currentYear = DateTime.now().year;
-    return await _raceWeekendRepository.getFutureRacesForYear(currentYear);
+    final futureRaces = await _raceWeekendRepository.getFutureRacesForYear(
+      currentYear,
+    );
+    final currentRace = await _raceWeekendRepository.getCurrentRace();
+
+    return RaceWeekendProviderModel(
+      currentRace: currentRace,
+      futureRaces: futureRaces,
+    );
   }
+}
+
+class RaceWeekendProviderModel {
+  final Race? currentRace;
+  final List<Race> futureRaces;
+
+  const RaceWeekendProviderModel({this.currentRace, required this.futureRaces});
 }

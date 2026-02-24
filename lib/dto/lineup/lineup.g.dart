@@ -9,6 +9,7 @@ part of 'lineup.dart';
 Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
   lineupId: json['lineupId'] as String,
   teamId: json['teamId'] as String,
+  ownerId: json['ownerId'] as String,
   raceId: json['raceId'] as String,
   drivers: (json['drivers'] as List<dynamic>)
       .map((e) => LineupDriver.fromJson(e as Map<String, dynamic>))
@@ -26,6 +27,7 @@ Lineup _$LineupFromJson(Map<String, dynamic> json) => Lineup(
 const _$LineupFieldMap = <String, String>{
   'lineupId': 'lineupId',
   'teamId': 'teamId',
+  'ownerId': 'ownerId',
   'raceId': 'raceId',
   'drivers': 'drivers',
   'createdAt': 'createdAt',
@@ -40,6 +42,8 @@ abstract class _$LineupPerFieldToJson {
   static Object? lineupId(String instance) => instance;
   // ignore: unused_element
   static Object? teamId(String instance) => instance;
+  // ignore: unused_element
+  static Object? ownerId(String instance) => instance;
   // ignore: unused_element
   static Object? raceId(String instance) => instance;
   // ignore: unused_element
@@ -59,6 +63,7 @@ abstract class _$LineupPerFieldToJson {
 Map<String, dynamic> _$LineupToJson(Lineup instance) => <String, dynamic>{
   'lineupId': instance.lineupId,
   'teamId': instance.teamId,
+  'ownerId': instance.ownerId,
   'raceId': instance.raceId,
   'drivers': instance.drivers,
   'createdAt': const TimestampConverter().toJson(instance.createdAt),
