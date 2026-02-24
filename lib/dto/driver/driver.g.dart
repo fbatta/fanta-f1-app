@@ -9,19 +9,23 @@ part of 'driver.dart';
 Driver _$DriverFromJson(Map<String, dynamic> json) => Driver(
   driverId: json['driverId'] as String,
   name: json['name'] as String,
-  avatarUrl: json['avatarUrl'] as String,
-  initialCost: (json['initialCost'] as num).toInt(),
-  currentCost: (json['currentCost'] as num).toInt(),
+  teamName: json['teamName'] as String,
+  teamColour: json['teamColour'] as String,
+  driverNumber: (json['driverNumber'] as num).toInt(),
+  acronym: json['acronym'] as String,
+  driverAvatar: json['driverAvatar'] as String,
   isActive: json['isActive'] as bool,
 );
 
 const _$DriverFieldMap = <String, String>{
   'driverId': 'driverId',
-  'name': 'name',
-  'avatarUrl': 'avatarUrl',
-  'initialCost': 'initialCost',
-  'currentCost': 'currentCost',
+  'driverNumber': 'driverNumber',
+  'acronym': 'acronym',
+  'driverAvatar': 'driverAvatar',
   'isActive': 'isActive',
+  'name': 'name',
+  'teamName': 'teamName',
+  'teamColour': 'teamColour',
 };
 
 // ignore: unused_element
@@ -29,22 +33,28 @@ abstract class _$DriverPerFieldToJson {
   // ignore: unused_element
   static Object? driverId(String instance) => instance;
   // ignore: unused_element
-  static Object? name(String instance) => instance;
+  static Object? driverNumber(int instance) => instance;
   // ignore: unused_element
-  static Object? avatarUrl(String instance) => instance;
+  static Object? acronym(String instance) => instance;
   // ignore: unused_element
-  static Object? initialCost(int instance) => instance;
-  // ignore: unused_element
-  static Object? currentCost(int instance) => instance;
+  static Object? driverAvatar(String instance) => instance;
   // ignore: unused_element
   static Object? isActive(bool instance) => instance;
+  // ignore: unused_element
+  static Object? name(String instance) => instance;
+  // ignore: unused_element
+  static Object? teamName(String instance) => instance;
+  // ignore: unused_element
+  static Object? teamColour(String instance) => instance;
 }
 
 Map<String, dynamic> _$DriverToJson(Driver instance) => <String, dynamic>{
   'driverId': instance.driverId,
-  'name': instance.name,
-  'avatarUrl': instance.avatarUrl,
-  'initialCost': instance.initialCost,
-  'currentCost': instance.currentCost,
+  'driverNumber': instance.driverNumber,
+  'acronym': instance.acronym,
+  'driverAvatar': instance.driverAvatar,
   'isActive': instance.isActive,
+  'name': instance.name,
+  'teamName': instance.teamName,
+  'teamColour': instance.teamColour,
 };

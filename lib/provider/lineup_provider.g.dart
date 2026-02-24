@@ -33,7 +33,7 @@ final class LineupProviderProvider
   LineupProvider create() => LineupProvider();
 }
 
-String _$lineupProviderHash() => r'fbbbc37ce478cc6f3627079d5df308e5f2be79f4';
+String _$lineupProviderHash() => r'63084073b53b02de77e09aa532ab18b82fdea7b2';
 
 abstract class _$LineupProvider extends $AsyncNotifier<void> {
   FutureOr<void> build();

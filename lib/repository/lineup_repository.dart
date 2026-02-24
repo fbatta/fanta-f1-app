@@ -24,6 +24,23 @@ class LineupRepository {
     return null;
   }
 
+  Future<Lineup?> findLatestLineupByTeamId(String teamId, int year) async {
+    final startDate = DateTime(year, 1, 1).toUtc();
+    final snapshot = await _lineupsCollection
+        .where('teamId', isEqualTo: teamId)
+        .where(
+          'createdAt',
+          isGreaterThanOrEqualTo: startDate.millisecondsSinceEpoch,
+        )
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .get();
+    if (snapshot.docs.isEmpty) {
+      return null;
+    }
+    return Lineup.fromJson(snapshot.docs.first.data() as Map<String, dynamic>);
+  }
+
   Future<List<Lineup>> getLineupsByTeamId(String teamId) async {
     final year = (await _timeUtils.tryGetNetworkTime()).toUtc().year;
     final startDate = DateTime(year, 1, 1).toUtc();

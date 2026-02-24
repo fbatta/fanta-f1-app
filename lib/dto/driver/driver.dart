@@ -9,22 +9,28 @@ class Driver with _$Driver {
   @override
   final String driverId;
   @override
-  final String name;
+  final int driverNumber;
   @override
-  final String avatarUrl;
+  final String acronym;
   @override
-  final int initialCost;
-  @override
-  final int currentCost;
+  final String driverAvatar;
   @override
   final bool isActive;
+  @override
+  final String name;
+  @override
+  final String teamName;
+  @override
+  final String teamColour;
 
   const Driver({
     required this.driverId,
     required this.name,
-    required this.avatarUrl,
-    required this.initialCost,
-    required this.currentCost,
+    required this.teamName,
+    required this.teamColour,
+    required this.driverNumber,
+    required this.acronym,
+    required this.driverAvatar,
     required this.isActive,
   });
 

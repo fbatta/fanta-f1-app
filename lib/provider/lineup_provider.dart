@@ -1,17 +1,27 @@
+import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/lineup_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../dto/lineup/lineup.dart';
 
 part 'lineup_provider.g.dart';
 
 @riverpod
 class LineupProvider extends _$LineupProvider {
   final _getIt = GetIt.instance;
-  late final LineupRepository _lineupRepository;
+  late LineupRepository _lineupRepository;
+  late TimeUtils _timeUtils;
 
   @override
   FutureOr<void> build() async {
     _lineupRepository = _getIt();
+    _timeUtils = _getIt();
+  }
+
+  Future<Lineup?> findLatestLineupForTeam(String teamId) async {
+    final year = (await _timeUtils.tryGetNetworkTime()).toUtc().year;
+    return await _lineupRepository.findLatestLineupByTeamId(teamId, year);
   }
 
   Future<double> getTotalPointsForTeam(String teamId) async {

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'driver.dart';
+part of 'driver_cost.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,40 +13,40 @@ part of 'driver.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Driver {
+mixin _$DriverCost {
 
- String get driverId; int get driverNumber; String get acronym; String get driverAvatar; bool get isActive; String get name; String get teamName; String get teamColour;
-/// Create a copy of Driver
+ String get driverId; double get driverCost;
+/// Create a copy of DriverCost
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DriverCopyWith<Driver> get copyWith => _$DriverCopyWithImpl<Driver>(this as Driver, _$identity);
+$DriverCostCopyWith<DriverCost> get copyWith => _$DriverCostCopyWithImpl<DriverCost>(this as DriverCost, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Driver&&(identical(other.driverId, driverId) || other.driverId == driverId)&&(identical(other.driverNumber, driverNumber) || other.driverNumber == driverNumber)&&(identical(other.acronym, acronym) || other.acronym == acronym)&&(identical(other.driverAvatar, driverAvatar) || other.driverAvatar == driverAvatar)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.name, name) || other.name == name)&&(identical(other.teamName, teamName) || other.teamName == teamName)&&(identical(other.teamColour, teamColour) || other.teamColour == teamColour));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DriverCost&&(identical(other.driverId, driverId) || other.driverId == driverId)&&(identical(other.driverCost, driverCost) || other.driverCost == driverCost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,driverId,driverNumber,acronym,driverAvatar,isActive,name,teamName,teamColour);
+int get hashCode => Object.hash(runtimeType,driverId,driverCost);
 
 @override
 String toString() {
-  return 'Driver(driverId: $driverId, driverNumber: $driverNumber, acronym: $acronym, driverAvatar: $driverAvatar, isActive: $isActive, name: $name, teamName: $teamName, teamColour: $teamColour)';
+  return 'DriverCost(driverId: $driverId, driverCost: $driverCost)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DriverCopyWith<$Res>  {
-  factory $DriverCopyWith(Driver value, $Res Function(Driver) _then) = _$DriverCopyWithImpl;
+abstract mixin class $DriverCostCopyWith<$Res>  {
+  factory $DriverCostCopyWith(DriverCost value, $Res Function(DriverCost) _then) = _$DriverCostCopyWithImpl;
 @useResult
 $Res call({
- String driverId, String name, String teamName, String teamColour, int driverNumber, String acronym, String driverAvatar, bool isActive
+ String driverId, double driverCost
 });
 
 
@@ -54,34 +54,28 @@ $Res call({
 
 }
 /// @nodoc
-class _$DriverCopyWithImpl<$Res>
-    implements $DriverCopyWith<$Res> {
-  _$DriverCopyWithImpl(this._self, this._then);
+class _$DriverCostCopyWithImpl<$Res>
+    implements $DriverCostCopyWith<$Res> {
+  _$DriverCostCopyWithImpl(this._self, this._then);
 
-  final Driver _self;
-  final $Res Function(Driver) _then;
+  final DriverCost _self;
+  final $Res Function(DriverCost) _then;
 
-/// Create a copy of Driver
+/// Create a copy of DriverCost
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? driverId = null,Object? name = null,Object? teamName = null,Object? teamColour = null,Object? driverNumber = null,Object? acronym = null,Object? driverAvatar = null,Object? isActive = null,}) {
-  return _then(Driver(
+@pragma('vm:prefer-inline') @override $Res call({Object? driverId = null,Object? driverCost = null,}) {
+  return _then(DriverCost(
 driverId: null == driverId ? _self.driverId : driverId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,teamName: null == teamName ? _self.teamName : teamName // ignore: cast_nullable_to_non_nullable
-as String,teamColour: null == teamColour ? _self.teamColour : teamColour // ignore: cast_nullable_to_non_nullable
-as String,driverNumber: null == driverNumber ? _self.driverNumber : driverNumber // ignore: cast_nullable_to_non_nullable
-as int,acronym: null == acronym ? _self.acronym : acronym // ignore: cast_nullable_to_non_nullable
-as String,driverAvatar: null == driverAvatar ? _self.driverAvatar : driverAvatar // ignore: cast_nullable_to_non_nullable
-as String,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as String,driverCost: null == driverCost ? _self.driverCost : driverCost // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [Driver].
-extension DriverPatterns on Driver {
+/// Adds pattern-matching-related methods to [DriverCost].
+extension DriverCostPatterns on DriverCost {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
