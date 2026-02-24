@@ -1,3 +1,4 @@
+import 'package:fanta_f1/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,11 @@ class MainBottomNavigationBar extends ConsumerStatefulWidget {
 
 class _MainBottomNavigationBarState
     extends ConsumerState<MainBottomNavigationBar> {
+  final Map<String, int> _pages = {
+    RouteNames.home.path: 0,
+    RouteNames.calendar.path: 1,
+  };
+
   int _selectedIndex = 0;
 
   @override
@@ -39,15 +45,27 @@ class _MainBottomNavigationBarState
     setState(() {
       _selectedIndex = value;
     });
+    context.goNamed(
+      RouteNames.fromPath(
+        _pages.entries
+            .firstWhere(
+              (page) => page.value == value,
+              orElse: () => MapEntry('/notFound', 99),
+            )
+            .key,
+      ).name,
+    );
   }
 
   void _setInitialIndex(String? currentPath) {
-    switch (currentPath) {
-      case '/home':
-        _selectedIndex = 0;
-        break;
-      default:
-        _selectedIndex = 0;
-    }
+    final initialIndex = _pages.entries
+        .firstWhere(
+          (page) => page.key == currentPath,
+          orElse: () => MapEntry('/home', 0),
+        )
+        .value;
+    setState(() {
+      _selectedIndex = initialIndex;
+    });
   }
 }

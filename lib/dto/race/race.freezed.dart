@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Race {
 
- String get raceId; String get name; String get avatarUrl; DateTime get eventStartDate; DateTime get eventEndDate; DateTime get lineupStartDate; DateTime get lineupEndDate; RaceStatus get status;
+ String get raceId; String get raceName; int get openF1MeetingKey; String get circuitImage; DateTime get dateStart; DateTime get dateEnd; String get countryName; String get countryFlag; String get circuitType;
 /// Create a copy of Race
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $RaceCopyWith<Race> get copyWith => _$RaceCopyWithImpl<Race>(this as Race, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Race&&(identical(other.raceId, raceId) || other.raceId == raceId)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.eventStartDate, eventStartDate) || other.eventStartDate == eventStartDate)&&(identical(other.eventEndDate, eventEndDate) || other.eventEndDate == eventEndDate)&&(identical(other.lineupStartDate, lineupStartDate) || other.lineupStartDate == lineupStartDate)&&(identical(other.lineupEndDate, lineupEndDate) || other.lineupEndDate == lineupEndDate)&&(identical(other.status, status) || other.status == status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Race&&(identical(other.raceId, raceId) || other.raceId == raceId)&&(identical(other.raceName, raceName) || other.raceName == raceName)&&(identical(other.openF1MeetingKey, openF1MeetingKey) || other.openF1MeetingKey == openF1MeetingKey)&&(identical(other.circuitImage, circuitImage) || other.circuitImage == circuitImage)&&(identical(other.dateStart, dateStart) || other.dateStart == dateStart)&&(identical(other.dateEnd, dateEnd) || other.dateEnd == dateEnd)&&(identical(other.countryName, countryName) || other.countryName == countryName)&&(identical(other.countryFlag, countryFlag) || other.countryFlag == countryFlag)&&(identical(other.circuitType, circuitType) || other.circuitType == circuitType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,raceId,name,avatarUrl,eventStartDate,eventEndDate,lineupStartDate,lineupEndDate,status);
+int get hashCode => Object.hash(runtimeType,raceId,raceName,openF1MeetingKey,circuitImage,dateStart,dateEnd,countryName,countryFlag,circuitType);
 
 @override
 String toString() {
-  return 'Race(raceId: $raceId, name: $name, avatarUrl: $avatarUrl, eventStartDate: $eventStartDate, eventEndDate: $eventEndDate, lineupStartDate: $lineupStartDate, lineupEndDate: $lineupEndDate, status: $status)';
+  return 'Race(raceId: $raceId, raceName: $raceName, openF1MeetingKey: $openF1MeetingKey, circuitImage: $circuitImage, dateStart: $dateStart, dateEnd: $dateEnd, countryName: $countryName, countryFlag: $countryFlag, circuitType: $circuitType)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $RaceCopyWith<$Res>  {
   factory $RaceCopyWith(Race value, $Res Function(Race) _then) = _$RaceCopyWithImpl;
 @useResult
 $Res call({
- String raceId, String name, String avatarUrl, DateTime eventStartDate, DateTime eventEndDate, DateTime lineupStartDate, DateTime lineupEndDate, RaceStatus status
+ String raceId, String raceName, int openF1MeetingKey, String circuitImage, DateTime dateStart, DateTime dateEnd, String countryName, String countryFlag, String circuitType
 });
 
 
@@ -63,17 +63,18 @@ class _$RaceCopyWithImpl<$Res>
 
 /// Create a copy of Race
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? raceId = null,Object? name = null,Object? avatarUrl = null,Object? eventStartDate = null,Object? eventEndDate = null,Object? lineupStartDate = null,Object? lineupEndDate = null,Object? status = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? raceId = null,Object? raceName = null,Object? openF1MeetingKey = null,Object? circuitImage = null,Object? dateStart = null,Object? dateEnd = null,Object? countryName = null,Object? countryFlag = null,Object? circuitType = null,}) {
   return _then(Race(
 raceId: null == raceId ? _self.raceId : raceId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,avatarUrl: null == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
-as String,eventStartDate: null == eventStartDate ? _self.eventStartDate : eventStartDate // ignore: cast_nullable_to_non_nullable
-as DateTime,eventEndDate: null == eventEndDate ? _self.eventEndDate : eventEndDate // ignore: cast_nullable_to_non_nullable
-as DateTime,lineupStartDate: null == lineupStartDate ? _self.lineupStartDate : lineupStartDate // ignore: cast_nullable_to_non_nullable
-as DateTime,lineupEndDate: null == lineupEndDate ? _self.lineupEndDate : lineupEndDate // ignore: cast_nullable_to_non_nullable
-as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as RaceStatus,
+as String,raceName: null == raceName ? _self.raceName : raceName // ignore: cast_nullable_to_non_nullable
+as String,openF1MeetingKey: null == openF1MeetingKey ? _self.openF1MeetingKey : openF1MeetingKey // ignore: cast_nullable_to_non_nullable
+as int,circuitImage: null == circuitImage ? _self.circuitImage : circuitImage // ignore: cast_nullable_to_non_nullable
+as String,dateStart: null == dateStart ? _self.dateStart : dateStart // ignore: cast_nullable_to_non_nullable
+as DateTime,dateEnd: null == dateEnd ? _self.dateEnd : dateEnd // ignore: cast_nullable_to_non_nullable
+as DateTime,countryName: null == countryName ? _self.countryName : countryName // ignore: cast_nullable_to_non_nullable
+as String,countryFlag: null == countryFlag ? _self.countryFlag : countryFlag // ignore: cast_nullable_to_non_nullable
+as String,circuitType: null == circuitType ? _self.circuitType : circuitType // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

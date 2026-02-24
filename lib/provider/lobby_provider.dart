@@ -10,8 +10,8 @@ part 'lobby_provider.g.dart';
 @riverpod
 class LobbyProvider extends _$LobbyProvider {
   final _getIt = GetIt.instance;
-  late final LobbyRepository _lobbyRepository;
-  late final FirebaseAuth _auth;
+  late LobbyRepository _lobbyRepository;
+  late FirebaseAuth _auth;
 
   @override
   FutureOr<Map<String, Lobby>> build() async {

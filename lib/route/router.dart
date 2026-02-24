@@ -1,6 +1,7 @@
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/views/add_edit_lobby.dart';
 import 'package:fanta_f1/views/add_edit_team.dart';
+import 'package:fanta_f1/views/calendar.dart';
 import 'package:fanta_f1/views/forgot_password.dart';
 import 'package:fanta_f1/views/home.dart';
 import 'package:fanta_f1/views/sign_in.dart';
@@ -47,6 +48,11 @@ final router = GoRouter(
       path: RouteNames.addLobby.path,
       name: RouteNames.addLobby.toString(),
       builder: (BuildContext context, GoRouterState state) => AddEditLobby(),
+    ),
+    GoRoute(
+      path: RouteNames.calendar.path,
+      name: RouteNames.calendar.toString(),
+      builder: (BuildContext context, GoRouterState state) => Calendar(),
     ),
   ],
 );

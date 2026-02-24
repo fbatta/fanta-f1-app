@@ -1,5 +1,4 @@
 import 'package:fanta_f1/converter/timestamp_converter.dart';
-import 'package:fanta_f1/enum/race_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'race.freezed.dart';
@@ -11,33 +10,34 @@ class Race with _$Race {
   @override
   final String raceId;
   @override
-  final String name;
+  final String raceName;
   @override
-  final String avatarUrl;
+  final int openF1MeetingKey;
   @override
-  @TimestampConverter()
-  final DateTime eventStartDate;
-  @override
-  @TimestampConverter()
-  final DateTime eventEndDate;
+  final String circuitImage;
   @override
   @TimestampConverter()
-  final DateTime lineupStartDate;
+  final DateTime dateStart;
   @override
   @TimestampConverter()
-  final DateTime lineupEndDate;
+  final DateTime dateEnd;
   @override
-  final RaceStatus status;
+  final String countryName;
+  @override
+  final String countryFlag;
+  @override
+  final String circuitType;
 
   const Race({
     required this.raceId,
-    required this.name,
-    required this.avatarUrl,
-    required this.eventStartDate,
-    required this.eventEndDate,
-    required this.lineupStartDate,
-    required this.lineupEndDate,
-    required this.status,
+    required this.raceName,
+    required this.openF1MeetingKey,
+    required this.circuitImage,
+    required this.dateStart,
+    required this.dateEnd,
+    required this.countryName,
+    required this.countryFlag,
+    required this.circuitType,
   });
 
   factory Race.fromJson(Map<String, dynamic> json) => _$RaceFromJson(json);

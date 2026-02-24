@@ -11,8 +11,8 @@ part 'team_provider.g.dart';
 @riverpod
 class TeamProvider extends _$TeamProvider {
   final GetIt _getIt = GetIt.instance;
-  late final TeamRepository _teamRepository;
-  late final FirebaseAuth _firebaseAuth;
+  late TeamRepository _teamRepository;
+  late FirebaseAuth _firebaseAuth;
 
   @override
   FutureOr<Map<String, Team>> build() async {

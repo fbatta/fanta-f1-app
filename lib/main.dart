@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/lobby_repository.dart';
+import 'package:fanta_f1/repository/race_weekend_repository.dart';
 import 'package:fanta_f1/repository/team_repository.dart';
 import 'package:fanta_f1/route/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +27,7 @@ void _registerInstances() {
   getIt.registerSingleton(TimeUtils());
   getIt.registerSingleton(TeamRepository());
   getIt.registerSingleton(LobbyRepository());
+  getIt.registerSingleton(RaceWeekendRepository());
 }
 
 class MyApp extends StatelessWidget {

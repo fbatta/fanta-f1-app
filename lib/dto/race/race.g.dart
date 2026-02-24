@@ -8,32 +8,30 @@ part of 'race.dart';
 
 Race _$RaceFromJson(Map<String, dynamic> json) => Race(
   raceId: json['raceId'] as String,
-  name: json['name'] as String,
-  avatarUrl: json['avatarUrl'] as String,
-  eventStartDate: const TimestampConverter().fromJson(
-    (json['eventStartDate'] as num).toInt(),
+  raceName: json['raceName'] as String,
+  openF1MeetingKey: (json['openF1MeetingKey'] as num).toInt(),
+  circuitImage: json['circuitImage'] as String,
+  dateStart: const TimestampConverter().fromJson(
+    (json['dateStart'] as num).toInt(),
   ),
-  eventEndDate: const TimestampConverter().fromJson(
-    (json['eventEndDate'] as num).toInt(),
+  dateEnd: const TimestampConverter().fromJson(
+    (json['dateEnd'] as num).toInt(),
   ),
-  lineupStartDate: const TimestampConverter().fromJson(
-    (json['lineupStartDate'] as num).toInt(),
-  ),
-  lineupEndDate: const TimestampConverter().fromJson(
-    (json['lineupEndDate'] as num).toInt(),
-  ),
-  status: $enumDecode(_$RaceStatusEnumMap, json['status']),
+  countryName: json['countryName'] as String,
+  countryFlag: json['countryFlag'] as String,
+  circuitType: json['circuitType'] as String,
 );
 
 const _$RaceFieldMap = <String, String>{
   'raceId': 'raceId',
-  'name': 'name',
-  'avatarUrl': 'avatarUrl',
-  'eventStartDate': 'eventStartDate',
-  'eventEndDate': 'eventEndDate',
-  'lineupStartDate': 'lineupStartDate',
-  'lineupEndDate': 'lineupEndDate',
-  'status': 'status',
+  'raceName': 'raceName',
+  'openF1MeetingKey': 'openF1MeetingKey',
+  'circuitImage': 'circuitImage',
+  'dateStart': 'dateStart',
+  'dateEnd': 'dateEnd',
+  'countryName': 'countryName',
+  'countryFlag': 'countryFlag',
+  'circuitType': 'circuitType',
 };
 
 // ignore: unused_element
@@ -41,40 +39,33 @@ abstract class _$RacePerFieldToJson {
   // ignore: unused_element
   static Object? raceId(String instance) => instance;
   // ignore: unused_element
-  static Object? name(String instance) => instance;
+  static Object? raceName(String instance) => instance;
   // ignore: unused_element
-  static Object? avatarUrl(String instance) => instance;
+  static Object? openF1MeetingKey(int instance) => instance;
   // ignore: unused_element
-  static Object? eventStartDate(DateTime instance) =>
+  static Object? circuitImage(String instance) => instance;
+  // ignore: unused_element
+  static Object? dateStart(DateTime instance) =>
       const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? eventEndDate(DateTime instance) =>
+  static Object? dateEnd(DateTime instance) =>
       const TimestampConverter().toJson(instance);
   // ignore: unused_element
-  static Object? lineupStartDate(DateTime instance) =>
-      const TimestampConverter().toJson(instance);
+  static Object? countryName(String instance) => instance;
   // ignore: unused_element
-  static Object? lineupEndDate(DateTime instance) =>
-      const TimestampConverter().toJson(instance);
+  static Object? countryFlag(String instance) => instance;
   // ignore: unused_element
-  static Object? status(RaceStatus instance) => _$RaceStatusEnumMap[instance]!;
+  static Object? circuitType(String instance) => instance;
 }
 
 Map<String, dynamic> _$RaceToJson(Race instance) => <String, dynamic>{
   'raceId': instance.raceId,
-  'name': instance.name,
-  'avatarUrl': instance.avatarUrl,
-  'eventStartDate': const TimestampConverter().toJson(instance.eventStartDate),
-  'eventEndDate': const TimestampConverter().toJson(instance.eventEndDate),
-  'lineupStartDate': const TimestampConverter().toJson(
-    instance.lineupStartDate,
-  ),
-  'lineupEndDate': const TimestampConverter().toJson(instance.lineupEndDate),
-  'status': _$RaceStatusEnumMap[instance.status]!,
-};
-
-const _$RaceStatusEnumMap = {
-  RaceStatus.upcoming: 'upcoming',
-  RaceStatus.live: 'live',
-  RaceStatus.completed: 'completed',
+  'raceName': instance.raceName,
+  'openF1MeetingKey': instance.openF1MeetingKey,
+  'circuitImage': instance.circuitImage,
+  'dateStart': const TimestampConverter().toJson(instance.dateStart),
+  'dateEnd': const TimestampConverter().toJson(instance.dateEnd),
+  'countryName': instance.countryName,
+  'countryFlag': instance.countryFlag,
+  'circuitType': instance.circuitType,
 };
