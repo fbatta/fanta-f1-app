@@ -20,6 +20,12 @@ Race _$RaceFromJson(Map<String, dynamic> json) => Race(
   countryName: json['countryName'] as String,
   countryFlag: json['countryFlag'] as String,
   circuitType: json['circuitType'] as String,
+  dateLineupOpen: const TimestampConverter().fromJson(
+    (json['dateLineupOpen'] as num).toInt(),
+  ),
+  dateLineupClose: const TimestampConverter().fromJson(
+    (json['dateLineupClose'] as num).toInt(),
+  ),
 );
 
 const _$RaceFieldMap = <String, String>{
@@ -32,6 +38,8 @@ const _$RaceFieldMap = <String, String>{
   'countryName': 'countryName',
   'countryFlag': 'countryFlag',
   'circuitType': 'circuitType',
+  'dateLineupOpen': 'dateLineupOpen',
+  'dateLineupClose': 'dateLineupClose',
 };
 
 // ignore: unused_element
@@ -56,6 +64,12 @@ abstract class _$RacePerFieldToJson {
   static Object? countryFlag(String instance) => instance;
   // ignore: unused_element
   static Object? circuitType(String instance) => instance;
+  // ignore: unused_element
+  static Object? dateLineupOpen(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
+  // ignore: unused_element
+  static Object? dateLineupClose(DateTime instance) =>
+      const TimestampConverter().toJson(instance);
 }
 
 Map<String, dynamic> _$RaceToJson(Race instance) => <String, dynamic>{
@@ -68,4 +82,8 @@ Map<String, dynamic> _$RaceToJson(Race instance) => <String, dynamic>{
   'countryName': instance.countryName,
   'countryFlag': instance.countryFlag,
   'circuitType': instance.circuitType,
+  'dateLineupOpen': const TimestampConverter().toJson(instance.dateLineupOpen),
+  'dateLineupClose': const TimestampConverter().toJson(
+    instance.dateLineupClose,
+  ),
 };

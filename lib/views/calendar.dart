@@ -32,7 +32,10 @@ class _CalendarState extends ConsumerState<Calendar> {
                 : Container(),
             Text("Next race:", style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: 8.0),
-            _raceWeekendCard(raceWeekends.requireValue.futureRaces.first),
+            _raceWeekendCard(
+              raceWeekends.requireValue.futureRaces.first,
+              showLineupOpenDate: true,
+            ),
             SizedBox(height: 16.0),
             Text(
               "Future races:",
@@ -55,20 +58,37 @@ class _CalendarState extends ConsumerState<Calendar> {
       children: [
         Text('Current race:', style: Theme.of(context).textTheme.titleLarge),
         SizedBox(height: 8.0),
-        _raceWeekendCard(race),
+        _raceWeekendCard(race, showLineupOpenDate: true),
         SizedBox(height: 16.0),
       ],
     );
   }
 
-  Widget _raceWeekendCard(Race race) {
+  Widget _raceWeekendCard(Race race, {bool showLineupOpenDate = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
         child: ListTile(
           title: Text(race.raceName),
           leading: Image.network(race.circuitImage),
-          subtitle: Text(_startsIn(race.dateStart)),
+          subtitle: RichText(
+            maxLines: 2,
+            text: TextSpan(
+              children: [
+                TextSpan(text: _startsIn(race.dateStart)),
+                showLineupOpenDate
+                    ? _lineupOpens(
+                        dateOpen: race.dateLineupOpen,
+                        dateClose: race.dateLineupClose,
+                      )
+                    : TextSpan(),
+              ],
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+          ),
+          isThreeLine: showLineupOpenDate,
         ),
       ),
     );
@@ -82,5 +102,53 @@ class _CalendarState extends ConsumerState<Calendar> {
       return "Starts in ${difference.inHours} hours";
     }
     return "Currently running";
+  }
+
+  TextSpan _lineupOpens({
+    required DateTime dateOpen,
+    required DateTime dateClose,
+  }) {
+    final differenceFromStart = dateOpen.difference(DateTime.now());
+    final differenceFromEnd = dateClose.difference(DateTime.now());
+    if (differenceFromStart.inDays > 0) {
+      return TextSpan(
+        text: "\nLineup opens in ${differenceFromStart.inDays} days",
+      );
+    } else if (differenceFromStart.inHours > 0) {
+      return TextSpan(
+        text: "\nLineup opens in ${differenceFromStart.inHours} hours",
+      );
+    } else if (differenceFromStart.inMinutes >= 0) {
+      return TextSpan(
+        text: "\nLineup opens in ${differenceFromEnd.inMinutes} minutes",
+      );
+    } else if (differenceFromEnd.inDays > 0) {
+      return TextSpan(
+        text: "\nLineup closes in ${differenceFromEnd.inDays} days",
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    } else if (differenceFromEnd.inHours > 0) {
+      return TextSpan(
+        text: "\nLineup closes in ${differenceFromEnd.inHours} hours",
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+          color: Theme.of(context).colorScheme.error,
+        ),
+      );
+    } else if (differenceFromEnd.inMinutes >= 0) {
+      return TextSpan(
+        text: "\nLineup closes in ${differenceFromEnd.inMinutes} minutes",
+        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+          color: Theme.of(context).colorScheme.error,
+        ),
+      );
+    }
+    return TextSpan(
+      text: "\nLineup closed",
+      style: Theme.of(
+        context,
+      ).textTheme.titleSmall!.copyWith(color: Colors.green),
+    );
   }
 }

@@ -27,6 +27,12 @@ class Race with _$Race {
   final String countryFlag;
   @override
   final String circuitType;
+  @TimestampConverter()
+  @override
+  final DateTime dateLineupOpen;
+  @TimestampConverter()
+  @override
+  final DateTime dateLineupClose;
 
   const Race({
     required this.raceId,
@@ -38,6 +44,8 @@ class Race with _$Race {
     required this.countryName,
     required this.countryFlag,
     required this.circuitType,
+    required this.dateLineupOpen,
+    required this.dateLineupClose,
   });
 
   factory Race.fromJson(Map<String, dynamic> json) => _$RaceFromJson(json);
