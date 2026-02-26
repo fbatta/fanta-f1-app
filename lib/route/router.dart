@@ -4,6 +4,7 @@ import 'package:fanta_f1/views/add_edit_team.dart';
 import 'package:fanta_f1/views/calendar.dart';
 import 'package:fanta_f1/views/forgot_password.dart';
 import 'package:fanta_f1/views/home.dart';
+import 'package:fanta_f1/views/lineup_view.dart';
 import 'package:fanta_f1/views/sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -61,6 +62,14 @@ final router = GoRouter(
       name: RouteNames.team.toString(),
       builder: (BuildContext context, GoRouterState state) =>
           Team(teamId: state.pathParameters['teamId']!),
+    ),
+    GoRoute(
+      path: RouteNames.lineup.path,
+      name: RouteNames.lineup.name,
+      builder: (context, state) => LineupView(
+        raceId: state.pathParameters['raceId']!,
+        teamId: state.pathParameters['teamId']!,
+      ),
     ),
   ],
 );

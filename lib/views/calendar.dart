@@ -1,9 +1,14 @@
 import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/component/team_select_modal_bottom_sheet.dart';
 import 'package:fanta_f1/dto/race/race.dart';
+import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
+import 'package:fanta_f1/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class Calendar extends ConsumerStatefulWidget {
   const Calendar({super.key});
@@ -13,6 +18,15 @@ class Calendar extends ConsumerStatefulWidget {
 }
 
 class _CalendarState extends ConsumerState<Calendar> {
+  final _getIt = GetIt.instance;
+  late final TimeUtils _timeUtils;
+
+  @override
+  void initState() {
+    _timeUtils = _getIt();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final raceWeekends = ref.watch(raceWeekendProviderProvider);
@@ -88,6 +102,7 @@ class _CalendarState extends ConsumerState<Calendar> {
               ),
             ),
           ),
+          trailing: _goToLineupChevron(race),
           isThreeLine: showLineupOpenDate,
         ),
       ),
@@ -125,21 +140,21 @@ class _CalendarState extends ConsumerState<Calendar> {
     } else if (differenceFromEnd.inDays > 0) {
       return TextSpan(
         text: "\nLineup closes in ${differenceFromEnd.inDays} days",
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
           color: Theme.of(context).colorScheme.primary,
         ),
       );
     } else if (differenceFromEnd.inHours > 0) {
       return TextSpan(
         text: "\nLineup closes in ${differenceFromEnd.inHours} hours",
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
           color: Theme.of(context).colorScheme.error,
         ),
       );
     } else if (differenceFromEnd.inMinutes >= 0) {
       return TextSpan(
         text: "\nLineup closes in ${differenceFromEnd.inMinutes} minutes",
-        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
           color: Theme.of(context).colorScheme.error,
         ),
       );
@@ -149,6 +164,42 @@ class _CalendarState extends ConsumerState<Calendar> {
       style: Theme.of(
         context,
       ).textTheme.titleSmall!.copyWith(color: Colors.green),
+    );
+  }
+
+  Widget? _goToLineupChevron(Race race) {
+    return FutureBuilder(
+      future: _timeUtils.tryGetNetworkTime(),
+      builder: (builder, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            !snapshot.hasData) {
+          return SizedBox(height: 1, width: 1);
+        }
+        if (snapshot.data!.isAfter(race.dateLineupOpen) &&
+            snapshot.data!.isBefore(race.dateLineupClose)) {
+          return IconButton(
+            onPressed: () async => _onGoToLineupPressed(race),
+            icon: Icon(Icons.chevron_right),
+          );
+        }
+        return SizedBox(height: 1, width: 1);
+      },
+    );
+  }
+
+  Future<void> _onGoToLineupPressed(Race race) async {
+    final teamId = await showModalBottomSheet<String?>(
+      context: context,
+      builder: (context) {
+        return TeamSelectModalBottomSheet();
+      },
+    );
+    if (teamId == null || !context.mounted) {
+      return;
+    }
+    context.pushNamed(
+      RouteNames.lineup.name,
+      pathParameters: {'teamId': teamId, 'raceId': race.raceId},
     );
   }
 }

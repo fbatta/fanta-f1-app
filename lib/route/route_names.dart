@@ -9,6 +9,7 @@ enum RouteNames {
   addLobby('/lobby/add'),
   editLobby('/lobby/edit'),
   calendar('/calendar'),
+  lineup('/lineup/:teamId/:raceId'),
   notFound('/notFound');
 
   final String path;

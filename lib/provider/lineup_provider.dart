@@ -24,6 +24,16 @@ class LineupProvider extends _$LineupProvider {
     return await _lineupRepository.findLatestLineupByTeamId(teamId, year);
   }
 
+  Future<Lineup?> findLineupByRaceId(String teamId, String raceId) async {
+    try {
+      final lineup = await _lineupRepository.findLineupById(teamId, raceId);
+      return lineup;
+    } catch (e) {
+      // TODO: report error
+      return null;
+    }
+  }
+
   Future<double> getTotalPointsForTeam(String teamId) async {
     final lineups = await _lineupRepository.getLineupsByTeamId(teamId);
 
