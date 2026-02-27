@@ -1,3 +1,4 @@
+import 'package:fanta_f1/converter/lineup_driver_converter.dart';
 import 'package:fanta_f1/converter/timestamp_converter.dart';
 import 'package:fanta_f1/dto/lineup/lineup_driver.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,6 +18,7 @@ class Lineup with _$Lineup {
   @override
   final String raceId;
   @override
+  @LineupDriverConverter()
   final List<LineupDriver> drivers;
   @override
   @TimestampConverter()

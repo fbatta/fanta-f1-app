@@ -16,10 +16,15 @@ class LineupRepository {
   }
 
   Future<Lineup?> findLineupById(String teamId, String raceId) async {
-    final lineupId = '${teamId}_$raceId';
-    final snapshot = await _lineupsCollection.doc(lineupId).get();
-    if (snapshot.exists) {
-      return Lineup.fromJson(snapshot.data() as Map<String, dynamic>);
+    final snapshot = await _lineupsCollection
+        .where('teamId', isEqualTo: teamId)
+        .where('raceId', isEqualTo: raceId)
+        .limit(1)
+        .get();
+    if (snapshot.docs.isNotEmpty) {
+      return Lineup.fromJson(
+        snapshot.docs.first.data() as Map<String, dynamic>,
+      );
     }
     return null;
   }
@@ -62,13 +67,6 @@ class LineupRepository {
   }
 
   Future<void> createOrUpdateLineup(Lineup lineup) async {
-    final existingLineup = await findLineup(lineup);
-    if (existingLineup != null) {
-      await _lineupsCollection
-          .doc(existingLineup.lineupId)
-          .update(lineup.toJson());
-    } else {
-      await _lineupsCollection.doc(lineup.lineupId).set(lineup.toJson());
-    }
+    await _lineupsCollection.doc(lineup.lineupId).set(lineup.toJson());
   }
 }

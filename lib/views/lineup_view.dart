@@ -1,4 +1,6 @@
+import 'package:fanta_f1/component/error_snack_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/driver_cost/driver_cost.dart';
 import 'package:fanta_f1/dto/lineup/lineup.dart';
@@ -82,15 +84,14 @@ class _LineupViewState extends ConsumerState<LineupView> {
           );
         }
 
-        if (_lineup == null && snapshot.hasData && snapshot.data != null) {
-          _lineup = snapshot.data;
+        if (_lineup == null && snapshot.data != null) {
+          _lineup = snapshot.data!;
           _creditsSpent = snapshot.data!.drivers.fold(
             0.0,
             (acc, driver) => acc + driver.driverCost,
           );
         }
 
-        if (_lineup == null) ;
         final activeDrivers = {
           for (final el in drivers.requireValue.entries.where(
             (el) => el.key.isActive == true,
@@ -342,13 +343,39 @@ class _LineupViewState extends ConsumerState<LineupView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FilledButton(onPressed: _lineup != null && _lineup!.drivers.length == 4 ? _onSaveLineupPressed : null, child: Text('Save')),
+          FilledButton(
+            onPressed: _lineup != null && _lineup!.drivers.length == 4
+                ? _onSaveLineupPressed
+                : null,
+            child: Text('Save'),
+          ),
         ],
       ),
     );
   }
 
   Future<void> _onSaveLineupPressed() async {
-    ref.read(lineupProviderProvider.notifier).;
+    if (_lineup == null || _lineup!.drivers.length < 4) {
+      return;
+    }
+    try {
+      print(_lineup);
+      await ref
+          .read(lineupProviderProvider.notifier)
+          .createOrUpdateLineup(_lineup!);
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(successSnackBar(context: context, text: 'Lineup saved'));
+      }
+    } catch (e) {
+      print(e);
+      // TODO: record error
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          errorSnackBar(context: context, text: 'Error saving lineup'),
+        );
+      }
+    }
   }
 }

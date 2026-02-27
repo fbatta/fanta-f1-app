@@ -46,4 +46,8 @@ class LineupProvider extends _$LineupProvider {
 
     return score;
   }
+
+  Future<void> createOrUpdateLineup(Lineup lineup) async {
+    await _lineupRepository.createOrUpdateLineup(lineup);
+  }
 }
