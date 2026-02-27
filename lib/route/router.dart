@@ -69,6 +69,7 @@ final router = GoRouter(
       builder: (context, state) => LineupView(
         raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
+        country: state.uri.queryParameters['country'] ?? '',
       ),
     ),
   ],

@@ -15,9 +15,15 @@ import 'package:get_it/get_it.dart';
 import 'package:uuid/v4.dart';
 
 class LineupView extends ConsumerStatefulWidget {
+  final String country;
   final String raceId;
   final String teamId;
-  const LineupView({super.key, required this.raceId, required this.teamId});
+  const LineupView({
+    super.key,
+    required this.raceId,
+    required this.teamId,
+    required this.country,
+  });
 
   @override
   ConsumerState createState() => _LineupViewState();
@@ -116,7 +122,7 @@ class _LineupViewState extends ConsumerState<LineupView> {
   }
 
   PreferredSizeWidget _appBar() {
-    return AppBar(title: Text('Lineup'));
+    return AppBar(title: Text('${widget.country} Lineup'));
   }
 
   Widget _selectedDriversCard(Map<Driver, DriverCost> drivers) {
