@@ -20,10 +20,12 @@ class Calendar extends ConsumerStatefulWidget {
 class _CalendarState extends ConsumerState<Calendar> {
   final _getIt = GetIt.instance;
   late final TimeUtils _timeUtils;
+  late final Future<DateTime> _networkTimeFuture;
 
   @override
   void initState() {
     _timeUtils = _getIt();
+    _networkTimeFuture = _timeUtils.tryGetNetworkTime();
     super.initState();
   }
 
@@ -83,6 +85,7 @@ class _CalendarState extends ConsumerState<Calendar> {
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
         child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
           title: Text(race.raceName),
           leading: Image.network(
             race.circuitImage,
@@ -108,7 +111,6 @@ class _CalendarState extends ConsumerState<Calendar> {
             ),
           ),
           trailing: _goToLineupChevron(race),
-          isThreeLine: showLineupOpenDate,
         ),
       ),
     );
@@ -174,7 +176,7 @@ class _CalendarState extends ConsumerState<Calendar> {
 
   Widget? _goToLineupChevron(Race race) {
     return FutureBuilder(
-      future: _timeUtils.tryGetNetworkTime(),
+      future: _networkTimeFuture,
       builder: (builder, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting ||
             !snapshot.hasData) {
@@ -182,9 +184,16 @@ class _CalendarState extends ConsumerState<Calendar> {
         }
         if (snapshot.data!.isAfter(race.dateLineupOpen) &&
             snapshot.data!.isBefore(race.dateLineupClose)) {
-          return IconButton(
-            onPressed: () async => _onGoToLineupPressed(race),
-            icon: Icon(Icons.chevron_right),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              IconButton(
+                iconSize: 32,
+                onPressed: () async => _onGoToLineupPressed(race),
+                icon: Icon(Icons.chevron_right),
+              ),
+            ],
           );
         }
         return SizedBox(height: 1, width: 1);
