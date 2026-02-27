@@ -341,8 +341,18 @@ class _LineupViewState extends ConsumerState<LineupView> {
       height: 70,
       padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 16.0, bottom: 8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Remaining credits:'),
+              Text(
+                '\$ ${totalCredits - _creditsSpent}',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
+          ),
           FilledButton(
             onPressed: _lineup != null && _lineup!.drivers.length == 4
                 ? _onSaveLineupPressed
