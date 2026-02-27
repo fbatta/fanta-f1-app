@@ -38,7 +38,7 @@ class Lineup with _$Lineup {
     required this.createdAt,
     required this.updatedAt,
     required this.version,
-    required this.score,
+    this.score,
   });
 
   factory Lineup.fromJson(Map<String, dynamic> json) => _$LineupFromJson(json);

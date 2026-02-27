@@ -84,7 +84,12 @@ class _CalendarState extends ConsumerState<Calendar> {
       child: Card(
         child: ListTile(
           title: Text(race.raceName),
-          leading: Image.network(race.circuitImage),
+          leading: Image.network(
+            race.circuitImage,
+            errorBuilder: (context, error, stackTrace) {
+              return Icon(Icons.error);
+            },
+          ),
           subtitle: RichText(
             maxLines: 2,
             text: TextSpan(

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LineupDriver {
 
- int get driverNumber; String get driverAcronym;
+ String get driverId; int get driverNumber; String get driverAcronym; double get driverCost;
 /// Create a copy of LineupDriver
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $LineupDriverCopyWith<LineupDriver> get copyWith => _$LineupDriverCopyWithImpl<L
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LineupDriver&&(identical(other.driverNumber, driverNumber) || other.driverNumber == driverNumber)&&(identical(other.driverAcronym, driverAcronym) || other.driverAcronym == driverAcronym));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LineupDriver&&(identical(other.driverId, driverId) || other.driverId == driverId)&&(identical(other.driverNumber, driverNumber) || other.driverNumber == driverNumber)&&(identical(other.driverAcronym, driverAcronym) || other.driverAcronym == driverAcronym)&&(identical(other.driverCost, driverCost) || other.driverCost == driverCost));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,driverNumber,driverAcronym);
+int get hashCode => Object.hash(runtimeType,driverId,driverNumber,driverAcronym,driverCost);
 
 @override
 String toString() {
-  return 'LineupDriver(driverNumber: $driverNumber, driverAcronym: $driverAcronym)';
+  return 'LineupDriver(driverId: $driverId, driverNumber: $driverNumber, driverAcronym: $driverAcronym, driverCost: $driverCost)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $LineupDriverCopyWith<$Res>  {
   factory $LineupDriverCopyWith(LineupDriver value, $Res Function(LineupDriver) _then) = _$LineupDriverCopyWithImpl;
 @useResult
 $Res call({
- int driverNumber, String driverAcronym
+ int driverNumber, String driverAcronym, double driverCost, String driverId
 });
 
 
@@ -63,10 +63,12 @@ class _$LineupDriverCopyWithImpl<$Res>
 
 /// Create a copy of LineupDriver
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? driverNumber = null,Object? driverAcronym = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? driverNumber = null,Object? driverAcronym = null,Object? driverCost = null,Object? driverId = null,}) {
   return _then(LineupDriver(
 driverNumber: null == driverNumber ? _self.driverNumber : driverNumber // ignore: cast_nullable_to_non_nullable
 as int,driverAcronym: null == driverAcronym ? _self.driverAcronym : driverAcronym // ignore: cast_nullable_to_non_nullable
+as String,driverCost: null == driverCost ? _self.driverCost : driverCost // ignore: cast_nullable_to_non_nullable
+as double,driverId: null == driverId ? _self.driverId : driverId // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

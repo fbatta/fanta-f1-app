@@ -1,3 +1,4 @@
+import 'package:fanta_f1/dto/lineup/lineup_driver.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'driver.freezed.dart';
@@ -37,4 +38,11 @@ class Driver with _$Driver {
   factory Driver.fromJson(Map<String, dynamic> json) => _$DriverFromJson(json);
 
   Map<String, dynamic> toJson() => _$DriverToJson(this);
+
+  LineupDriver toLineupDriver(double driverCost) => LineupDriver(
+    driverNumber: driverNumber,
+    driverAcronym: acronym,
+    driverCost: driverCost,
+    driverId: driverId,
+  );
 }
