@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 import java.io.FileInputStream
 plugins {
@@ -16,18 +17,22 @@ if(keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+kotlin {
+    target {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_23
+        }
+    }
+}
+
 android {
     namespace = "net.battaglilni.fanta_f1"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        sourceCompatibility = JavaVersion.VERSION_23
+        targetCompatibility = JavaVersion.VERSION_23
     }
 
     defaultConfig {
@@ -62,7 +67,7 @@ android {
     }
 }
 
-task("prepareKotlinBuildScriptModel") {}
+tasks.register("prepareKotlinBuildScriptModel") {}
 
 flutter {
     source = "../.."
