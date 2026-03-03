@@ -4,6 +4,7 @@ import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/driver_cost/driver_cost.dart';
 import 'package:fanta_f1/dto/lineup/lineup.dart';
+import 'package:fanta_f1/dto/race/race.dart';
 import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
@@ -15,21 +16,22 @@ import 'package:get_it/get_it.dart';
 import 'package:uuid/v4.dart';
 
 class LineupView extends ConsumerStatefulWidget {
-  final String country;
+  final Race race;
   final String raceId;
   final String teamId;
   const LineupView({
     super.key,
     required this.raceId,
     required this.teamId,
-    required this.country,
+    required this.race,
   });
 
   @override
   ConsumerState createState() => _LineupViewState();
 }
 
-class _LineupViewState extends ConsumerState<LineupView> {
+class _LineupViewState extends ConsumerState<LineupView>
+    with SingleTickerProviderStateMixin {
   static final Driver emptyDriver = Driver(
     driverId: 'emptyDriver',
     name: 'Empty',
@@ -50,6 +52,7 @@ class _LineupViewState extends ConsumerState<LineupView> {
   late final FirebaseAuth _auth;
   late final TimeUtils _timeUtils;
   late final Future<Lineup?> _lineupFuture;
+  late final AnimationController _bottomSheetAnimationController;
 
   Lineup? _lineup;
   double _creditsSpent = 0.0;
@@ -61,7 +64,16 @@ class _LineupViewState extends ConsumerState<LineupView> {
         .findLineupByRaceId(widget.teamId, widget.raceId);
     _auth = _getIt();
     _timeUtils = _getIt();
+    _bottomSheetAnimationController = BottomSheet.createAnimationController(
+      this,
+    );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _bottomSheetAnimationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,6 +124,7 @@ class _LineupViewState extends ConsumerState<LineupView> {
               children: [
                 _selectedDriversCard(drivers.requireValue),
                 _driversList(activeDrivers),
+                SizedBox(height: 16.0),
               ],
             ),
           ),
@@ -122,7 +135,7 @@ class _LineupViewState extends ConsumerState<LineupView> {
   }
 
   PreferredSizeWidget _appBar() {
-    return AppBar(title: Text('${widget.country} Lineup'));
+    return AppBar(title: Text('${widget.race.countryName} Lineup'));
   }
 
   Widget _selectedDriversCard(Map<Driver, DriverCost> drivers) {
@@ -276,6 +289,7 @@ class _LineupViewState extends ConsumerState<LineupView> {
   Widget _driverTile({required Driver driver, required DriverCost driverCost}) {
     return InkWell(
       child: ListTile(
+        contentPadding: EdgeInsets.zero,
         onTap: () => _onDriverSelected(driver, driverCost),
         enabled: _isDriverEnabled(driver, driverCost),
         leading: Container(
@@ -375,7 +389,6 @@ class _LineupViewState extends ConsumerState<LineupView> {
       return;
     }
     try {
-      print(_lineup);
       await ref
           .read(lineupProviderProvider.notifier)
           .createOrUpdateLineup(_lineup!);

@@ -214,7 +214,7 @@ class _CalendarState extends ConsumerState<Calendar> {
     context.pushNamed(
       RouteNames.lineup.name,
       pathParameters: {'teamId': teamId, 'raceId': race.raceId},
-      queryParameters: {'country': race.countryName},
+      extra: race,
     );
   }
 }

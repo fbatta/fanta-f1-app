@@ -98,22 +98,38 @@ class _TeamState extends ConsumerState<Team> {
                 child: Column(
                   children: [
                     SizedBox(height: 8.0),
-                    ...standings.map(
-                      (standing) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 12.0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(standing.teamName),
-                            Text(
-                              standing.points[team.createdAt.year].toString(),
+                    ...ListTile.divideTiles(
+                      context: context,
+                      tiles: standings
+                          .map<Widget>(
+                            (standing) => ListTile(
+                              dense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                              ),
+                              minVerticalPadding: 0,
+                              leading: Container(
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: standing.teamAvatarUrl != null
+                                        ? NetworkImage(standing.teamAvatarUrl!)
+                                        : AssetImage(
+                                            'assets/images/idgaf1_default_avatar.png',
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              title: Text(standing.teamName),
+                              trailing: Text(
+                                standing.points[team.createdAt.year].toString(),
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
+                          )
+                          .toList(),
                     ),
                   ],
                 ),

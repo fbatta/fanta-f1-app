@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/team/team.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 class TeamRepository {
   final _getIt = GetIt.instance;
   late final FirebaseFirestore _firestore;
   late final CollectionReference _teamsCollection;
+  late final FirebaseStorage _storage;
 
   TeamRepository() {
     _firestore = _getIt();
+    _storage = _getIt();
     _teamsCollection = _firestore.collection('teams');
   }
 
@@ -46,5 +51,12 @@ class TeamRepository {
     }
 
     await _teamsCollection.doc(team.teamId).set(team.toJson());
+  }
+
+  Future<String> uploadAvatar(String teamId, String userId, File file) async {
+    final ref = _storage.ref('/team_avatars/$userId/$teamId');
+    final snapshot = await ref.putFile(file);
+    final downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/exception/team_not_found_exception.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
@@ -29,7 +31,7 @@ class TeamProvider extends _$TeamProvider {
     return {for (var team in teams) team.teamId: team};
   }
 
-  Future<void> addTeam({
+  Future<String> addTeam({
     required String teamName,
     required String lobbyId,
     String? teamAvatarUrl,
@@ -53,9 +55,19 @@ class TeamProvider extends _$TeamProvider {
     final currentState = state.value ?? <String, Team>{};
     currentState.addAll({teamId: team});
     state = AsyncValue.data(currentState);
+    return teamId;
   }
 
-  Future<void> updateTeamNameOrAvatar({
+  Future<String> uploadAvatar(File file, String teamId) async {
+    final downloadUrl = await _teamRepository.uploadAvatar(
+      teamId,
+      _firebaseAuth.currentUser!.uid,
+      file,
+    );
+    return downloadUrl;
+  }
+
+  Future<void> updateTeamNameOrAvatarUrl({
     required String teamId,
     String? newTeamName,
     String? teamAvatarUrl,

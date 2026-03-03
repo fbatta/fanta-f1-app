@@ -9,6 +9,7 @@ import 'package:fanta_f1/repository/team_repository.dart';
 import 'package:fanta_f1/route/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -26,6 +27,7 @@ void _registerInstances() {
   final getIt = GetIt.instance;
   getIt.registerSingleton(FirebaseAuth.instance);
   getIt.registerSingleton(FirebaseFirestore.instance);
+  getIt.registerSingleton(FirebaseStorage.instance);
   getIt.registerSingleton(GoogleAuthProvider());
   getIt.registerSingleton(TimeUtils());
   getIt.registerSingleton(TeamRepository());

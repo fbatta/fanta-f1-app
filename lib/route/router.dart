@@ -1,3 +1,4 @@
+import 'package:fanta_f1/dto/race/race.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/views/add_edit_lobby.dart';
 import 'package:fanta_f1/views/add_edit_team.dart';
@@ -69,7 +70,7 @@ final router = GoRouter(
       builder: (context, state) => LineupView(
         raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
-        country: state.uri.queryParameters['country'] ?? '',
+        race: state.extra as Race,
       ),
     ),
   ],
