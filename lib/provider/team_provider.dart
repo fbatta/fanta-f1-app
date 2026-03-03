@@ -7,7 +7,7 @@ import 'package:fanta_f1/repository/team_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uuid/v4.dart';
+import 'package:uuid/v5.dart';
 
 part 'team_provider.g.dart';
 
@@ -36,7 +36,7 @@ class TeamProvider extends _$TeamProvider {
     required String lobbyId,
     String? teamAvatarUrl,
   }) async {
-    final teamId = UuidV4().generate();
+    final teamId = UuidV5().generate(lobbyId, teamName);
     final currentYear = (await _timeUtils.tryGetNetworkTime()).year;
 
     final team = Team(
