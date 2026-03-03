@@ -1,5 +1,6 @@
 import 'package:fanta_f1/dto/race/race.dart';
 import 'package:fanta_f1/route/route_names.dart';
+import 'package:fanta_f1/views/account_settings.dart';
 import 'package:fanta_f1/views/add_edit_lobby.dart';
 import 'package:fanta_f1/views/add_edit_team.dart';
 import 'package:fanta_f1/views/calendar.dart';
@@ -7,6 +8,7 @@ import 'package:fanta_f1/views/forgot_password.dart';
 import 'package:fanta_f1/views/home.dart';
 import 'package:fanta_f1/views/lineup_view.dart';
 import 'package:fanta_f1/views/sign_in.dart';
+import 'package:fanta_f1/views/sign_up.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,7 +38,12 @@ final router = GoRouter(
     GoRoute(
       path: RouteNames.signUp.path,
       name: RouteNames.signUp.toString(),
-      builder: (BuildContext context, GoRouterState state) => const SignIn(),
+      builder: (BuildContext context, GoRouterState state) => const SignUp(),
+    ),
+    GoRoute(
+      path: RouteNames.account.path,
+      name: RouteNames.account.name,
+      builder: (context, state) => const AccountSettings(),
     ),
     GoRoute(
       path: RouteNames.home.path,

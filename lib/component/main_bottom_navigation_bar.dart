@@ -15,6 +15,7 @@ class _MainBottomNavigationBarState
   final Map<String, int> _pages = {
     RouteNames.home.path: 0,
     RouteNames.calendar.path: 1,
+    RouteNames.account.path: 2,
   };
 
   int _selectedIndex = 0;
@@ -35,6 +36,10 @@ class _MainBottomNavigationBarState
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_month),
           label: 'Calendar',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle),
+          label: 'Account',
         ),
       ],
       onTap: _onItemTapped,

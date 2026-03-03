@@ -1,3 +1,6 @@
+import 'package:fanta_f1/component/error_snack_bar.dart';
+import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/validator/password_validator.dart';
 import 'package:fanta_f1/validator/username_validator.dart';
@@ -18,134 +21,159 @@ class _SignUpState extends ConsumerState<SignUp> {
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
 
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController verifyPasswordController =
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _verifyPasswordController =
       TextEditingController();
-  final TextEditingController displayNameController = TextEditingController();
+  final TextEditingController _displayNameController = TextEditingController();
 
-  bool isLoading = false;
-  String? usernameErrorText;
-  String? passwordErrorText;
-  String? verifyPasswordErrorText;
-  String? displayNameErrorText;
+  bool _isLoading = false;
+  String? _usernameErrorText;
+  String? _passwordErrorText;
+  String? _verifyPasswordErrorText;
+  String? _displayNameErrorText;
 
   @override
   void initState() {
-    _auth = _getIt<FirebaseAuth>();
+    _auth = _getIt();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    usernameController.dispose();
-    passwordController.dispose();
-    verifyPasswordController.dispose();
-    displayNameController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _verifyPasswordController.dispose();
+    _displayNameController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Form(
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: AutofillGroup(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                  autofillHints: [
-                    AutofillHints.email,
-                    AutofillHints.newUsername,
+    return Scaffold(
+      appBar: AppBar(title: Text('Sign up')),
+      floatingActionButton: _createUserFab(),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Form(
+              key: _formKey,
+              child: AutofillGroup(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      autofillHints: [
+                        AutofillHints.email,
+                        AutofillHints.newUsername,
+                      ],
+                      autofocus: true,
+                      controller: _usernameController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: 'Email address',
+                        border: OutlineInputBorder(),
+                        icon: Icon(Icons.email),
+                      ),
+                      validator: usernameValidator,
+                      onChanged: _onUsernameChanged,
+                      forceErrorText: _usernameErrorText,
+                      enabled: !_isLoading,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      autofillHints: [AutofillHints.newPassword],
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                        border: OutlineInputBorder(),
+                        icon: Icon(Icons.password),
+                      ),
+                      obscureText: true,
+                      validator: passwordValidator,
+                      onChanged: _onPasswordChanged,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      autofillHints: [AutofillHints.newPassword],
+                      controller: _verifyPasswordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Re-type password',
+                        border: OutlineInputBorder(),
+                        icon: Icon(Icons.password),
+                      ),
+                      obscureText: true,
+                      validator: _verifyPasswordValidator,
+                      onChanged: _onVerifyPasswordChanged,
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      autofillHints: [AutofillHints.nickname],
+                      controller: _displayNameController,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.person),
+                        labelText: 'Display name',
+                        border: OutlineInputBorder(),
+                        hintText:
+                            'This is how you will appear to other players',
+                      ),
+                    ),
                   ],
-                  autofocus: true,
-                  controller: usernameController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    labelText: 'Email address',
-                    border: OutlineInputBorder(),
-                    icon: Icon(Icons.email),
-                  ),
-                  validator: usernameValidator,
-                  onChanged: _onUsernameChanged,
-                  forceErrorText: usernameErrorText,
-                  enabled: !isLoading,
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  autofillHints: [AutofillHints.newPassword],
-                  controller: passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                    icon: Icon(Icons.password),
-                  ),
-                  obscureText: true,
-                  validator: passwordValidator,
-                  onChanged: _onPasswordChanged,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  autofillHints: [AutofillHints.newPassword],
-                  controller: verifyPasswordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Re-type password',
-                    border: OutlineInputBorder(),
-                    icon: Icon(Icons.password),
-                  ),
-                  obscureText: true,
-                  validator: _verifyPasswordValidator,
-                  onChanged: _onVerifyPasswordChanged,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  autofillHints: [AutofillHints.nickname],
-                  controller: displayNameController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    labelText: 'Display name',
-                    border: OutlineInputBorder(),
-                    hintText: 'This is how you will appear to other players',
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          _isLoading
+              ? Positioned(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(color: Colors.black12),
+                    child: SpinnerCentered(),
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }
 
+  Widget _createUserFab() {
+    return FloatingActionButton.extended(
+      onPressed: _onSignUpPressed,
+      label: Text('Sign up'),
+      icon: Icon(Icons.person_add),
+    );
+  }
+
   void _onUsernameChanged(String value) {
-    if (usernameErrorText != null) {
+    if (_usernameErrorText != null) {
       setState(() {
-        usernameErrorText = null;
+        _usernameErrorText = null;
       });
     }
   }
 
   void _onPasswordChanged(String value) {
-    if (passwordErrorText != null) {
+    if (_passwordErrorText != null) {
       setState(() {
-        passwordErrorText = null;
+        _passwordErrorText = null;
       });
     }
   }
 
   void _onVerifyPasswordChanged(String value) {
-    if (verifyPasswordErrorText != null) {
+    if (_verifyPasswordErrorText != null) {
       setState(() {
-        verifyPasswordErrorText = null;
+        _verifyPasswordErrorText = null;
       });
     }
   }
 
   String? _verifyPasswordValidator(String? value) {
-    if (value != passwordController.text) {
+    if (value != _passwordController.text) {
       return 'Passwords do not match';
     }
     return null;
@@ -153,41 +181,50 @@ class _SignUpState extends ConsumerState<SignUp> {
 
   Future<void> _onSignUpPressed() async {
     try {
-      final bool isValid = formKey.currentState?.validate() ?? false;
+      final bool isValid = _formKey.currentState?.validate() ?? false;
       if (!isValid) {
         return;
       }
       setState(() {
-        isLoading = true;
+        _isLoading = true;
       });
       final userCredential = await _auth.createUserWithEmailAndPassword(
-        email: usernameController.text,
-        password: passwordController.text,
+        email: _usernameController.text,
+        password: _passwordController.text,
       );
-      await userCredential.user?.updateDisplayName(displayNameController.text);
+      await userCredential.user?.updateDisplayName(_displayNameController.text);
       if (userCredential.user != null && context.mounted) {
-        return context.goNamed(RouteNames.home.toString());
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(successSnackBar(context: context, text: 'User created'));
+        context.goNamed(RouteNames.signIn.name);
       }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'email-already-in-use':
           setState(() {
-            usernameErrorText = 'Email already in use';
+            _usernameErrorText = 'Email already in use';
           });
           break;
         case 'invalid-email':
           setState(() {
-            usernameErrorText = 'Invalid email';
+            _usernameErrorText = 'Invalid email';
           });
           break;
         default:
-          setState(() {
-            usernameErrorText = 'Something went wrong. Please try again later';
-          });
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              errorSnackBar(
+                context: context,
+                text: 'Failed to sign up. Please try again later',
+              ),
+            );
+          }
           break;
       }
+    } finally {
       setState(() {
-        isLoading = false;
+        _isLoading = false;
       });
     }
   }

@@ -22,9 +22,9 @@ class _SignInState extends ConsumerState<SignIn> {
   late final FirebaseAuth _auth;
   late final GoogleAuthProvider _googleAuthProvider;
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isLoading = false;
   String? usernameErrorText;
@@ -32,8 +32,8 @@ class _SignInState extends ConsumerState<SignIn> {
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -56,7 +56,7 @@ class _SignInState extends ConsumerState<SignIn> {
       appBar: AppBar(title: const Text('Sign In')),
       body: Center(
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: AutofillGroup(
@@ -69,7 +69,7 @@ class _SignInState extends ConsumerState<SignIn> {
                       AutofillHints.email,
                       AutofillHints.username,
                     ],
-                    controller: usernameController,
+                    controller: _usernameController,
                     decoration: const InputDecoration(
                       labelText: 'Username',
                       border: OutlineInputBorder(),
@@ -87,7 +87,7 @@ class _SignInState extends ConsumerState<SignIn> {
                   TextFormField(
                     key: ValueKey('Password'),
                     autofillHints: [AutofillHints.password],
-                    controller: passwordController,
+                    controller: _passwordController,
                     decoration: const InputDecoration(
                       labelText: 'Password',
                       border: OutlineInputBorder(),
@@ -105,10 +105,8 @@ class _SignInState extends ConsumerState<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        child: Text('Forgot password'),
-                        onPressed: () => context.pushNamed(
-                          RouteNames.forgotPassword.toString(),
-                        ),
+                        child: Text('Sign up'),
+                        onPressed: _onSignUpPressed,
                       ),
                       const SizedBox(width: 8),
                       FilledButton(
@@ -167,7 +165,7 @@ class _SignInState extends ConsumerState<SignIn> {
 
   void _onSignInPressed() async {
     try {
-      final bool isValid = formKey.currentState?.validate() ?? false;
+      final bool isValid = _formKey.currentState?.validate() ?? false;
       if (!isValid) {
         return;
       }
@@ -175,8 +173,8 @@ class _SignInState extends ConsumerState<SignIn> {
         isLoading = true;
       });
       await _auth.signInWithEmailAndPassword(
-        email: usernameController.text,
-        password: passwordController.text,
+        email: _usernameController.text,
+        password: _passwordController.text,
       );
       TextInput.finishAutofillContext();
     } on FirebaseAuthException catch (e) {
@@ -222,5 +220,9 @@ class _SignInState extends ConsumerState<SignIn> {
         });
         break;
     }
+  }
+
+  void _onSignUpPressed() {
+    context.pushNamed(RouteNames.signUp.name);
   }
 }
