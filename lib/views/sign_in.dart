@@ -105,8 +105,8 @@ class _SignInState extends ConsumerState<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        child: Text('Sign up'),
                         onPressed: _onSignUpPressed,
+                        child: Text('Sign up'),
                       ),
                       const SizedBox(width: 8),
                       FilledButton(

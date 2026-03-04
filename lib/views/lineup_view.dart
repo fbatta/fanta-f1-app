@@ -398,7 +398,6 @@ class _LineupViewState extends ConsumerState<LineupView>
         ).showSnackBar(successSnackBar(context: context, text: 'Lineup saved'));
       }
     } catch (e) {
-      print(e);
       // TODO: record error
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

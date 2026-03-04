@@ -32,7 +32,6 @@ class _SignUpState extends ConsumerState<SignUp> {
   String? _usernameErrorText;
   String? _passwordErrorText;
   String? _verifyPasswordErrorText;
-  String? _displayNameErrorText;
 
   @override
   void initState() {

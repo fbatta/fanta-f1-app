@@ -12,7 +12,7 @@
         <entry key="_flutterfire_internals">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.66/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.67/lib" />
             </list>
           </value>
         </entry>
@@ -117,7 +117,7 @@
         <entry key="built_value">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.12.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.12.4/lib" />
             </list>
           </value>
         </entry>
@@ -166,21 +166,21 @@
         <entry key="cloud_firestore">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-6.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-6.1.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="cloud_firestore_platform_interface">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.7/lib" />
             </list>
           </value>
         </entry>
         <entry key="cloud_firestore_web">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.1.3/lib" />
             </list>
           </value>
         </entry>
@@ -278,14 +278,14 @@
         <entry key="dio">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/dio-5.9.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/dio-5.9.2/lib" />
             </list>
           </value>
         </entry>
         <entry key="dio_web_adapter">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.2/lib" />
             </list>
           </value>
         </entry>
@@ -320,28 +320,28 @@
         <entry key="firebase_auth">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth-6.1.4/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth-6.2.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_auth_platform_interface">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-8.1.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-8.1.7/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_auth_web">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_web-6.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_web-6.1.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_core">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.4.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.5.0/lib" />
             </list>
           </value>
         </entry>
@@ -355,49 +355,49 @@
         <entry key="firebase_core_web">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.4.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.5.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_messaging">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-16.1.1/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-16.1.2/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_messaging_platform_interface">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.7.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.7.7/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_messaging_web">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.1.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.1.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_storage">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-13.0.6/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-13.1.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_storage_platform_interface">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.2.17/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.2.18/lib" />
             </list>
           </value>
         </entry>
         <entry key="firebase_storage_web">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.11.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.11.3/lib" />
             </list>
           </value>
         </entry>
@@ -419,6 +419,13 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_hooks-0.21.3+1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_launcher_icons">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.14.4/lib" />
             </list>
           </value>
         </entry>
@@ -488,7 +495,7 @@
         <entry key="get_it">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/get_it-9.2.0/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/get_it-9.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -719,7 +726,7 @@
         <entry key="posix">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/posix-6.0.3/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/posix-6.5.0/lib" />
             </list>
           </value>
         </entry>
@@ -929,7 +936,7 @@
         <entry key="uuid">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/uuid-4.5.2/lib" />
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/uuid-4.5.3/lib" />
             </list>
           </value>
         </entry>
@@ -1014,7 +1021,7 @@
     </properties>
     <CLASSES>
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-91.0.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.66/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.67/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/analysis_server_plugin-0.3.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/analyzer-8.4.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/analyzer_buffer-0.1.11/lib" />
@@ -1029,16 +1036,16 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/build_daemon-4.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/build_runner-2.11.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/built_collection-5.1.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.12.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.12.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/characters-1.4.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/checked_yaml-2.0.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/ci-0.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cli_config-0.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cli_util-0.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/clock-1.1.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-6.1.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.6/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.1.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-6.1.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.7/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.1.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/code_builder-4.11.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/collection-1.19.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/convert-3.1.2/lib" />
@@ -1052,26 +1059,27 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/custom_lint_visitor-1.0.0+8.4.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dart_style-3.1.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dbus-0.7.12/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dio-5.9.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dio-5.9.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/fake_async-1.3.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/ffi-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file-7.0.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-10.3.10/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth-6.1.4/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-8.1.6/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_web-6.1.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.4.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth-6.2.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-8.1.7/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth_web-6.1.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-6.0.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.4.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-16.1.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.7.6/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.1.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-13.0.6/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.2.17/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.11.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.5.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging-16.1.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.7.7/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.1.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-13.1.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_platform_interface-5.2.18/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage_web-3.11.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/fixnum-1.1.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_hooks-0.21.3+1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.14.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_lints-6.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_native_splash-2.4.7/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.33/lib" />
@@ -1079,7 +1087,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/freezed-3.2.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/freezed_annotation-3.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/get_it-9.2.0/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/get_it-9.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/glob-2.1.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/go_router-17.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/graphs-2.3.2/lib" />
@@ -1112,7 +1120,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/petitparser-7.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pool-1.5.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/posix-6.0.3/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/posix-6.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pub_semver-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/pubspec_parse-1.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/riverpod-3.1.0/lib" />
@@ -1141,7 +1149,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/test_core-0.6.15/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/typed_data-1.4.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/universal_io-2.3.1/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/uuid-4.5.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/uuid-4.5.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/vector_math-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/vm_service-15.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/watcher-1.2.1/lib" />

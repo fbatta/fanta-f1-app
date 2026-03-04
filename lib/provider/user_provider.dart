@@ -58,16 +58,6 @@ class UserProvider extends _$UserProvider {
   }
 
   ///
-  /// Make sure display name is between 3 and 80 characters
-  ///
-  bool _isValidDisplayName(String displayName) {
-    if (displayName.length < 3 || displayName.length > 80) {
-      return false;
-    }
-    return true;
-  }
-
-  ///
   /// Make sure avatar file size is less than 1mb
   ///
   bool _validateAvatarFileSize(FileStat stat) {
