@@ -13,17 +13,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  _registerInstances();
+  await _registerInstances();
   runApp(ProviderScope(child: const MyApp()));
 }
 
-void _registerInstances() {
+Future<void> _registerInstances() async {
   final getIt = GetIt.instance;
   getIt.registerSingleton(FirebaseAuth.instance);
   getIt.registerSingleton(FirebaseFirestore.instance);
@@ -36,6 +37,8 @@ void _registerInstances() {
   getIt.registerSingleton(LineupRepository());
   getIt.registerSingleton(DriverRepository());
   getIt.registerSingleton(DriverCostRepository());
+  final packageInfo = await PackageInfo.fromPlatform();
+  getIt.registerSingleton(packageInfo);
 }
 
 class MyApp extends StatelessWidget {
