@@ -112,8 +112,12 @@ class _LineupViewState extends ConsumerState<LineupView>
           );
         }
 
+        final orderedDrivers = drivers.requireValue.entries.toList();
+        orderedDrivers.sort(
+          (a, b) => b.value.driverCost.compareTo(a.value.driverCost),
+        );
         final activeDrivers = {
-          for (final el in drivers.requireValue.entries.where(
+          for (final el in orderedDrivers.where(
             (el) => el.key.isActive == true,
           ))
             el.key: el.value,
