@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:fanta_f1/component/error_snack_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/dto/team/team.dart';
+import 'package:fanta_f1/exception/invalid_request_exception.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -207,12 +210,17 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
               teamAvatarUrl: downloadUrl,
             );
       }
-
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Team created')));
+        ).showSnackBar(successSnackBar(context: context, text: 'Team created'));
         context.pop();
+      }
+    } on InvalidRequestException catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(errorSnackBar(context: context, text: e.message));
       }
     } finally {
       setState(() {

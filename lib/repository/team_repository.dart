@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/team/team.dart';
+import 'package:fanta_f1/exception/invalid_request_exception.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
@@ -43,13 +44,23 @@ class TeamRepository {
         .toList();
   }
 
-  Future<void> createOrUpdateTeam(Team team) async {
+  Future<bool> hasTeamInLobby(String lobbyId, String ownerId) async {
+    final snapshot = await _teamsCollection
+        .where('lobbyId', isEqualTo: lobbyId)
+        .where('ownerId', isEqualTo: ownerId)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+
+  Future<void> updateTeam(Team team) async {
+    await _teamsCollection.doc(team.teamId).update(team.toJson());
+  }
+
+  Future<void> createTeam(Team team) async {
     final existingTeam = await findTeamById(team.teamId);
     if (existingTeam != null) {
-      await _teamsCollection.doc(team.teamId).update(team.toJson());
-      return;
+      throw InvalidRequestException('Team ${team.teamName} already exists.');
     }
-
     await _teamsCollection.doc(team.teamId).set(team.toJson());
   }
 

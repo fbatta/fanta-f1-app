@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fanta_f1/dto/team/team.dart';
+import 'package:fanta_f1/exception/invalid_request_exception.dart';
 import 'package:fanta_f1/exception/team_not_found_exception.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/team_repository.dart';
@@ -50,7 +51,15 @@ class TeamProvider extends _$TeamProvider {
       points: {currentYear: 0.0},
     );
 
-    await _teamRepository.createOrUpdateTeam(team);
+    final hasTeamInLobby = await _teamRepository.hasTeamInLobby(
+      lobbyId,
+      _firebaseAuth.currentUser!.uid,
+    );
+    if (hasTeamInLobby) {
+      throw InvalidRequestException('You already have a team in this lobby');
+    }
+
+    await _teamRepository.createTeam(team);
 
     final currentState = state.value ?? <String, Team>{};
     currentState.addAll({teamId: team});
@@ -84,7 +93,7 @@ class TeamProvider extends _$TeamProvider {
       updatedAt: DateTime.now(),
     );
 
-    await _teamRepository.createOrUpdateTeam(team);
+    await _teamRepository.updateTeam(team);
 
     currentState[teamId] = team;
     state = AsyncValue.data(currentState);

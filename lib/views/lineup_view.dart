@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fanta_f1/component/error_snack_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/component/success_snack_bar.dart';
@@ -323,10 +325,12 @@ class _LineupViewState extends ConsumerState<LineupView>
           updatedAt: now,
           version: 1,
         );
+        _creditsSpent += driverCost.driverCost;
       });
     } else {
       setState(() {
         _lineup!.drivers.add(lineupDriver);
+        _creditsSpent += driverCost.driverCost;
       });
     }
   }
@@ -352,7 +356,7 @@ class _LineupViewState extends ConsumerState<LineupView>
       _lineup!.drivers.removeWhere(
         (lineupDriver) => lineupDriver.driverId == driver.driverId,
       );
-      _creditsSpent -= driverCost.driverCost;
+      _creditsSpent = max(_creditsSpent - driverCost.driverCost, 0.0);
     });
   }
 

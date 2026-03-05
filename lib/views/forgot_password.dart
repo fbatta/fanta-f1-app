@@ -1,3 +1,4 @@
+import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -106,10 +107,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
       await _auth.sendPasswordResetEmail(email: textEditingController.text);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Password reset email sent'),
-            behavior: SnackBarBehavior.floating,
-          ),
+          successSnackBar(context: context, text: 'Password reset email sent'),
         );
       }
     } on FirebaseAuthException catch (e) {

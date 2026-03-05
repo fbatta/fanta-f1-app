@@ -1,3 +1,5 @@
+import 'package:fanta_f1/component/error_snack_bar.dart';
+import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
 import 'package:flutter/material.dart';
@@ -82,10 +84,20 @@ class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
             lobbyPassword: _lobbyPasswordController.text,
           );
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Lobby created')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          successSnackBar(context: context, text: 'Lobby created'),
+        );
         context.pop();
+      }
+    } catch (e) {
+      // TODO: record error
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          errorSnackBar(
+            context: context,
+            text: 'Something went wrong, please try again later',
+          ),
+        );
       }
     } finally {
       setState(() {

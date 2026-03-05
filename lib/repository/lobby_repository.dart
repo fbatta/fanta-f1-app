@@ -19,6 +19,13 @@ class LobbyRepository {
         .toList();
   }
 
+  Future<List<Lobby>> getLobbiesByIds(List<String> lobbyIds) async {
+    final snapshot = await _lobbies.where('lobbyId', whereIn: lobbyIds).get();
+    return snapshot.docs
+        .map((doc) => Lobby.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<void> createLobby(Lobby lobby) async {
     await _lobbies.doc(lobby.lobbyId).set(lobby.toJson());
   }
