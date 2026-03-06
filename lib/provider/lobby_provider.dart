@@ -57,6 +57,6 @@ class LobbyProvider extends _$LobbyProvider {
     await _lobbyRepository.updateLobby(newLobbyDetails);
 
     currentState[lobbyId] = newLobbyDetails;
-    AsyncValue.data(currentState);
+    state = AsyncValue.data(currentState);
   }
 }
