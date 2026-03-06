@@ -1,0 +1,4 @@
+enum SharedPreferencesKeys {
+  hasRequestedNotificationsPermission,
+  areNotificationsEnabled,
+}

@@ -1,35 +1,16 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/user/user.dart';
 import 'package:fanta_f1/exception/user_already_exists_exception.dart';
-import 'package:fanta_f1/exception/user_not_found_exception.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 class UserRepository {
   final _getIt = GetIt.instance;
   late final FirebaseFirestore _firestore;
-  late final FirebaseStorage _storage;
   late final CollectionReference _usersCollection;
 
   UserRepository() {
     _firestore = _getIt();
-    _storage = _getIt();
     _usersCollection = _firestore.collection('users');
-  }
-
-  ///
-  /// Get user by id
-  ///
-  /// Throws [UserNotFoundException] if user is not found
-  ///
-  Future<User> getUser(String userId) async {
-    final doc = await _usersCollection.doc(userId).get();
-    if (!doc.exists) {
-      throw UserNotFoundException("Cannot find user with id $userId");
-    }
-    return User.fromJson(doc.data() as Map<String, dynamic>);
   }
 
   ///
@@ -38,8 +19,9 @@ class UserRepository {
   /// Returns null if user is not found
   Future<User?> findUser(String userId) async {
     try {
-      return await getUser(userId);
-    } on UserNotFoundException {
+      final doc = await _usersCollection.doc(userId).get();
+      return User.fromJson(doc.data() as Map<String, dynamic>);
+    } catch (e) {
       return null;
     }
   }
@@ -48,37 +30,7 @@ class UserRepository {
   /// Create a new user
   ///
   /// Throws [UserAlreadyExistsException] if user already exists
-  Future<void> createUser(User user) async {
-    final ref = _usersCollection.doc(user.userId);
-    final snapshot = await ref.get();
-    if (snapshot.exists) {
-      throw UserAlreadyExistsException(
-        "User with id ${user.userId} already exists and cannot be overwritten",
-      );
-    }
-    await ref.set(user.toJson());
-  }
-
-  ///
-  /// Update an existing user
-  ///
-  /// Throws [UserNotFoundException] if user is not found
-  Future<void> updateUser(User user) async {
-    final ref = _usersCollection.doc(user.userId);
-    final snapshot = await ref.get();
-    if (!snapshot.exists) {
-      throw UserNotFoundException("Cannot find user with id ${user.userId}");
-    }
-    await ref.update(user.toJson());
-  }
-
-  ///
-  /// Allows to upload an avatar for a user
-  /// by supplying the [userId] and a [file]
-  ///
-  Future<String> uploadAvatar(String userId, File file) async {
-    final ref = _storage.ref('/avatars/$userId');
-    final task = ref.putFile(file);
-    return task.then((snapshot) => snapshot.ref.getDownloadURL());
+  Future<void> createOrUpdateUser(User user) async {
+    await _usersCollection.doc(user.userId).set(user.toJson());
   }
 }

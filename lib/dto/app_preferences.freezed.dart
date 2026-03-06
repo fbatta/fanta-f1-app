@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppPreferences {
 
- String get appName; String get packageName; String get appVersion; String get buildNumber;
+ String get appName; String get packageName; String get appVersion; String get buildNumber; bool get hasRequestedNotificationsPermission; bool get areNotificationsEnabled;
 /// Create a copy of AppPreferences
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $AppPreferencesCopyWith<AppPreferences> get copyWith => _$AppPreferencesCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppPreferences&&(identical(other.appName, appName) || other.appName == appName)&&(identical(other.packageName, packageName) || other.packageName == packageName)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.buildNumber, buildNumber) || other.buildNumber == buildNumber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppPreferences&&(identical(other.appName, appName) || other.appName == appName)&&(identical(other.packageName, packageName) || other.packageName == packageName)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.buildNumber, buildNumber) || other.buildNumber == buildNumber)&&(identical(other.hasRequestedNotificationsPermission, hasRequestedNotificationsPermission) || other.hasRequestedNotificationsPermission == hasRequestedNotificationsPermission)&&(identical(other.areNotificationsEnabled, areNotificationsEnabled) || other.areNotificationsEnabled == areNotificationsEnabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,appName,packageName,appVersion,buildNumber);
+int get hashCode => Object.hash(runtimeType,appName,packageName,appVersion,buildNumber,hasRequestedNotificationsPermission,areNotificationsEnabled);
 
 @override
 String toString() {
-  return 'AppPreferences(appName: $appName, packageName: $packageName, appVersion: $appVersion, buildNumber: $buildNumber)';
+  return 'AppPreferences(appName: $appName, packageName: $packageName, appVersion: $appVersion, buildNumber: $buildNumber, hasRequestedNotificationsPermission: $hasRequestedNotificationsPermission, areNotificationsEnabled: $areNotificationsEnabled)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $AppPreferencesCopyWith<$Res>  {
   factory $AppPreferencesCopyWith(AppPreferences value, $Res Function(AppPreferences) _then) = _$AppPreferencesCopyWithImpl;
 @useResult
 $Res call({
- String appName, String packageName, String appVersion, String buildNumber
+ String appName, String packageName, String appVersion, String buildNumber, bool hasRequestedNotificationsPermission, bool areNotificationsEnabled
 });
 
 
@@ -63,13 +63,15 @@ class _$AppPreferencesCopyWithImpl<$Res>
 
 /// Create a copy of AppPreferences
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? appName = null,Object? packageName = null,Object? appVersion = null,Object? buildNumber = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? appName = null,Object? packageName = null,Object? appVersion = null,Object? buildNumber = null,Object? hasRequestedNotificationsPermission = null,Object? areNotificationsEnabled = null,}) {
   return _then(AppPreferences(
 appName: null == appName ? _self.appName : appName // ignore: cast_nullable_to_non_nullable
 as String,packageName: null == packageName ? _self.packageName : packageName // ignore: cast_nullable_to_non_nullable
 as String,appVersion: null == appVersion ? _self.appVersion : appVersion // ignore: cast_nullable_to_non_nullable
 as String,buildNumber: null == buildNumber ? _self.buildNumber : buildNumber // ignore: cast_nullable_to_non_nullable
-as String,
+as String,hasRequestedNotificationsPermission: null == hasRequestedNotificationsPermission ? _self.hasRequestedNotificationsPermission : hasRequestedNotificationsPermission // ignore: cast_nullable_to_non_nullable
+as bool,areNotificationsEnabled: null == areNotificationsEnabled ? _self.areNotificationsEnabled : areNotificationsEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

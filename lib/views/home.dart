@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:fanta_f1/component/app_bar_user_action.dart';
 import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/dto/app_preferences.dart';
 import 'package:fanta_f1/dto/lobby/lobby.dart';
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
+import 'package:fanta_f1/provider/preferences_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
+import 'package:fanta_f1/provider/user_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -22,10 +28,12 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
+  late final FirebaseMessaging _messaging;
 
   @override
   void initState() {
     _auth = _getIt();
+    _messaging = _getIt();
     super.initState();
   }
 
@@ -34,6 +42,20 @@ class _HomeState extends ConsumerState<Home> {
     final user = _auth.currentUser;
     final teams = ref.watch(teamProviderProvider);
     final lobbies = ref.watch(lobbyProviderProvider);
+    final userInfo = ref.watch(userProviderProvider);
+    final preferences = ref.watch(preferencesProviderProvider);
+
+    if (!userInfo.isLoading &&
+        !userInfo.hasError &&
+        userInfo.hasValue &&
+        !preferences.isLoading &&
+        !preferences.hasError &&
+        preferences.hasValue) {
+      Future.delayed(
+        Duration.zero,
+        () async => _requestNotificationsPermission(preferences.requireValue),
+      );
+    }
 
     if (teams.isLoading ||
         teams.isRefreshing ||
@@ -174,5 +196,29 @@ class _HomeState extends ConsumerState<Home> {
 
   void _onAddNewLobbyPressed(BuildContext context) {
     context.pushNamed(RouteNames.addLobby.name);
+  }
+
+  Future<void> _requestNotificationsPermission(
+    AppPreferences preferences,
+  ) async {
+    if (!preferences.hasRequestedNotificationsPermission) {
+      final notificationSettings = await _messaging.requestPermission();
+      if (notificationSettings.authorizationStatus ==
+          AuthorizationStatus.authorized) {
+        if (Platform.isIOS) {
+          await _messaging.getAPNSToken();
+        }
+        final token = await _messaging.getToken();
+        if (token != null) {
+          await ref
+              .read(preferencesProviderProvider.notifier)
+              .setNotificationsPermission(true, token);
+        }
+      } else {
+        await ref
+            .read(preferencesProviderProvider.notifier)
+            .setNotificationsPermission(false, null);
+      }
+    }
   }
 }

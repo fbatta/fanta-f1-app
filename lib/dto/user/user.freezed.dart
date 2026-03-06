@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
- String get userId; String get displayName; String get email; String? get avatarUrl; List<UserPrivileges> get privileges; DateTime get createdAt; DateTime? get updatedAt;
+ String get userId; List<UserPrivileges> get privileges; Map<String, String> get deviceRegistrationTokens;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&const DeepCollectionEquality().equals(other.privileges, privileges)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.userId, userId) || other.userId == userId)&&const DeepCollectionEquality().equals(other.privileges, privileges)&&const DeepCollectionEquality().equals(other.deviceRegistrationTokens, deviceRegistrationTokens));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,displayName,email,avatarUrl,const DeepCollectionEquality().hash(privileges),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,userId,const DeepCollectionEquality().hash(privileges),const DeepCollectionEquality().hash(deviceRegistrationTokens));
 
 @override
 String toString() {
-  return 'User(userId: $userId, displayName: $displayName, email: $email, avatarUrl: $avatarUrl, privileges: $privileges, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'User(userId: $userId, privileges: $privileges, deviceRegistrationTokens: $deviceRegistrationTokens)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
- String userId, String displayName, String email, List<UserPrivileges> privileges, DateTime createdAt, String? avatarUrl, DateTime? updatedAt
+ String userId, List<UserPrivileges> privileges, Map<String, String> deviceRegistrationTokens
 });
 
 
@@ -63,16 +63,12 @@ class _$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? displayName = null,Object? email = null,Object? privileges = null,Object? createdAt = null,Object? avatarUrl = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? privileges = null,Object? deviceRegistrationTokens = null,}) {
   return _then(User(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
-as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
-as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,privileges: null == privileges ? _self.privileges : privileges // ignore: cast_nullable_to_non_nullable
-as List<UserPrivileges>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as List<UserPrivileges>,deviceRegistrationTokens: null == deviceRegistrationTokens ? _self.deviceRegistrationTokens : deviceRegistrationTokens // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,
   ));
 }
 

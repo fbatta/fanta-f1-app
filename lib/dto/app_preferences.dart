@@ -14,12 +14,18 @@ class AppPreferences with _$AppPreferences {
   final String appVersion;
   @override
   final String buildNumber;
+  @override
+  final bool hasRequestedNotificationsPermission;
+  @override
+  final bool areNotificationsEnabled;
 
   const AppPreferences({
     required this.appName,
     required this.packageName,
     required this.appVersion,
     required this.buildNumber,
+    required this.hasRequestedNotificationsPermission,
+    required this.areNotificationsEnabled,
   });
 
   factory AppPreferences.fromJson(Map<String, dynamic> json) =>

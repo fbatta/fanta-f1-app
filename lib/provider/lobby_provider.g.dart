@@ -33,7 +33,7 @@ final class LobbyProviderProvider
   LobbyProvider create() => LobbyProvider();
 }
 
-String _$lobbyProviderHash() => r'dd9493d96864d6299548e923b38e4a71edbb0515';
+String _$lobbyProviderHash() => r'fd4d491dfde8423a1feb328084da46463446ca40';
 
 abstract class _$LobbyProvider extends $AsyncNotifier<Map<String, Lobby>> {
   FutureOr<Map<String, Lobby>> build();

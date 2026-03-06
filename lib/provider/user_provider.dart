@@ -1,15 +1,11 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fanta_f1/dto/user/user.dart';
-import 'package:fanta_f1/exception/user_not_found_exception.dart';
-import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:get_it/get_it.dart';
-import 'package:mime/mime.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../exception/validation_exception.dart';
 
 part 'user_provider.g.dart';
 
@@ -18,57 +14,69 @@ class UserProvider extends _$UserProvider {
   final GetIt _getIt = GetIt.instance;
   late UserRepository _userRepository;
   late FirebaseAuth _firebaseAuth;
-  late TimeUtils _timeUtils;
+  late final AndroidDeviceInfo _androidDeviceInfo;
+  late final IosDeviceInfo _iosDeviceInfo;
   late final String? userId;
 
   @override
   FutureOr<User?> build() async {
-    _userRepository = _getIt<UserRepository>();
-    _firebaseAuth = _getIt<FirebaseAuth>();
-    _timeUtils = _getIt<TimeUtils>();
+    _userRepository = _getIt();
+    _firebaseAuth = _getIt();
     userId = _firebaseAuth.currentUser?.uid;
+    if (Platform.isAndroid) {
+      _androidDeviceInfo = _getIt();
+    }
+    if (Platform.isIOS) {
+      _iosDeviceInfo = _getIt();
+    }
 
-    if (userId == null) return null;
-
-    return await _userRepository.findUser(userId!);
+    final user = await _userRepository.findUser(userId!);
+    if (user == null) {
+      final newUser = User(
+        userId: userId!,
+        privileges: [],
+        deviceRegistrationTokens: {},
+      );
+      await _userRepository.createOrUpdateUser(newUser);
+      return newUser;
+    }
+    return user;
   }
 
-  ///
-  /// Upload an avatar for the current user
-  /// [file] is the candidate for uploading
-  ///
-  Future<void> uploadAvatar(File file) async {
-    if (userId == null || state.value == null) {
-      throw UserNotFoundException(
-        'Cannot upload avatar because user is not signed in',
+  Future<void> addDeviceRegistrationToken(String token) async {
+    User? user = state.value;
+    if (user == null) {
+      user = User(
+        userId: userId!,
+        privileges: [],
+        deviceRegistrationTokens: {token: _getDeviceModel()},
       );
+      await _userRepository.createOrUpdateUser(user);
+    } else {
+      user.deviceRegistrationTokens[token] = _getDeviceModel();
+      await _userRepository.createOrUpdateUser(user);
     }
-    final fileStat = await file.stat();
-    if (!_validateAvatarFileSize(fileStat)) {
-      throw ValidationException("The uploaded file is too large");
-    }
-    if (!_validateAvatarMimeType(file)) {
-      throw ValidationException("The uploaded file is not an image");
-    }
-    final downloadUrl = await _userRepository.uploadAvatar(userId!, file);
-    final now = await _timeUtils.tryGetNetworkTime();
-    final user = state.value!.copyWith(avatarUrl: downloadUrl, updatedAt: now);
-    await _userRepository.updateUser(user);
+
     state = AsyncValue.data(user);
   }
 
-  ///
-  /// Make sure avatar file size is less than 1mb
-  ///
-  bool _validateAvatarFileSize(FileStat stat) {
-    return stat.size < 1 * 1024 * 1024;
+  Future<void> removeDeviceRegistrationToken(String token) async {
+    User? user = state.value;
+    if (user == null) return;
+
+    user.deviceRegistrationTokens.remove(token);
+    await _userRepository.createOrUpdateUser(user);
+
+    state = AsyncValue.data(user);
   }
 
-  ///
-  /// Make sure avatar file is an image
-  ///
-  bool _validateAvatarMimeType(File file) {
-    final mimeType = lookupMimeType(file.path);
-    return mimeType != null && mimeType.startsWith('image/');
+  String _getDeviceModel() {
+    if (Platform.isAndroid) {
+      return _androidDeviceInfo.model;
+    }
+    if (Platform.isIOS) {
+      return _iosDeviceInfo.model;
+    }
+    return 'Unknown device';
   }
 }

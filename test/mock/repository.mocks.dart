@@ -3,13 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
-import 'dart:io' as _i5;
+import 'dart:async' as _i3;
 
-import 'package:fanta_f1/dto/user/user.dart' as _i2;
-import 'package:fanta_f1/repository/user_repository.dart' as _i3;
+import 'package:fanta_f1/dto/user/user.dart' as _i4;
+import 'package:fanta_f1/repository/user_repository.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -26,71 +24,25 @@ import 'package:mockito/src/dummies.dart' as _i6;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeUser_0 extends _i1.SmartFake implements _i2.User {
-  _FakeUser_0(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
 /// A class which mocks [UserRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
+class MockUserRepository extends _i1.Mock implements _i2.UserRepository {
   @override
-  _i4.Future<_i2.User> getUser(String? userId) =>
-      (super.noSuchMethod(
-            Invocation.method(#getUser, [userId]),
-            returnValue: _i4.Future<_i2.User>.value(
-              _FakeUser_0(this, Invocation.method(#getUser, [userId])),
-            ),
-            returnValueForMissingStub: _i4.Future<_i2.User>.value(
-              _FakeUser_0(this, Invocation.method(#getUser, [userId])),
-            ),
-          )
-          as _i4.Future<_i2.User>);
-
-  @override
-  _i4.Future<_i2.User?> findUser(String? userId) =>
+  _i3.Future<_i4.User?> findUser(String? userId) =>
       (super.noSuchMethod(
             Invocation.method(#findUser, [userId]),
-            returnValue: _i4.Future<_i2.User?>.value(),
-            returnValueForMissingStub: _i4.Future<_i2.User?>.value(),
+            returnValue: _i3.Future<_i4.User?>.value(),
+            returnValueForMissingStub: _i3.Future<_i4.User?>.value(),
           )
-          as _i4.Future<_i2.User?>);
+          as _i3.Future<_i4.User?>);
 
   @override
-  _i4.Future<void> createUser(_i2.User? user) =>
+  _i3.Future<void> createOrUpdateUser(_i4.User? user) =>
       (super.noSuchMethod(
-            Invocation.method(#createUser, [user]),
-            returnValue: _i4.Future<void>.value(),
-            returnValueForMissingStub: _i4.Future<void>.value(),
+            Invocation.method(#createOrUpdateUser, [user]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
           )
-          as _i4.Future<void>);
-
-  @override
-  _i4.Future<void> updateUser(_i2.User? user) =>
-      (super.noSuchMethod(
-            Invocation.method(#updateUser, [user]),
-            returnValue: _i4.Future<void>.value(),
-            returnValueForMissingStub: _i4.Future<void>.value(),
-          )
-          as _i4.Future<void>);
-
-  @override
-  _i4.Future<String> uploadAvatar(String? userId, _i5.File? file) =>
-      (super.noSuchMethod(
-            Invocation.method(#uploadAvatar, [userId, file]),
-            returnValue: _i4.Future<String>.value(
-              _i6.dummyValue<String>(
-                this,
-                Invocation.method(#uploadAvatar, [userId, file]),
-              ),
-            ),
-            returnValueForMissingStub: _i4.Future<String>.value(
-              _i6.dummyValue<String>(
-                this,
-                Invocation.method(#uploadAvatar, [userId, file]),
-              ),
-            ),
-          )
-          as _i4.Future<String>);
+          as _i3.Future<void>);
 }

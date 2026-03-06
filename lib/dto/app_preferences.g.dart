@@ -12,6 +12,9 @@ AppPreferences _$AppPreferencesFromJson(Map<String, dynamic> json) =>
       packageName: json['packageName'] as String,
       appVersion: json['appVersion'] as String,
       buildNumber: json['buildNumber'] as String,
+      hasRequestedNotificationsPermission:
+          json['hasRequestedNotificationsPermission'] as bool,
+      areNotificationsEnabled: json['areNotificationsEnabled'] as bool,
     );
 
 const _$AppPreferencesFieldMap = <String, String>{
@@ -19,6 +22,8 @@ const _$AppPreferencesFieldMap = <String, String>{
   'packageName': 'packageName',
   'appVersion': 'appVersion',
   'buildNumber': 'buildNumber',
+  'hasRequestedNotificationsPermission': 'hasRequestedNotificationsPermission',
+  'areNotificationsEnabled': 'areNotificationsEnabled',
 };
 
 // ignore: unused_element
@@ -31,6 +36,10 @@ abstract class _$AppPreferencesPerFieldToJson {
   static Object? appVersion(String instance) => instance;
   // ignore: unused_element
   static Object? buildNumber(String instance) => instance;
+  // ignore: unused_element
+  static Object? hasRequestedNotificationsPermission(bool instance) => instance;
+  // ignore: unused_element
+  static Object? areNotificationsEnabled(bool instance) => instance;
 }
 
 Map<String, dynamic> _$AppPreferencesToJson(AppPreferences instance) =>
@@ -39,4 +48,7 @@ Map<String, dynamic> _$AppPreferencesToJson(AppPreferences instance) =>
       'packageName': instance.packageName,
       'appVersion': instance.appVersion,
       'buildNumber': instance.buildNumber,
+      'hasRequestedNotificationsPermission':
+          instance.hasRequestedNotificationsPermission,
+      'areNotificationsEnabled': instance.areNotificationsEnabled,
     };
