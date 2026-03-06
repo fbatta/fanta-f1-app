@@ -1,0 +1,14 @@
+name: pull_request
+run-name: Test and build app for Android and iOS
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+    branches:
+      - main
+      - releases/**
+jobs:
+  run_tests:
+    name: Run all tests
+    uses: ./.github/workflows/tests.yaml
