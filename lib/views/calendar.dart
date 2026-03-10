@@ -119,7 +119,7 @@ class _CalendarState extends ConsumerState<Calendar> {
   String _startsIn(DateTime date) {
     final difference = date.difference(DateTime.now());
     if (difference.inDays > 0) {
-      return "Starts in ${difference.inDays} days";
+      return "Starts in ${difference.inDays} days and ${difference.inHours % 24} hours";
     } else if (difference.inHours > 0) {
       return "Starts in ${difference.inHours} hours";
     }
@@ -134,11 +134,11 @@ class _CalendarState extends ConsumerState<Calendar> {
     final differenceFromEnd = dateClose.difference(DateTime.now());
     if (differenceFromStart.inDays > 0) {
       return TextSpan(
-        text: "\nLineup opens in ${differenceFromStart.inDays} days",
+        text: "\nLineup opens in ${differenceFromStart.inDays} days and ${differenceFromStart.inHours % 24} hours",
       );
     } else if (differenceFromStart.inHours > 0) {
       return TextSpan(
-        text: "\nLineup opens in ${differenceFromStart.inHours} hours",
+        text: "\nLineup opens in ${differenceFromStart.inHours} hours and ${differenceFromStart.inMinutes % 60} minutes",
       );
     } else if (differenceFromStart.inMinutes >= 0) {
       return TextSpan(
