@@ -39,6 +39,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>IDGAF-1 allows you to upload a photo from your library to use as your avatar</string>
+    <key>NSCameraUsageDescription</key>
+    <string>IDGAF-1 allows you to take a photo from your camera to use as your avatar</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

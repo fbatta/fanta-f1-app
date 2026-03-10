@@ -8,10 +8,11 @@ import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/exception/invalid_request_exception.dart';
 import 'package:fanta_f1/provider/lobby_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:logging/logging.dart';
 
 class AddEditTeam extends ConsumerStatefulWidget {
   final Team? team;
@@ -22,11 +23,13 @@ class AddEditTeam extends ConsumerStatefulWidget {
 }
 
 class _AddEditTeamState extends ConsumerState<AddEditTeam> {
+  final _logger = Logger((_AddEditTeamState).toString());
   final _teamNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   bool _isLoading = false;
-  File? _selectedAvatar;
+  bool _isDirty = false;
+  XFile? _selectedAvatar;
   Lobby? _selectedLobby;
 
   @override
@@ -43,30 +46,38 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
       return const Scaffold(body: SpinnerCentered());
     }
 
-    if (widget.team != null) {
+    if (widget.team != null && _isDirty == false) {
       _teamNameController.text = widget.team!.teamName;
+      _selectedAvatar = widget.team!.teamAvatarUrl != null
+          ? XFile(widget.team!.teamAvatarUrl!)
+          : null;
     }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.team == null ? 'Add Team' : 'Edit Team'),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(height: 24.0),
-          Container(
-            height: 150,
-            width: 150,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: _selectedAvatar != null
-                    ? FileImage(_selectedAvatar!)
-                    : AssetImage('assets/images/idgaf1_default_avatar.png'),
-                fit: BoxFit.cover,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 150,
+                width: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: _selectedAvatar != null
+                        ? (_isDirty
+                              ? FileImage(File(_selectedAvatar!.path))
+                              : NetworkImage(_selectedAvatar!.path))
+                        : AssetImage('assets/images/idgaf1_default_avatar.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-          SizedBox(height: 24.0),
           Form(
             key: _formKey,
             child: Padding(
@@ -78,6 +89,7 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
                     TextFormField(
                       key: ValueKey('TeamName'),
                       controller: _teamNameController,
+                      onChanged: _onFieldChanged,
                       decoration: const InputDecoration(
                         labelText: 'Team name',
                         border: OutlineInputBorder(),
@@ -96,7 +108,7 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
                         labelText: 'Lobby name',
                         border: const OutlineInputBorder(),
                         icon: const Icon(Icons.groups),
-                        enabled: !_isLoading,
+                        enabled: !_isLoading && widget.team == null,
                       ),
                       items: lobbies.requireValue.values
                           .map(
@@ -117,7 +129,8 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
                         icon: const Icon(Icons.groups),
                       ),
                       validator: _lobbyPasswordValidator,
-                      enabled: !_isLoading,
+                      enabled: !_isLoading && widget.team == null,
+                      onChanged: _onFieldChanged,
                     ),
                     const SizedBox(height: 16.0),
                     FilledButton(
@@ -141,22 +154,32 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
               : Container(),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _isLoading ? null : _onCreateTeamButtonPressed,
-        label: Text('Save'),
-        icon: Icon(Icons.save),
-      ),
+      floatingActionButton: widget.team == null
+          ? FloatingActionButton.extended(
+              onPressed: _isLoading ? null : _onCreateTeamButtonPressed,
+              label: Text('Save'),
+              icon: Icon(Icons.save),
+            )
+          : FloatingActionButton.extended(
+              onPressed: _isLoading ? null : _onUpdateTeamPressed,
+              label: Text('Update'),
+              icon: Icon(Icons.save),
+            ),
     );
   }
 
   void _onSelectAvatarButtonPressed() async {
-    final filePickerResult = await FilePicker.platform.pickFiles(
-      type: FileType.image,
+    final result = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 60,
+      maxHeight: 1024,
+      maxWidth: 1024,
     );
 
-    if (filePickerResult != null && filePickerResult.files.isNotEmpty) {
+    if (result != null) {
       setState(() {
-        _selectedAvatar = File(filePickerResult.files[0].path!);
+        _isDirty = true;
+        _selectedAvatar = result;
       });
     }
   }
@@ -200,14 +223,11 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
             teamName: _teamNameController.text,
           );
       if (_selectedAvatar != null) {
-        final downloadUrl = await ref
-            .read(teamProviderProvider.notifier)
-            .uploadAvatar(_selectedAvatar!, teamId);
         await ref
             .read(teamProviderProvider.notifier)
-            .updateTeamNameOrAvatarUrl(
+            .updateTeamNameOrAvatar(
               teamId: teamId,
-              teamAvatarUrl: downloadUrl,
+              teamAvatar: _selectedAvatar,
             );
       }
       if (context.mounted) {
@@ -229,6 +249,40 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
     }
   }
 
+  Future<void> _onUpdateTeamPressed() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      await ref
+          .read(teamProviderProvider.notifier)
+          .updateTeamNameOrAvatar(
+            teamId: widget.team!.teamId,
+            newTeamName: _teamNameController.text,
+            teamAvatar: _selectedAvatar,
+          );
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(successSnackBar(context: context, text: 'Team updated'));
+        context.pop();
+      }
+    } on Exception catch (e) {
+      if (context.mounted) {
+        _logger.severe('Could not update the team', e);
+        errorSnackBar(
+          context: context,
+          text: 'Something went wrong. Please try again later',
+        );
+      }
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   String? _lobbyPasswordValidator(String? value) {
     if (value == null) {
       return 'Please enter the lobby password';
@@ -240,5 +294,13 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
       return 'Incorrect lobby password';
     }
     return null;
+  }
+
+  void _onFieldChanged(String _) {
+    if (!_isDirty) {
+      setState(() {
+        _isDirty = true;
+      });
+    }
   }
 }

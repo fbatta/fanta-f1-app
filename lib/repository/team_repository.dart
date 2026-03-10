@@ -1,21 +1,23 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/exception/invalid_request_exception.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 
 class TeamRepository {
   final _getIt = GetIt.instance;
   late final FirebaseFirestore _firestore;
   late final CollectionReference _teamsCollection;
   late final FirebaseStorage _storage;
+  late final Reference _storageRef;
 
   TeamRepository() {
     _firestore = _getIt();
     _storage = _getIt();
     _teamsCollection = _firestore.collection('teams');
+    _storageRef = _storage.ref();
   }
 
   Future<Team?> findTeamById(String teamId) async {
@@ -64,9 +66,18 @@ class TeamRepository {
     await _teamsCollection.doc(team.teamId).set(team.toJson());
   }
 
-  Future<String> uploadAvatar(String teamId, String userId, File file) async {
-    final ref = _storage.ref('/team_avatars/$userId/$teamId');
-    final snapshot = await ref.putFile(file);
+  Future<String> uploadAvatar(String teamId, String userId, XFile file) async {
+    final extension = file.name.split('.').last;
+    final imageRef = _storageRef.child(
+      '/team_avatars/$userId/$teamId/avatar.$extension',
+    );
+
+    final mimeType = lookupMimeType(file.path);
+    final contents = await file.readAsBytes();
+    final snapshot = await imageRef.putData(
+      contents,
+      SettableMetadata(contentType: mimeType),
+    );
     final downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
   }

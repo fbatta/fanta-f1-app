@@ -1,4 +1,5 @@
 import 'package:fanta_f1/dto/race/race.dart';
+import 'package:fanta_f1/dto/team/team.dart' as team_dto;
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/views/account_settings.dart';
 import 'package:fanta_f1/views/add_edit_lobby.dart';
@@ -54,6 +55,12 @@ final router = GoRouter(
       path: RouteNames.addTeam.path,
       name: RouteNames.addTeam.toString(),
       builder: (BuildContext context, GoRouterState state) => AddEditTeam(),
+    ),
+    GoRoute(
+      path: RouteNames.editTeam.path,
+      name: RouteNames.editTeam.name,
+      builder: (BuildContext context, GoRouterState state) =>
+          AddEditTeam(team: state.extra as team_dto.Team?),
     ),
     GoRoute(
       path: RouteNames.addLobby.path,

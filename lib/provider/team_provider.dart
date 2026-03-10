@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/exception/invalid_request_exception.dart';
 import 'package:fanta_f1/exception/team_not_found_exception.dart';
@@ -7,6 +5,7 @@ import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/repository/team_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/v5.dart';
 
@@ -67,7 +66,7 @@ class TeamProvider extends _$TeamProvider {
     return teamId;
   }
 
-  Future<String> uploadAvatar(File file, String teamId) async {
+  Future<String> uploadAvatar(XFile file, String teamId) async {
     final downloadUrl = await _teamRepository.uploadAvatar(
       teamId,
       _firebaseAuth.currentUser!.uid,
@@ -76,20 +75,24 @@ class TeamProvider extends _$TeamProvider {
     return downloadUrl;
   }
 
-  Future<void> updateTeamNameOrAvatarUrl({
+  Future<void> updateTeamNameOrAvatar({
     required String teamId,
     String? newTeamName,
-    String? teamAvatarUrl,
+    XFile? teamAvatar,
   }) async {
     final currentState = state.value ?? <String, Team>{};
 
     if (!currentState.containsKey(teamId)) {
       throw TeamNotFoundException("No team found with id: $teamId");
     }
+    String? avatarUrl;
+    if (teamAvatar != null) {
+      avatarUrl = await uploadAvatar(teamAvatar, teamId);
+    }
 
     final team = currentState[teamId]!.copyWith(
       teamName: newTeamName ?? currentState[teamId]!.teamName,
-      teamAvatarUrl: teamAvatarUrl ?? currentState[teamId]!.teamAvatarUrl,
+      teamAvatarUrl: avatarUrl ?? currentState[teamId]!.teamAvatarUrl,
       updatedAt: DateTime.now(),
     );
 

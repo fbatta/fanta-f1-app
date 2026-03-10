@@ -7,8 +7,10 @@ import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/provider/lineup_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
+import 'package:fanta_f1/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class Team extends ConsumerStatefulWidget {
   final String teamId;
@@ -38,7 +40,15 @@ class _TeamState extends ConsumerState<Team> {
     final team = teams.requireValue[widget.teamId]!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(team.teamName)),
+      appBar: AppBar(
+        title: Text(team.teamName),
+        actions: [
+          IconButton(
+            onPressed: () => _onEditTeamPressed(team),
+            icon: Icon(Icons.edit),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ListView(
@@ -61,6 +71,7 @@ class _TeamState extends ConsumerState<Team> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
+              fit: BoxFit.cover,
               image: team.teamAvatarUrl != null
                   ? NetworkImage(team.teamAvatarUrl!)
                   : AssetImage('assets/images/idgaf1_default_avatar.png'),
@@ -114,6 +125,7 @@ class _TeamState extends ConsumerState<Team> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
+                                    fit: BoxFit.cover,
                                     image: standing.teamAvatarUrl != null
                                         ? NetworkImage(standing.teamAvatarUrl!)
                                         : AssetImage(
@@ -230,6 +242,14 @@ class _TeamState extends ConsumerState<Team> {
           ],
         );
       },
+    );
+  }
+
+  void _onEditTeamPressed(team_dto.Team team) {
+    context.pushNamed(
+      RouteNames.editTeam.name,
+      pathParameters: {'teamId': widget.teamId},
+      extra: team,
     );
   }
 }

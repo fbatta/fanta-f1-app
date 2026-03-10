@@ -117,6 +117,7 @@ class _HomeState extends ConsumerState<Home> {
               border: Border.all(),
               borderRadius: BorderRadius.circular(25.0),
               image: DecorationImage(
+                fit: BoxFit.cover,
                 image: team.teamAvatarUrl != null
                     ? NetworkImage(team.teamAvatarUrl!)
                     : AssetImage('assets/images/idgaf1_default_avatar.png'),
