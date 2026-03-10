@@ -1,0 +1,90 @@
+name: build_app
+run-name: Build app for Android iOS
+on:
+  workflow_call:
+    secrets:
+      keystore:
+        description: The keystore containing the signing key for the Android version of the app
+        required: true
+      key_properties:
+        description: The properties file containing the location and password of the keystore
+        required: true
+      play_services:
+        description: The contents of the Google Play Services JSON file
+        required: true
+      google_service_info_plist:
+        description: The contents of the Google Service Info.plist file
+        required: true
+      firebase_options:
+        description: Dart file containing the necessary parameters to correctly set up firebase in the app
+        required: true
+      apple_development_certificate:
+        description: The contents of the Apple development certificate
+        required: true
+      apple_development_certificate_password:
+        description: The password of the Apple development certificate
+        required: true
+
+
+jobs:
+  build_android:
+    name: Build app for Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v5
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Copy secrets to necessary files
+        env:
+          KEYSTORE: ${{ secrets.keystore }}
+          KEY_PROPERTIES: ${{ secrets.key_properties }}
+          PLAY_SERVICES: ${{ secrets.play_services }}
+          FIREBASE_OPTIONS: ${{ secrets.firebase_options }}
+        run: |
+          echo $KEYSTORE | base64 --decode > ./play-store-keystore.jks
+          echo $KEY_PROPERTIES | base64 --decode > ./android/key.properties
+          echo $PLAY_SERVICES | base64 --decode > ./android/app/google-services.json
+          echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase-options.dart
+      - name: Build Android app
+        run: flutter build apk --release
+  build_ios:
+    name: Build app for iOS
+    runs-on: macos-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v5
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Install the Apple certificate
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.apple_development_certificate }}
+          P12_PASSWORD: ${{ secrets.apple_development_certificate_password }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
