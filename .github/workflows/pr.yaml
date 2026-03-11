@@ -15,6 +15,8 @@ jobs:
   build_app:
     name: Build app for Android and iOS
     uses: ./.github/workflows/build.yaml
+    needs:
+      - run_tests
     secrets:
       keystore: ${{ secrets.KEYSTORE }}
       key_properties: ${{ secrets.KEY_PROPERTIES }}
@@ -24,3 +26,4 @@ jobs:
       apple_development_certificate: ${{ secrets.APPLE_DEVELOPMENT_CERTIFICATE }}
       apple_development_certificate_password: ${{ secrets.APPLE_DEVELOPMENT_CERTIFICATE_PASSWORD }}
       keychain_password: ${{ github.run_id }}
+      provisioning_profile: ${{ secrets.BUILD_PROVISION_PROFILE }}
