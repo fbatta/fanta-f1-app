@@ -119,7 +119,7 @@ jobs:
           FIREBASE_OPTIONS: ${{ secrets.firebase_options }}
         run: |
           echo INFO_PLIST | base64 --decode > ./ios/Runner/GoogleService-Info.plist
-          echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase-options.dart
+          echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase_options.dart
       - name: Build iOS app
         run: flutter build ipa --release
       - name: Make build available as artifact
