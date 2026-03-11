@@ -59,7 +59,7 @@ jobs:
           PLAY_SERVICES: ${{ secrets.play_services }}
           FIREBASE_OPTIONS: ${{ secrets.firebase_options }}
         run: |
-          echo $KEYSTORE | base64 --decode > ./play-store-keystore.jks
+          echo $KEYSTORE | base64 --decode > ./android/app/play-store-keystore.jks
           echo $KEY_PROPERTIES | base64 --decode > ./android/key.properties
           echo $PLAY_SERVICES | base64 --decode > ./android/app/google-services.json
           echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase_options.dart
