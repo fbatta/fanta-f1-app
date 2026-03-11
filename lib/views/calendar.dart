@@ -94,7 +94,7 @@ class _CalendarState extends ConsumerState<Calendar> {
             },
           ),
           subtitle: RichText(
-            maxLines: 2,
+            maxLines: 3,
             text: TextSpan(
               children: [
                 TextSpan(text: _startsIn(race.dateStart)),
@@ -134,11 +134,13 @@ class _CalendarState extends ConsumerState<Calendar> {
     final differenceFromEnd = dateClose.difference(DateTime.now());
     if (differenceFromStart.inDays > 0) {
       return TextSpan(
-        text: "\nLineup opens in ${differenceFromStart.inDays} days and ${differenceFromStart.inHours % 24} hours",
+        text:
+            "\nLineup opens in ${differenceFromStart.inDays} days and ${differenceFromStart.inHours % 24} hours",
       );
     } else if (differenceFromStart.inHours > 0) {
       return TextSpan(
-        text: "\nLineup opens in ${differenceFromStart.inHours} hours and ${differenceFromStart.inMinutes % 60} minutes",
+        text:
+            "\nLineup opens in ${differenceFromStart.inHours} hours and ${differenceFromStart.inMinutes % 60} minutes",
       );
     } else if (differenceFromStart.inMinutes >= 0) {
       return TextSpan(
@@ -146,14 +148,16 @@ class _CalendarState extends ConsumerState<Calendar> {
       );
     } else if (differenceFromEnd.inDays > 0) {
       return TextSpan(
-        text: "\nLineup closes in ${differenceFromEnd.inDays} days",
+        text:
+            "\nLineup closes in ${differenceFromEnd.inDays} days and ${differenceFromEnd.inHours % 24} hours",
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
           color: Theme.of(context).colorScheme.primary,
         ),
       );
     } else if (differenceFromEnd.inHours > 0) {
       return TextSpan(
-        text: "\nLineup closes in ${differenceFromEnd.inHours} hours",
+        text:
+            "\nLineup closes in ${differenceFromEnd.inHours} hours and ${differenceFromEnd.inMinutes % 60} minutes",
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
           color: Theme.of(context).colorScheme.error,
         ),
