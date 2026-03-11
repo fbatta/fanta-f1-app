@@ -24,6 +24,9 @@ on:
       apple_development_certificate_password:
         description: The password of the Apple development certificate
         required: true
+      keychain_password:
+        description: The password for the keychain created inside the runner
+        required: true
 
 
 jobs:
@@ -53,6 +56,12 @@ jobs:
           echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase-options.dart
       - name: Build Android app
         run: flutter build apk --release
+      - name: Make build available as artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: android
+          path: ./build/app/outputs/flutter-apk/app-release.apk
+
   build_ios:
     name: Build app for iOS
     runs-on: macos-latest
@@ -70,7 +79,7 @@ jobs:
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.apple_development_certificate }}
           P12_PASSWORD: ${{ secrets.apple_development_certificate_password }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.keychain_password }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -88,3 +97,21 @@ jobs:
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
+      - name: Copy secrets to necessary files
+        env:
+          INFO_PLIST: ${{ secrets.google_service_info_plist }}
+          FIREBASE_OPTIONS: ${{ secrets.firebase_options }}
+        run: |
+          echo INFO_PLIST | base64 --decode > ./ios/Runner/GoogleService-Info.plist
+          echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase-options.dart
+      - name: Build iOS app
+        run: flutter build ipa --release
+      - name: Make build available as artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ios
+          path: ./build/ios/ipa/fanta_f1.ipa
+      - name: Clean up keychain
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db

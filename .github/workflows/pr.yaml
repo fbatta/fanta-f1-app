@@ -12,3 +12,15 @@ jobs:
   run_tests:
     name: Run all tests
     uses: ./.github/workflows/tests.yaml
+  build_app:
+    name: Build app for Android and iOS
+    uses: ./.github/workflows/build.yaml
+    secrets:
+      keystore: ${{ secrets.KEYSTORE }}
+      key_properties: ${{ secrets.KEY_PROPERTIES }}
+      play_services: ${{ secrets.GOOGLE_SERVICES }}
+      google_service_info_plist: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+      firebase_options: ${{ secrets.FIREBASE_OPTIONS }}
+      apple_development_certificate: ${{ secrets.APPLE_DEVELOPMENT_CERTIFICATE }}
+      apple_development_certificate_password: ${{ secrets.APPLE_DEVELOPMENT_CERTIFICATE_PASSWORD }}
+      keychain_password: ${{ github.run_id }}
