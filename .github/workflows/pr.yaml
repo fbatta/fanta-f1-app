@@ -2,9 +2,6 @@ name: pull_request
 run-name: Test and build app for Android and iOS
 on:
   pull_request:
-    types:
-      - opened
-      - edited
     branches:
       - main
       - releases/**
