@@ -108,7 +108,7 @@ class _LineupViewState extends ConsumerState<LineupView>
           _lineup = snapshot.data!;
           _creditsSpent = snapshot.data!.drivers.fold(
             0.0,
-            (acc, driver) => acc + driver.driverCost,
+            (acc, driver) => acc + (driver.driverCost ?? 0.0),
           );
         }
 

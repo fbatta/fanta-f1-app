@@ -46,4 +46,15 @@ class Lineup with _$Lineup {
   factory Lineup.fromJson(Map<String, dynamic> json) => _$LineupFromJson(json);
 
   Map<String, dynamic> toJson() => _$LineupToJson(this);
+
+  static Lineup emptyLineup() => Lineup(
+    lineupId: 'empty',
+    teamId: 'empty',
+    ownerId: 'empty',
+    raceId: 'empty',
+    drivers: [],
+    createdAt: DateTime.fromMillisecondsSinceEpoch(0),
+    updatedAt: DateTime.fromMillisecondsSinceEpoch(0),
+    version: 1,
+  );
 }

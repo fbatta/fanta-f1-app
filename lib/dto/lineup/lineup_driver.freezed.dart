@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LineupDriver {
 
- String get driverId; int get driverNumber; String get driverAcronym; double get driverCost;
+ String? get driverId; int get driverNumber; String get driverAcronym; double? get driverCost;
 /// Create a copy of LineupDriver
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -46,7 +46,7 @@ abstract mixin class $LineupDriverCopyWith<$Res>  {
   factory $LineupDriverCopyWith(LineupDriver value, $Res Function(LineupDriver) _then) = _$LineupDriverCopyWithImpl;
 @useResult
 $Res call({
- int driverNumber, String driverAcronym, double driverCost, String driverId
+ int driverNumber, String driverAcronym, double? driverCost, String? driverId
 });
 
 
@@ -63,13 +63,13 @@ class _$LineupDriverCopyWithImpl<$Res>
 
 /// Create a copy of LineupDriver
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? driverNumber = null,Object? driverAcronym = null,Object? driverCost = null,Object? driverId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? driverNumber = null,Object? driverAcronym = null,Object? driverCost = freezed,Object? driverId = freezed,}) {
   return _then(LineupDriver(
 driverNumber: null == driverNumber ? _self.driverNumber : driverNumber // ignore: cast_nullable_to_non_nullable
 as int,driverAcronym: null == driverAcronym ? _self.driverAcronym : driverAcronym // ignore: cast_nullable_to_non_nullable
-as String,driverCost: null == driverCost ? _self.driverCost : driverCost // ignore: cast_nullable_to_non_nullable
-as double,driverId: null == driverId ? _self.driverId : driverId // ignore: cast_nullable_to_non_nullable
-as String,
+as String,driverCost: freezed == driverCost ? _self.driverCost : driverCost // ignore: cast_nullable_to_non_nullable
+as double?,driverId: freezed == driverId ? _self.driverId : driverId // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -8,6 +8,7 @@ import 'package:fanta_f1/views/calendar.dart';
 import 'package:fanta_f1/views/forgot_password.dart';
 import 'package:fanta_f1/views/home.dart';
 import 'package:fanta_f1/views/lineup_view.dart';
+import 'package:fanta_f1/views/race_results_view.dart';
 import 'package:fanta_f1/views/sign_in.dart';
 import 'package:fanta_f1/views/sign_up.dart';
 import 'package:flutter/cupertino.dart';
@@ -85,6 +86,15 @@ final router = GoRouter(
         raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
         race: state.extra as Race,
+      ),
+    ),
+    GoRoute(
+      path: RouteNames.raceResults.path,
+      name: RouteNames.raceResults.name,
+      builder: (context, state) => RaceResultsView(
+        race: state.extra as Race,
+        teamId: state.pathParameters['teamId']!,
+        lobbyId: state.pathParameters['lobbyId']!,
       ),
     ),
   ],

@@ -1,4 +1,6 @@
+import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
+import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/repository/lineup_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -49,5 +51,25 @@ class LineupProvider extends _$LineupProvider {
 
   Future<void> createOrUpdateLineup(Lineup lineup) async {
     await _lineupRepository.createOrUpdateLineup(lineup);
+  }
+
+  Future<Map<Team, Lineup>> getLineupsInLobbyForRace(
+    String lobbyId,
+    String raceId,
+  ) async {
+    final teams = await ref
+        .watch(teamProviderProvider.notifier)
+        .getTeamsInLobby(lobbyId);
+    final teamIds = teams.map((team) => team.teamId).toList();
+    final lineups = await _lineupRepository.getLineupsByTeamIdsAndRaceId(
+      teamIds,
+      raceId,
+    );
+    final lineupsMap = <Team, Lineup>{};
+    for (final lineup in lineups) {
+      final team = teams.firstWhere((team) => team.teamId == lineup.teamId);
+      lineupsMap[team] = lineup;
+    }
+    return lineupsMap;
   }
 }
