@@ -60,6 +60,22 @@ All product and company names are trademarks™ or registered® trademarks of th
    flutter run
    ```
 
+## Contributing
+
+Contributions are welcome! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+### Reporting Issues
+
+If you find any bugs, encounter issues, or have suggestions for new features, please [open an issue](https://github.com/fbatta/fanta-f1-app/issues) on GitHub. Provide as much detail as possible, including steps to reproduce bugs and your environment details.
+
+### Pull Request Process
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
 ## License
 
 This project is licensed under the terms of the LICENSE file included in the repository.
