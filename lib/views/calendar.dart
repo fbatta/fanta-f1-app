@@ -2,6 +2,7 @@ import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/component/team_select_modal_bottom_sheet.dart';
 import 'package:fanta_f1/dto/race/race.dart';
+import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
@@ -61,6 +62,12 @@ class _CalendarState extends ConsumerState<Calendar> {
             ...raceWeekends.requireValue.futureRaces
                 .sublist(1)
                 .map(_raceWeekendCard),
+            SizedBox(height: 16.0),
+            Text("Past races:", style: Theme.of(context).textTheme.titleLarge),
+            SizedBox(height: 8.0),
+            ...raceWeekends.requireValue.pastRaces
+                .sublist(1)
+                .map(_raceWeekendCard),
           ],
         ),
       ),
@@ -97,7 +104,9 @@ class _CalendarState extends ConsumerState<Calendar> {
             maxLines: 3,
             text: TextSpan(
               children: [
-                TextSpan(text: _startsIn(race.dateStart)),
+                TextSpan(
+                  text: _startsIn(start: race.dateStart, end: race.dateEnd),
+                ),
                 showLineupOpenDate
                     ? _lineupOpens(
                         dateOpen: race.dateLineupOpen,
@@ -110,20 +119,24 @@ class _CalendarState extends ConsumerState<Calendar> {
               ),
             ),
           ),
-          trailing: _goToLineupChevron(race),
+          trailing: _goToLineupOrResultsChevron(race),
         ),
       ),
     );
   }
 
-  String _startsIn(DateTime date) {
-    final difference = date.difference(DateTime.now());
-    if (difference.inDays > 0) {
-      return "Starts in ${difference.inDays} days and ${difference.inHours % 24} hours";
-    } else if (difference.inHours > 0) {
-      return "Starts in ${difference.inHours} hours";
+  String _startsIn({required DateTime start, required DateTime end}) {
+    final now = DateTime.now();
+    final differenceFromStart = start.difference(now);
+    final differenceFromEnd = end.difference(now);
+    if (differenceFromStart.inDays > 0) {
+      return "Starts in ${differenceFromStart.inDays} days and ${differenceFromStart.inHours % 24} hours";
+    } else if (differenceFromStart.inHours > 0) {
+      return "Starts in ${differenceFromStart.inHours} hours";
+    } else if (differenceFromEnd.inMilliseconds > 0) {
+      return "Currently running";
     }
-    return "Currently running";
+    return 'Finished';
   }
 
   TextSpan _lineupOpens({
@@ -178,7 +191,7 @@ class _CalendarState extends ConsumerState<Calendar> {
     );
   }
 
-  Widget? _goToLineupChevron(Race race) {
+  Widget? _goToLineupOrResultsChevron(Race race) {
     return FutureBuilder(
       future: _networkTimeFuture,
       builder: (builder, snapshot) {
@@ -186,38 +199,63 @@ class _CalendarState extends ConsumerState<Calendar> {
             !snapshot.hasData) {
           return SizedBox(height: 1, width: 1);
         }
+
         if (snapshot.data!.isAfter(race.dateLineupOpen) &&
             snapshot.data!.isBefore(race.dateLineupClose)) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              IconButton(
-                iconSize: 32,
-                onPressed: () async => _onGoToLineupPressed(race),
-                icon: Icon(Icons.chevron_right),
-              ),
-            ],
-          );
+          return _chevron(onPressed: () async => _onGoToLineupPressed(race));
+        } else if (snapshot.data!.isAfter(race.dateLineupClose)) {
+          return _chevron(onPressed: () async => _onGoToResultsPressed(race));
         }
         return SizedBox(height: 1, width: 1);
       },
     );
   }
 
+  Widget _chevron({required void Function()? onPressed}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        IconButton(
+          iconSize: 32,
+          onPressed: onPressed,
+          icon: Icon(Icons.chevron_right),
+        ),
+      ],
+    );
+  }
+
   Future<void> _onGoToLineupPressed(Race race) async {
-    final teamId = await showModalBottomSheet<String?>(
+    final team = await showModalBottomSheet<Team?>(
       context: context,
       builder: (context) {
         return TeamSelectModalBottomSheet();
       },
     );
-    if (teamId == null || !context.mounted) {
+    if (team == null || !context.mounted) {
       return;
     }
     context.pushNamed(
       RouteNames.lineup.name,
-      pathParameters: {'teamId': teamId, 'raceId': race.raceId},
+      pathParameters: {'teamId': team.teamId, 'raceId': race.raceId},
+      extra: race,
+    );
+  }
+
+  Future<void> _onGoToResultsPressed(Race race) async {
+    final team = await showModalBottomSheet<Team?>(
+      context: context,
+      builder: (context) {
+        return TeamSelectModalBottomSheet();
+      },
+    );
+
+    if (team == null || !context.mounted) {
+      return;
+    }
+    context.pushNamed(
+      RouteNames.raceResults.name,
+      pathParameters: {'teamId': team.teamId, 'lobbyId': team.lobbyId},
       extra: race,
     );
   }

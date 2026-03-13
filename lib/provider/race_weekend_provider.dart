@@ -19,10 +19,14 @@ class RaceWeekendProvider extends _$RaceWeekendProvider {
       currentYear,
     );
     final currentRace = await _raceWeekendRepository.getCurrentRace();
+    final pastRaces = await _raceWeekendRepository.getPastRacesForYear(
+      currentYear,
+    );
 
     return RaceWeekendProviderModel(
       currentRace: currentRace,
       futureRaces: futureRaces,
+      pastRaces: pastRaces,
     );
   }
 }
@@ -30,6 +34,11 @@ class RaceWeekendProvider extends _$RaceWeekendProvider {
 class RaceWeekendProviderModel {
   final Race? currentRace;
   final List<Race> futureRaces;
+  final List<Race> pastRaces;
 
-  const RaceWeekendProviderModel({this.currentRace, required this.futureRaces});
+  const RaceWeekendProviderModel({
+    this.currentRace,
+    required this.futureRaces,
+    required this.pastRaces,
+  });
 }

@@ -54,7 +54,7 @@ class _TeamSelectModalBottomSheetState
               itemBuilder: (context, index) => InkWell(
                 onTap: () => Navigator.of(
                   context,
-                ).pop(teams.requireValue.values.elementAt(index).teamId),
+                ).pop(teams.requireValue.values.elementAt(index)),
                 child: ListTile(
                   title: Text(
                     teams.requireValue.values.elementAt(index).teamName,

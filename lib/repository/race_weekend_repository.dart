@@ -46,4 +46,18 @@ class RaceWeekendRepository {
         ? null
         : Race.fromJson(snapshot.docs.first.data() as Map<String, dynamic>);
   }
+
+  Future<List<Race>> getPastRacesForYear(int year) async {
+    final dateEnd = (await _timeUtils.tryGetNetworkTime()).toUtc();
+    final dateStart = DateTime(year, 1, 1).toUtc();
+
+    final snapshot = await _races
+        .where('dateEnd', isLessThanOrEqualTo: dateEnd.millisecondsSinceEpoch)
+        .where('dateStart', isGreaterThan: dateStart.millisecondsSinceEpoch)
+        .orderBy('dateStart')
+        .get();
+    return snapshot.docs
+        .map((doc) => Race.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
 }

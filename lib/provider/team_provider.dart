@@ -104,8 +104,13 @@ class TeamProvider extends _$TeamProvider {
 
   Future<List<Team>> getStandingsForLobby(String lobbyId) async {
     final year = (await _timeUtils.tryGetNetworkTime()).year;
-    final standings = (await _teamRepository.getTeamsInLobby(lobbyId));
+    final standings = await getTeamsInLobby(lobbyId);
     standings.sort((a, b) => b.points[year]!.compareTo(a.points[year]!));
     return standings;
+  }
+
+  Future<List<Team>> getTeamsInLobby(String lobbyId) async {
+    final teamsInLobby = await _teamRepository.getTeamsInLobby(lobbyId);
+    return teamsInLobby;
   }
 }

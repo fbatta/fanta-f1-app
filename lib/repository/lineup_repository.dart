@@ -62,6 +62,23 @@ class LineupRepository {
         .toList();
   }
 
+  Future<List<Lineup>> getLineupsByTeamIdsAndRaceId(
+    List<String> teamIds,
+    String raceId,
+  ) async {
+    final snapshot = await _lineupsCollection
+        .where('teamId', whereIn: teamIds)
+        .where('raceId', isEqualTo: raceId)
+        .orderBy('score', descending: true)
+        .get();
+    snapshot.docs.map((doc) {
+      print(doc.data());
+    });
+    return snapshot.docs
+        .map((doc) => Lineup.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<Lineup?> findLineup(Lineup lineup) async {
     return findLineupById(lineup.teamId, lineup.raceId);
   }

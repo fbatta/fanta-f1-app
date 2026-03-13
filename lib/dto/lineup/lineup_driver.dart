@@ -7,19 +7,19 @@ part 'lineup_driver.g.dart';
 @JsonSerializable()
 class LineupDriver with _$LineupDriver {
   @override
-  final String driverId;
+  final String? driverId;
   @override
   final int driverNumber;
   @override
   final String driverAcronym;
   @override
-  final double driverCost;
+  final double? driverCost;
 
   const LineupDriver({
     required this.driverNumber,
     required this.driverAcronym,
-    required this.driverCost,
-    required this.driverId,
+    this.driverCost = 0.0,
+    this.driverId,
   });
 
   factory LineupDriver.fromJson(Map<String, dynamic> json) =>
