@@ -1317,6 +1317,135 @@ class MockDocumentSnapshot extends _i1.Mock
   );
 }
 
+/// A class which mocks [QuerySnapshot].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockQuerySnapshot extends _i1.Mock
+    implements _i4.QuerySnapshot<Map<String, dynamic>> {
+  @override
+  List<_i4.QueryDocumentSnapshot<Map<String, dynamic>>> get docs =>
+      (super.noSuchMethod(
+            Invocation.getter(#docs),
+            returnValue: <_i4.QueryDocumentSnapshot<Map<String, dynamic>>>[],
+            returnValueForMissingStub:
+                <_i4.QueryDocumentSnapshot<Map<String, dynamic>>>[],
+          )
+          as List<_i4.QueryDocumentSnapshot<Map<String, dynamic>>>);
+
+  @override
+  List<_i4.DocumentChange<Map<String, dynamic>>> get docChanges =>
+      (super.noSuchMethod(
+            Invocation.getter(#docChanges),
+            returnValue: <_i4.DocumentChange<Map<String, dynamic>>>[],
+            returnValueForMissingStub:
+                <_i4.DocumentChange<Map<String, dynamic>>>[],
+          )
+          as List<_i4.DocumentChange<Map<String, dynamic>>>);
+
+  @override
+  _i4.SnapshotMetadata get metadata =>
+      (super.noSuchMethod(
+            Invocation.getter(#metadata),
+            returnValue: _FakeSnapshotMetadata_12(
+              this,
+              Invocation.getter(#metadata),
+            ),
+            returnValueForMissingStub: _FakeSnapshotMetadata_12(
+              this,
+              Invocation.getter(#metadata),
+            ),
+          )
+          as _i4.SnapshotMetadata);
+
+  @override
+  int get size =>
+      (super.noSuchMethod(
+            Invocation.getter(#size),
+            returnValue: 0,
+            returnValueForMissingStub: 0,
+          )
+          as int);
+}
+
+/// A class which mocks [QueryDocumentSnapshot].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockQueryDocumentSnapshot extends _i1.Mock
+    implements _i4.QueryDocumentSnapshot<Map<String, dynamic>> {
+  @override
+  String get id =>
+      (super.noSuchMethod(
+            Invocation.getter(#id),
+            returnValue: _i7.dummyValue<String>(this, Invocation.getter(#id)),
+            returnValueForMissingStub: _i7.dummyValue<String>(
+              this,
+              Invocation.getter(#id),
+            ),
+          )
+          as String);
+
+  @override
+  _i4.DocumentReference<Map<String, dynamic>> get reference =>
+      (super.noSuchMethod(
+            Invocation.getter(#reference),
+            returnValue: _FakeDocumentReference_7<Map<String, dynamic>>(
+              this,
+              Invocation.getter(#reference),
+            ),
+            returnValueForMissingStub:
+                _FakeDocumentReference_7<Map<String, dynamic>>(
+                  this,
+                  Invocation.getter(#reference),
+                ),
+          )
+          as _i4.DocumentReference<Map<String, dynamic>>);
+
+  @override
+  _i4.SnapshotMetadata get metadata =>
+      (super.noSuchMethod(
+            Invocation.getter(#metadata),
+            returnValue: _FakeSnapshotMetadata_12(
+              this,
+              Invocation.getter(#metadata),
+            ),
+            returnValueForMissingStub: _FakeSnapshotMetadata_12(
+              this,
+              Invocation.getter(#metadata),
+            ),
+          )
+          as _i4.SnapshotMetadata);
+
+  @override
+  bool get exists =>
+      (super.noSuchMethod(
+            Invocation.getter(#exists),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
+
+  @override
+  Map<String, dynamic> data() =>
+      (super.noSuchMethod(
+            Invocation.method(#data, []),
+            returnValue: <String, dynamic>{},
+            returnValueForMissingStub: <String, dynamic>{},
+          )
+          as Map<String, dynamic>);
+
+  @override
+  dynamic get(Object? field) => super.noSuchMethod(
+    Invocation.method(#get, [field]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  dynamic operator [](Object? field) => super.noSuchMethod(
+    Invocation.method(#[], [field]),
+    returnValueForMissingStub: null,
+  );
+}
+
 /// A class which mocks [File].
 ///
 /// See the documentation for Mockito's code generation for more information.

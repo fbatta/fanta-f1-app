@@ -8,7 +8,9 @@ import 'package:mockito/annotations.dart';
   MockSpec<CollectionReference<Map<String, dynamic>>>(),
   MockSpec<DocumentReference<Map<String, dynamic>>>(),
   MockSpec<DocumentSnapshot<Map<String, dynamic>>>(),
+  MockSpec<QuerySnapshot<Map<String, dynamic>>>(),
+  MockSpec<QueryDocumentSnapshot<Map<String, dynamic>>>(),
   MockSpec<File>(),
-  MockSpec<FileStat>()
+  MockSpec<FileStat>(),
 ])
 void main() {}
