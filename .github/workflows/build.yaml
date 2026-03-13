@@ -121,7 +121,8 @@ jobs:
           echo $INFO_PLIST | base64 --decode > ./ios/Runner/GoogleService-Info.plist
           echo $FIREBASE_OPTIONS | base64 --decode > ./lib/firebase_options.dart
       - name: Build iOS app
-        run: flutter build ipa --release --export-options-plist=./ios/ExportOptions.plist
+#        run: flutter build ipa --release --export-options-plist=./ios/ExportOptions.plist
+        run: flutter build ipa --release
       - name: Make build available as artifact
         uses: actions/upload-artifact@v6
         with:
