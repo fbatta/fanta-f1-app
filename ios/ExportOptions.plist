@@ -9,7 +9,7 @@
     <key>provisioningProfiles</key>
     <dict>
         <key>net.battaglilni.fantaF1</key>
-        <string>Github runner provisioning profile</string>
+        <string>Github runner distribution provisioning profile</string>
     </dict>
     <key>signingCertificate</key>
     <string>Apple Distribution: Francesco Battaglini (9575X675NW)</string>
