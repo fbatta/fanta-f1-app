@@ -27,7 +27,27 @@ class RaceWeekendProvider extends _$RaceWeekendProvider {
       currentRace: currentRace,
       futureRaces: futureRaces,
       pastRaces: pastRaces,
+      allRaces: futureRaces + pastRaces + [?currentRace],
     );
+  }
+
+  Future<Race?> getRaceById(String raceId) async {
+    final currentState = state.requireValue;
+
+    final race = currentState.allRaces.firstWhere(
+      (race) => race.raceId == raceId,
+      orElse: () => Race.emptyRace(),
+    );
+    if (race.raceId != '') {
+      return race;
+    }
+
+    try {
+      return await _raceWeekendRepository.getRaceById(raceId);
+    } catch (e) {
+      // TODO: report error
+      return null;
+    }
   }
 }
 
@@ -35,10 +55,12 @@ class RaceWeekendProviderModel {
   final Race? currentRace;
   final List<Race> futureRaces;
   final List<Race> pastRaces;
+  final List<Race> allRaces;
 
   const RaceWeekendProviderModel({
     this.currentRace,
     required this.futureRaces,
     required this.pastRaces,
+    required this.allRaces,
   });
 }

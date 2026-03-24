@@ -71,9 +71,6 @@ class LineupRepository {
         .where('raceId', isEqualTo: raceId)
         .orderBy('score', descending: true)
         .get();
-    snapshot.docs.map((doc) {
-      print(doc.data());
-    });
     return snapshot.docs
         .map((doc) => Lineup.fromJson(doc.data() as Map<String, dynamic>))
         .toList();

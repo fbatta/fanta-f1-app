@@ -1,4 +1,3 @@
-import 'package:fanta_f1/dto/race/race.dart';
 import 'package:fanta_f1/dto/team/team.dart' as team_dto;
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/views/account_settings.dart';
@@ -85,14 +84,13 @@ final router = GoRouter(
       builder: (context, state) => LineupView(
         raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
-        race: state.extra as Race,
       ),
     ),
     GoRoute(
       path: RouteNames.raceResults.path,
       name: RouteNames.raceResults.name,
       builder: (context, state) => RaceResultsView(
-        race: state.extra as Race,
+        raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
         lobbyId: state.pathParameters['lobbyId']!,
       ),

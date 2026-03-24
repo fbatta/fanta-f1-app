@@ -15,6 +15,13 @@ class RaceWeekendRepository {
     _races = _firestore.collection('races');
   }
 
+  Future<Race?> getRaceById(String raceId) async {
+    final snapshot = await _races.doc(raceId).get();
+    return snapshot.exists
+        ? Race.fromJson(snapshot.data() as Map<String, dynamic>)
+        : null;
+  }
+
   Future<List<Race>> getFutureRacesForYear(int year) async {
     final dateStart = (await _timeUtils.tryGetNetworkTime()).toUtc();
     final dateEnd = DateTime(year, 12, 31).toUtc();

@@ -73,8 +73,7 @@ class _AccountSettingsState extends ConsumerState<AccountSettings> {
 
   Future<void> _onSignOffPressed() async {
     await _auth.signOut();
-    if (context.mounted) {
-      context.goNamed(RouteNames.signIn.name);
-    }
+    if (!mounted) return;
+    context.goNamed(RouteNames.signIn.name);
   }
 }

@@ -105,11 +105,10 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
         isLoading = true;
       });
       await _auth.sendPasswordResetEmail(email: textEditingController.text);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          successSnackBar(context: context, text: 'Password reset email sent'),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        successSnackBar(context: context, text: 'Password reset email sent'),
+      );
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'auth/invalid-email':
