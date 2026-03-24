@@ -12,7 +12,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class Calendar extends ConsumerStatefulWidget {
-  const Calendar({super.key});
+  final String? raceId;
+  const Calendar({super.key, this.raceId});
 
   @override
   ConsumerState createState() => _CalendarState();
@@ -28,6 +29,12 @@ class _CalendarState extends ConsumerState<Calendar> {
     _timeUtils = _getIt();
     _networkTimeFuture = _timeUtils.tryGetNetworkTime();
     super.initState();
+
+    if (widget.raceId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _onGoToLineupPressed(widget.raceId!);
+      });
+    }
   }
 
   @override
@@ -202,9 +209,13 @@ class _CalendarState extends ConsumerState<Calendar> {
 
         if (snapshot.data!.isAfter(race.dateLineupOpen) &&
             snapshot.data!.isBefore(race.dateLineupClose)) {
-          return _chevron(onPressed: () async => _onGoToLineupPressed(race));
+          return _chevron(
+            onPressed: () async => _onGoToLineupPressed(race.raceId),
+          );
         } else if (snapshot.data!.isAfter(race.dateLineupClose)) {
-          return _chevron(onPressed: () async => _onGoToResultsPressed(race));
+          return _chevron(
+            onPressed: () async => _onGoToResultsPressed(race.raceId),
+          );
         }
         return SizedBox(height: 1, width: 1);
       },
@@ -225,24 +236,23 @@ class _CalendarState extends ConsumerState<Calendar> {
     );
   }
 
-  Future<void> _onGoToLineupPressed(Race race) async {
+  Future<void> _onGoToLineupPressed(String raceId) async {
     final team = await showModalBottomSheet<Team?>(
       context: context,
       builder: (context) {
         return TeamSelectModalBottomSheet();
       },
     );
-    if (team == null || !context.mounted) {
+    if (team == null || !mounted) {
       return;
     }
     context.pushNamed(
       RouteNames.lineup.name,
-      pathParameters: {'teamId': team.teamId, 'raceId': race.raceId},
-      extra: race,
+      pathParameters: {'teamId': team.teamId, 'raceId': raceId},
     );
   }
 
-  Future<void> _onGoToResultsPressed(Race race) async {
+  Future<void> _onGoToResultsPressed(String raceId) async {
     final team = await showModalBottomSheet<Team?>(
       context: context,
       builder: (context) {
@@ -250,13 +260,16 @@ class _CalendarState extends ConsumerState<Calendar> {
       },
     );
 
-    if (team == null || !context.mounted) {
+    if (team == null || !mounted) {
       return;
     }
     context.pushNamed(
       RouteNames.raceResults.name,
-      pathParameters: {'teamId': team.teamId, 'lobbyId': team.lobbyId},
-      extra: race,
+      pathParameters: {
+        'teamId': team.teamId,
+        'lobbyId': team.lobbyId,
+        'raceId': raceId,
+      },
     );
   }
 }

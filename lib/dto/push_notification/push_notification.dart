@@ -8,17 +8,11 @@ part 'push_notification.g.dart';
 @JsonSerializable()
 class PushNotification with _$PushNotification {
   @override
-  final String title;
-  @override
   final PushNotificationType type;
   @override
   final String? raceId;
 
-  const PushNotification({
-    required this.title,
-    required this.type,
-    required this.raceId,
-  });
+  const PushNotification({required this.type, required this.raceId});
 
   factory PushNotification.fromJson(Map<String, dynamic> json) =>
       _$PushNotificationFromJson(json);

@@ -8,21 +8,17 @@ part of 'push_notification.dart';
 
 PushNotification _$PushNotificationFromJson(Map<String, dynamic> json) =>
     PushNotification(
-      title: json['title'] as String,
       type: $enumDecode(_$PushNotificationTypeEnumMap, json['type']),
       raceId: json['raceId'] as String?,
     );
 
 const _$PushNotificationFieldMap = <String, String>{
-  'title': 'title',
   'type': 'type',
   'raceId': 'raceId',
 };
 
 // ignore: unused_element
 abstract class _$PushNotificationPerFieldToJson {
-  // ignore: unused_element
-  static Object? title(String instance) => instance;
   // ignore: unused_element
   static Object? type(PushNotificationType instance) =>
       _$PushNotificationTypeEnumMap[instance]!;
@@ -32,7 +28,6 @@ abstract class _$PushNotificationPerFieldToJson {
 
 Map<String, dynamic> _$PushNotificationToJson(PushNotification instance) =>
     <String, dynamic>{
-      'title': instance.title,
       'type': _$PushNotificationTypeEnumMap[instance.type]!,
       'raceId': instance.raceId,
     };

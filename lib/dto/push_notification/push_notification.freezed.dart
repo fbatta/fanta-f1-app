@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PushNotification {
 
- String get title; PushNotificationType get type; String? get raceId;
+ PushNotificationType get type; String? get raceId;
 /// Create a copy of PushNotification
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $PushNotificationCopyWith<PushNotification> get copyWith => _$PushNotificationCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PushNotification&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.raceId, raceId) || other.raceId == raceId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PushNotification&&(identical(other.type, type) || other.type == type)&&(identical(other.raceId, raceId) || other.raceId == raceId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,type,raceId);
+int get hashCode => Object.hash(runtimeType,type,raceId);
 
 @override
 String toString() {
-  return 'PushNotification(title: $title, type: $type, raceId: $raceId)';
+  return 'PushNotification(type: $type, raceId: $raceId)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $PushNotificationCopyWith<$Res>  {
   factory $PushNotificationCopyWith(PushNotification value, $Res Function(PushNotification) _then) = _$PushNotificationCopyWithImpl;
 @useResult
 $Res call({
- String title, PushNotificationType type, String? raceId
+ PushNotificationType type, String? raceId
 });
 
 
@@ -63,10 +63,9 @@ class _$PushNotificationCopyWithImpl<$Res>
 
 /// Create a copy of PushNotification
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? type = null,Object? raceId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? raceId = freezed,}) {
   return _then(PushNotification(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as PushNotificationType,raceId: freezed == raceId ? _self.raceId : raceId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
