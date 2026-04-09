@@ -1,3 +1,4 @@
+import 'package:fanta_f1/component/error_card.dart';
 import 'package:fanta_f1/component/team_avatar_small.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,9 @@ class ScoresAndAvatars {
 }
 
 Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
+  if (scoresAndAvatars.isEmpty) {
+    return ErrorCard(message: 'No scores found');
+  }
   return Builder(
     builder: (context) {
       return Column(

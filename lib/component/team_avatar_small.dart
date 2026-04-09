@@ -15,6 +15,7 @@ Widget teamAvatarSmall(
         image: teamAvatarUrl != null
             ? NetworkImage(teamAvatarUrl)
             : AssetImage('assets/images/idgaf1_default_avatar.png'),
+        onError: (error, stackTrace) {},
       ),
     ),
   );
