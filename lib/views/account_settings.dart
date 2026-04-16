@@ -3,6 +3,7 @@ import 'package:fanta_f1/dto/app_preferences.dart';
 import 'package:fanta_f1/provider/preferences_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -18,10 +19,12 @@ class AccountSettings extends ConsumerStatefulWidget {
 class _AccountSettingsState extends ConsumerState<AccountSettings> {
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
+  late final FirebaseMessaging _messaging;
 
   @override
   void initState() {
     _auth = _getIt();
+    _messaging = _getIt();
     super.initState();
   }
 

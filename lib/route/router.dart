@@ -11,7 +11,7 @@ import 'package:fanta_f1/views/race_results_view.dart';
 import 'package:fanta_f1/views/sign_in.dart';
 import 'package:fanta_f1/views/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,10 +19,6 @@ import '../views/team.dart';
 
 final router = GoRouter(
   redirect: (BuildContext context, GoRouterState state) {
-    final auth = GetIt.instance.get<FirebaseAuth>();
-    if (auth.currentUser != null) {
-      return RouteNames.home.path;
-    }
     if (state.uri.toString().contains(
       'app-1-436460578056-ios-b21d20492c2b619f04b8bd://firebaseauth',
     )) {
@@ -35,6 +31,13 @@ final router = GoRouter(
       path: RouteNames.signIn.path,
       name: RouteNames.signIn.toString(),
       builder: (BuildContext context, GoRouterState state) => const SignIn(),
+      redirect: (BuildContext context, GoRouterState state) {
+        final auth = GetIt.instance.get<FirebaseAuth>();
+        if (auth.currentUser != null) {
+          return RouteNames.home.path;
+        }
+        return null;
+      },
     ),
     GoRoute(
       path: RouteNames.forgotPassword.path,
