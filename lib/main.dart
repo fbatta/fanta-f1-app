@@ -5,9 +5,11 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fanta_f1/dto/push_notification/push_notification.dart';
 import 'package:fanta_f1/dto/push_notification/push_notification_type.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
+import 'package:fanta_f1/provider/preferences_provider.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
 import 'package:fanta_f1/repository/driver_cost_repository.dart';
 import 'package:fanta_f1/repository/driver_repository.dart';
+import 'package:fanta_f1/repository/driver_summary_repository.dart';
 import 'package:fanta_f1/repository/lineup_repository.dart';
 import 'package:fanta_f1/repository/lobby_repository.dart';
 import 'package:fanta_f1/repository/race_weekend_repository.dart';
@@ -62,6 +64,7 @@ Future<void> _registerInstances() async {
   getIt.registerSingleton(LineupRepository());
   getIt.registerSingleton(DriverRepository());
   getIt.registerSingleton(DriverCostRepository());
+  getIt.registerSingleton(DriverSummaryRepository());
   getIt.registerSingleton(packageInfo);
   getIt.registerSingleton(sharedPreferences);
 }
@@ -85,6 +88,8 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
 
     _setupInteractedMessage();
+
+    _messaging.onTokenRefresh.listen(_onDeviceTokenRefreshed);
   }
 
   // This widget is the root of your application.
@@ -93,25 +98,14 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp.router(
       routerConfig: router,
       title: 'IDGAF-1',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
     );
+  }
+
+  Future<void> _onDeviceTokenRefreshed(String token) async {
+    await ref
+        .read(preferencesProviderProvider.notifier)
+        .updateDeviceToken(token);
   }
 
   Future<void> _setupInteractedMessage() async {
