@@ -110,7 +110,7 @@ class _LineupViewState extends ConsumerState<LineupView>
         return Scaffold(
           appBar: _appBar(),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListView(
               children: [
                 _selectedDriversCard(drivers.requireValue),
@@ -156,7 +156,7 @@ class _LineupViewState extends ConsumerState<LineupView>
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 16.0,
-              horizontal: 8.0,
+              horizontal: 16.0,
             ),
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),

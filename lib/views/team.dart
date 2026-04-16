@@ -51,7 +51,7 @@ class _TeamState extends ConsumerState<Team> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
             _teamAvatar(team),
@@ -165,7 +165,7 @@ class _TeamState extends ConsumerState<Team> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 16.0,
-                  horizontal: 8.0,
+                  horizontal: 16.0,
                 ),
                 child: GridView.builder(
                   physics: NeverScrollableScrollPhysics(),

@@ -70,7 +70,7 @@ class _RaceResultsViewState extends ConsumerState<RaceResultsView> {
     return Scaffold(
       appBar: _appBar(),
       body: Padding(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 8.0),
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
             _raceInfo(),

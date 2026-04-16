@@ -36,7 +36,7 @@ class _AccountSettingsState extends ConsumerState<AccountSettings> {
       appBar: AppBar(title: Text('Account settings')),
       bottomNavigationBar: MainBottomNavigationBar(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
             appPreferences.hasValue

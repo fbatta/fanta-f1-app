@@ -48,7 +48,7 @@ class _CalendarState extends ConsumerState<Calendar> {
     return Scaffold(
       appBar: AppBar(title: Text('Calendar')),
       body: Padding(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 8.0),
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
             raceWeekends.requireValue.currentRace != null
@@ -99,7 +99,7 @@ class _CalendarState extends ConsumerState<Calendar> {
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
           title: Text(race.raceName),
           leading: Image.network(
             race.circuitImage,

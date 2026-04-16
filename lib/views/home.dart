@@ -84,7 +84,7 @@ class _HomeState extends ConsumerState<Home> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: ListView.builder(
             itemCount: teams.length,
             itemBuilder: (context, index) {

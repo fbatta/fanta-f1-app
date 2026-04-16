@@ -10,7 +10,7 @@ class ErrorCard extends ConsumerWidget {
     return Card(
       color: Theme.of(context).colorScheme.errorContainer,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
         child: Text(
           message,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
