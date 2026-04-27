@@ -127,3 +127,6 @@ app.*.symbols
 
 # FVM Version Cache
 .fvm/
+
+# Opencode
+.opencode
