@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fanta_f1/component/error_snack_bar.dart';
+import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
@@ -147,10 +148,7 @@ class _LineupViewState extends ConsumerState<LineupView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16.0),
-        Text(
-          'Selected drivers:',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        sectionHeader('Selected drivers'),
         SizedBox(height: 8.0),
         Card(
           child: Padding(
@@ -203,7 +201,7 @@ class _LineupViewState extends ConsumerState<LineupView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16.0),
-        Text('Drivers:', style: Theme.of(context).textTheme.titleLarge),
+        sectionHeader('Drivers'),
         SizedBox(height: 8.0),
         Card(
           child: Padding(

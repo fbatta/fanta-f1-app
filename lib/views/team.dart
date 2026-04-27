@@ -1,6 +1,8 @@
 import 'package:fanta_f1/component/error_card.dart';
 import 'package:fanta_f1/component/scores_list.dart';
+import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
+import 'package:fanta_f1/component/team_avatar_circle.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/driver_cost/driver_cost.dart';
 import 'package:fanta_f1/dto/team/team.dart' as team_dto;
@@ -54,32 +56,12 @@ class _TeamState extends ConsumerState<Team> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
-            _teamAvatar(team),
+            teamAvatarCircle(team.teamAvatarUrl, height: 150, width: 150),
             _currentStandingsCard(team),
             _latestLineupCard(team, drivers.requireValue),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _teamAvatar(team_dto.Team team) {
-    return Column(
-      children: [
-        Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: team.teamAvatarUrl != null
-                  ? NetworkImage(team.teamAvatarUrl!)
-                  : AssetImage('assets/images/idgaf1_default_avatar.png'),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -104,7 +86,7 @@ class _TeamState extends ConsumerState<Team> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Standings:', style: Theme.of(context).textTheme.titleLarge),
+              sectionHeader('Standings'),
               SizedBox(height: 8.0),
               Card(
                 child: scoresList(
@@ -156,10 +138,7 @@ class _TeamState extends ConsumerState<Team> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Latest lineup:',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            sectionHeader('Latest lineup'),
             SizedBox(height: 8.0),
             Card(
               child: Padding(

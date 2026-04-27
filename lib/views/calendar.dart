@@ -1,4 +1,5 @@
 import 'package:fanta_f1/component/main_bottom_navigation_bar.dart';
+import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/component/team_select_modal_bottom_sheet.dart';
 import 'package:fanta_f1/dto/race/race.dart';
@@ -54,23 +55,20 @@ class _CalendarState extends ConsumerState<Calendar> {
             raceWeekends.requireValue.currentRace != null
                 ? _currentRaceCard(raceWeekends.requireValue.currentRace!)
                 : Container(),
-            Text("Next race:", style: Theme.of(context).textTheme.titleLarge),
+            sectionHeader('Next race'),
             SizedBox(height: 8.0),
             _raceWeekendCard(
               raceWeekends.requireValue.futureRaces.first,
               showLineupOpenDate: true,
             ),
             SizedBox(height: 16.0),
-            Text(
-              "Future races:",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            sectionHeader('Future races'),
             SizedBox(height: 8.0),
             ...raceWeekends.requireValue.futureRaces
                 .sublist(1)
                 .map(_raceWeekendCard),
             SizedBox(height: 16.0),
-            Text("Past races:", style: Theme.of(context).textTheme.titleLarge),
+            sectionHeader('Past races'),
             SizedBox(height: 8.0),
             ...raceWeekends.requireValue.pastRaces
                 .sublist(1)
