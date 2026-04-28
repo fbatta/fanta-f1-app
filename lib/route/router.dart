@@ -27,7 +27,7 @@ final router = GoRouter(
     }
     return null;
   },
- routes: [
+  routes: [
     GoRoute(
       path: RouteNames.signIn.path,
       name: RouteNames.signIn.toString(),
