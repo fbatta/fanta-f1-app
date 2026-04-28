@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../views/privacy_policy.dart';
 import '../views/team.dart';
 
 final router = GoRouter(
@@ -26,7 +27,7 @@ final router = GoRouter(
     }
     return null;
   },
-  routes: [
+ routes: [
     GoRoute(
       path: RouteNames.signIn.path,
       name: RouteNames.signIn.toString(),
@@ -38,6 +39,12 @@ final router = GoRouter(
         }
         return null;
       },
+    ),
+    GoRoute(
+      path: RouteNames.privacyPolicy.path,
+      name: RouteNames.privacyPolicy.name,
+      builder: (BuildContext context, GoRouterState state) =>
+          const PrivacyPolicyScreen(),
     ),
     GoRoute(
       path: RouteNames.forgotPassword.path,

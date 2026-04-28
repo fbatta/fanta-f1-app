@@ -42,10 +42,19 @@ class _AccountSettingsState extends ConsumerState<AccountSettings> {
             appPreferences.hasValue
                 ? _appVersion(appPreferences.requireValue)
                 : Container(),
+            _privacyPolicyLink(),
+            const SizedBox(height: 16),
             _signOffButton(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _privacyPolicyLink() {
+    return TextButton(
+      onPressed: () => context.goNamed(RouteNames.privacyPolicy.name),
+      child: const Text('Privacy Policy'),
     );
   }
 

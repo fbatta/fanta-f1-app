@@ -12,7 +12,8 @@ enum RouteNames {
   lineup('/lineup/:teamId/:raceId'),
   raceResults('/results/:raceId/:teamId/:lobbyId'),
   account('/account'),
-  notFound('/notFound');
+  notFound('/notFound'),
+  privacyPolicy('/privacyPolicy');
 
   final String path;
 
