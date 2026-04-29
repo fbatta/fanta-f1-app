@@ -35,7 +35,7 @@ final class RaceWeekendProviderProvider
 }
 
 String _$raceWeekendProviderHash() =>
-    r'fed50046907a58356bc34d5aa7c4c53b1a5e41eb';
+    r'19b12c25d8ff336a24d464270653f4460037380d';
 
 abstract class _$RaceWeekendProvider
     extends $AsyncNotifier<RaceWeekendProviderModel> {

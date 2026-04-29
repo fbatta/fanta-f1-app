@@ -56,7 +56,7 @@ class _SignUpState extends ConsumerState<SignUp> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Form(
               key: _formKey,
               child: AutofillGroup(
@@ -192,7 +192,7 @@ class _SignUpState extends ConsumerState<SignUp> {
         password: _passwordController.text,
       );
       await userCredential.user?.updateDisplayName(_displayNameController.text);
-      if (userCredential.user != null && context.mounted) {
+      if (userCredential.user != null && mounted) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(successSnackBar(context: context, text: 'User created'));

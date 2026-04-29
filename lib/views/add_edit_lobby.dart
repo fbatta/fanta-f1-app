@@ -29,7 +29,7 @@ class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -83,22 +83,20 @@ class _AddEditLobbyState extends ConsumerState<AddEditLobby> {
             lobbyName: _lobbyNameController.text,
             lobbyPassword: _lobbyPasswordController.text,
           );
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          successSnackBar(context: context, text: 'Lobby created'),
-        );
-        context.pop();
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(successSnackBar(context: context, text: 'Lobby created'));
+      context.pop();
     } catch (e) {
       // TODO: record error
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          errorSnackBar(
-            context: context,
-            text: 'Something went wrong, please try again later',
-          ),
-        );
-      }
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        errorSnackBar(
+          context: context,
+          text: 'Something went wrong, please try again later',
+        ),
+      );
     } finally {
       setState(() {
         _isLoading = false;

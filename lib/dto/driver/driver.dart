@@ -45,4 +45,16 @@ class Driver with _$Driver {
     driverCost: driverCost,
     driverId: driverId,
   );
+
+  Driver.emptyDriver()
+    : this(
+        driverId: 'emptyDriver',
+        name: 'Empty',
+        teamName: '',
+        teamColour: 'FF0000',
+        driverNumber: 1,
+        acronym: 'EMP',
+        driverAvatar: 'UNKNOWN',
+        isActive: true,
+      );
 }

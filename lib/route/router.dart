@@ -1,4 +1,3 @@
-import 'package:fanta_f1/dto/race/race.dart';
 import 'package:fanta_f1/dto/team/team.dart' as team_dto;
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/views/account_settings.dart';
@@ -11,9 +10,12 @@ import 'package:fanta_f1/views/lineup_view.dart';
 import 'package:fanta_f1/views/race_results_view.dart';
 import 'package:fanta_f1/views/sign_in.dart';
 import 'package:fanta_f1/views/sign_up.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../views/privacy_policy.dart';
 import '../views/team.dart';
 
 final router = GoRouter(
@@ -30,6 +32,19 @@ final router = GoRouter(
       path: RouteNames.signIn.path,
       name: RouteNames.signIn.toString(),
       builder: (BuildContext context, GoRouterState state) => const SignIn(),
+      redirect: (BuildContext context, GoRouterState state) {
+        final auth = GetIt.instance.get<FirebaseAuth>();
+        if (auth.currentUser != null) {
+          return RouteNames.home.path;
+        }
+        return null;
+      },
+    ),
+    GoRoute(
+      path: RouteNames.privacyPolicy.path,
+      name: RouteNames.privacyPolicy.name,
+      builder: (BuildContext context, GoRouterState state) =>
+          const PrivacyPolicyScreen(),
     ),
     GoRoute(
       path: RouteNames.forgotPassword.path,
@@ -85,14 +100,13 @@ final router = GoRouter(
       builder: (context, state) => LineupView(
         raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
-        race: state.extra as Race,
       ),
     ),
     GoRoute(
       path: RouteNames.raceResults.path,
       name: RouteNames.raceResults.name,
       builder: (context, state) => RaceResultsView(
-        race: state.extra as Race,
+        raceId: state.pathParameters['raceId']!,
         teamId: state.pathParameters['teamId']!,
         lobbyId: state.pathParameters['lobbyId']!,
       ),

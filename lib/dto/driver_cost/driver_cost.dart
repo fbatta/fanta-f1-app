@@ -17,4 +17,6 @@ class DriverCost with _$DriverCost {
       _$DriverCostFromJson(json);
 
   Map<String, dynamic> toJson() => _$DriverCostToJson(this);
+
+  DriverCost.emptyDriverCost() : this(driverId: 'emptyDriver', driverCost: 0.0);
 }

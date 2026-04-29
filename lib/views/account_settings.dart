@@ -3,6 +3,7 @@ import 'package:fanta_f1/dto/app_preferences.dart';
 import 'package:fanta_f1/provider/preferences_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
@@ -18,10 +19,12 @@ class AccountSettings extends ConsumerStatefulWidget {
 class _AccountSettingsState extends ConsumerState<AccountSettings> {
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
+  late final FirebaseMessaging _messaging;
 
   @override
   void initState() {
     _auth = _getIt();
+    _messaging = _getIt();
     super.initState();
   }
 
@@ -33,16 +36,25 @@ class _AccountSettingsState extends ConsumerState<AccountSettings> {
       appBar: AppBar(title: Text('Account settings')),
       bottomNavigationBar: MainBottomNavigationBar(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
             appPreferences.hasValue
                 ? _appVersion(appPreferences.requireValue)
                 : Container(),
+            _privacyPolicyLink(),
+            const SizedBox(height: 16),
             _signOffButton(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _privacyPolicyLink() {
+    return TextButton(
+      onPressed: () => context.goNamed(RouteNames.privacyPolicy.name),
+      child: const Text('Privacy Policy'),
     );
   }
 
@@ -73,8 +85,7 @@ class _AccountSettingsState extends ConsumerState<AccountSettings> {
 
   Future<void> _onSignOffPressed() async {
     await _auth.signOut();
-    if (context.mounted) {
-      context.goNamed(RouteNames.signIn.name);
-    }
+    if (!mounted) return;
+    context.goNamed(RouteNames.signIn.name);
   }
 }

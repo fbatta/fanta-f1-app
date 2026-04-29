@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget teamAvatarSmall(
+Widget teamAvatarCircle(
   String? teamAvatarUrl, {
   double height = 30,
   double width = 30,
@@ -15,6 +15,7 @@ Widget teamAvatarSmall(
         image: teamAvatarUrl != null
             ? NetworkImage(teamAvatarUrl)
             : AssetImage('assets/images/idgaf1_default_avatar.png'),
+        onError: (error, stackTrace) {},
       ),
     ),
   );

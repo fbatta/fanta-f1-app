@@ -230,18 +230,16 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
               teamAvatar: _selectedAvatar,
             );
       }
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(successSnackBar(context: context, text: 'Team created'));
-        context.pop();
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(successSnackBar(context: context, text: 'Team created'));
+      context.pop();
     } on InvalidRequestException catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(errorSnackBar(context: context, text: e.message));
-      }
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(errorSnackBar(context: context, text: e.message));
     } finally {
       setState(() {
         _isLoading = false;
@@ -262,12 +260,11 @@ class _AddEditTeamState extends ConsumerState<AddEditTeam> {
             newTeamName: _teamNameController.text,
             teamAvatar: _selectedAvatar,
           );
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(successSnackBar(context: context, text: 'Team updated'));
-        context.pop();
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(successSnackBar(context: context, text: 'Team updated'));
+      context.pop();
     } on Exception catch (e) {
       if (context.mounted) {
         _logger.severe('Could not update the team', e);

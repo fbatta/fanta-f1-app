@@ -51,4 +51,19 @@ class Race with _$Race {
   factory Race.fromJson(Map<String, dynamic> json) => _$RaceFromJson(json);
 
   Map<String, dynamic> toJson() => _$RaceToJson(this);
+
+  Race.emptyRace()
+    : this(
+        circuitImage: '',
+        circuitType: '',
+        countryFlag: '',
+        countryName: '',
+        dateEnd: DateTime.fromMillisecondsSinceEpoch(0),
+        dateLineupClose: DateTime.fromMillisecondsSinceEpoch(0),
+        dateLineupOpen: DateTime.fromMillisecondsSinceEpoch(0),
+        dateStart: DateTime.fromMillisecondsSinceEpoch(0),
+        openF1MeetingKey: 0,
+        raceId: '',
+        raceName: '',
+      );
 }

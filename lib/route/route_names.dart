@@ -10,9 +10,10 @@ enum RouteNames {
   editLobby('/lobby/edit'),
   calendar('/calendar'),
   lineup('/lineup/:teamId/:raceId'),
-  raceResults('/results/:teamId/:lobbyId'),
+  raceResults('/results/:raceId/:teamId/:lobbyId'),
   account('/account'),
-  notFound('/notFound');
+  notFound('/notFound'),
+  privacyPolicy('/privacyPolicy');
 
   final String path;
 

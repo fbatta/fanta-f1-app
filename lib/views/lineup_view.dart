@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fanta_f1/component/error_snack_bar.dart';
+import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/component/success_snack_bar.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
@@ -11,6 +12,7 @@ import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/provider/lineup_provider.dart';
+import 'package:fanta_f1/provider/race_weekend_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,15 +20,9 @@ import 'package:get_it/get_it.dart';
 import 'package:uuid/v4.dart';
 
 class LineupView extends ConsumerStatefulWidget {
-  final Race race;
   final String raceId;
   final String teamId;
-  const LineupView({
-    super.key,
-    required this.raceId,
-    required this.teamId,
-    required this.race,
-  });
+  const LineupView({super.key, required this.raceId, required this.teamId});
 
   @override
   ConsumerState createState() => _LineupViewState();
@@ -34,26 +30,13 @@ class LineupView extends ConsumerStatefulWidget {
 
 class _LineupViewState extends ConsumerState<LineupView>
     with SingleTickerProviderStateMixin {
-  static final Driver emptyDriver = Driver(
-    driverId: 'emptyDriver',
-    name: 'Empty',
-    teamName: '',
-    teamColour: 'FF0000',
-    driverNumber: 1,
-    acronym: 'EMP',
-    driverAvatar: 'UNKNOWN',
-    isActive: true,
-  );
-  static final DriverCost emptyDriverCost = DriverCost(
-    driverCost: 0,
-    driverId: 'emptyDriver',
-  );
   static final double totalCredits = 200.0;
 
   final _getIt = GetIt.instance;
   late final FirebaseAuth _auth;
   late final TimeUtils _timeUtils;
   late final Future<Lineup?> _lineupFuture;
+  late final Future<Race?> _raceFuture;
   late final AnimationController _bottomSheetAnimationController;
 
   Lineup? _lineup;
@@ -64,6 +47,9 @@ class _LineupViewState extends ConsumerState<LineupView>
     _lineupFuture = ref
         .read(lineupProviderProvider.notifier)
         .findLineupByRaceId(widget.teamId, widget.raceId);
+    _raceFuture = ref
+        .read(raceWeekendProviderProvider.notifier)
+        .getRaceById(widget.raceId);
     _auth = _getIt();
     _timeUtils = _getIt();
     _bottomSheetAnimationController = BottomSheet.createAnimationController(
@@ -125,7 +111,7 @@ class _LineupViewState extends ConsumerState<LineupView>
         return Scaffold(
           appBar: _appBar(),
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListView(
               children: [
                 _selectedDriversCard(drivers.requireValue),
@@ -141,7 +127,20 @@ class _LineupViewState extends ConsumerState<LineupView>
   }
 
   PreferredSizeWidget _appBar() {
-    return AppBar(title: Text('${widget.race.countryName} Lineup'));
+    return AppBar(
+      title: FutureBuilder(
+        future: _raceFuture,
+        builder: (context, snapshot) {
+          String title = 'Lineup';
+
+          if (snapshot.hasData && snapshot.data != null) {
+            title = '${snapshot.data!.countryName} Lineup';
+          }
+
+          return Text(title);
+        },
+      ),
+    );
   }
 
   Widget _selectedDriversCard(Map<Driver, DriverCost> drivers) {
@@ -149,16 +148,13 @@ class _LineupViewState extends ConsumerState<LineupView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16.0),
-        Text(
-          'Selected drivers:',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+        sectionHeader('Selected drivers'),
         SizedBox(height: 8.0),
         Card(
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 16.0,
-              horizontal: 8.0,
+              horizontal: 16.0,
             ),
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
@@ -173,8 +169,8 @@ class _LineupViewState extends ConsumerState<LineupView>
               itemBuilder: (context, index) {
                 if (_lineup == null || _lineup!.drivers.length - 1 < index) {
                   return _selectedDriverTile(
-                    driver: emptyDriver,
-                    driverCost: emptyDriverCost,
+                    driver: Driver.emptyDriver(),
+                    driverCost: DriverCost.emptyDriverCost(),
                   );
                 }
                 final lineupDriver = _lineup!.drivers[index];
@@ -205,7 +201,7 @@ class _LineupViewState extends ConsumerState<LineupView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16.0),
-        Text('Drivers:', style: Theme.of(context).textTheme.titleLarge),
+        sectionHeader('Drivers'),
         SizedBox(height: 8.0),
         Card(
           child: Padding(
@@ -400,18 +396,16 @@ class _LineupViewState extends ConsumerState<LineupView>
       await ref
           .read(lineupProviderProvider.notifier)
           .createOrUpdateLineup(_lineup!);
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(successSnackBar(context: context, text: 'Lineup saved'));
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(successSnackBar(context: context, text: 'Lineup saved'));
     } catch (e) {
       // TODO: record error
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          errorSnackBar(context: context, text: 'Error saving lineup'),
-        );
-      }
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        errorSnackBar(context: context, text: 'Error saving lineup'),
+      );
     }
   }
 }

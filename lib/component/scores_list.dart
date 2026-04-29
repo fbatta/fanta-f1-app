@@ -1,4 +1,5 @@
-import 'package:fanta_f1/component/team_avatar_small.dart';
+import 'package:fanta_f1/component/error_card.dart';
+import 'package:fanta_f1/component/team_avatar_circle.dart';
 import 'package:flutter/material.dart';
 
 class ScoresAndAvatars {
@@ -16,6 +17,9 @@ class ScoresAndAvatars {
 }
 
 Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
+  if (scoresAndAvatars.isEmpty) {
+    return ErrorCard(message: 'No scores found');
+  }
   return Builder(
     builder: (context) {
       return Column(
@@ -33,7 +37,7 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                     onTap: scoresAndAvatars[0].onPressed,
                     child: Column(
                       children: [
-                        teamAvatarSmall(scoresAndAvatars[0].avatar),
+                        teamAvatarCircle(scoresAndAvatars[0].avatar),
                         SizedBox(
                           width: 120,
                           child: Text(
@@ -54,7 +58,7 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                     onTap: scoresAndAvatars[1].onPressed,
                     child: Column(
                       children: [
-                        teamAvatarSmall(scoresAndAvatars[1].avatar),
+                        teamAvatarCircle(scoresAndAvatars[1].avatar),
                         SizedBox(
                           width: 110,
                           child: Text(
@@ -75,7 +79,7 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                     onTap: scoresAndAvatars[2].onPressed,
                     child: Column(
                       children: [
-                        teamAvatarSmall(scoresAndAvatars[2].avatar),
+                        teamAvatarCircle(scoresAndAvatars[2].avatar),
                         SizedBox(
                           width: 110,
                           child: Text(
@@ -104,7 +108,7 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                       dense: true,
                       contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
                       minVerticalPadding: 0,
-                      leading: teamAvatarSmall(scoreAndAvatar.avatar),
+                      leading: teamAvatarCircle(scoreAndAvatar.avatar),
                       title: Text(scoreAndAvatar.name),
                       trailing: _teamScore(scoreAndAvatar.score),
                     ),
