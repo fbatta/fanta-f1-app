@@ -12,6 +12,7 @@ import 'package:fanta_f1/repository/driver_repository.dart';
 import 'package:fanta_f1/repository/driver_summary_repository.dart';
 import 'package:fanta_f1/repository/lineup_repository.dart';
 import 'package:fanta_f1/repository/lobby_repository.dart';
+import 'package:fanta_f1/repository/race_recap_repository.dart';
 import 'package:fanta_f1/repository/race_weekend_repository.dart';
 import 'package:fanta_f1/repository/team_repository.dart';
 import 'package:fanta_f1/repository/user_repository.dart';
@@ -65,6 +66,7 @@ Future<void> _registerInstances() async {
   getIt.registerSingleton(DriverRepository());
   getIt.registerSingleton(DriverCostRepository());
   getIt.registerSingleton(DriverSummaryRepository());
+  getIt.registerSingleton(RaceRecapRepository());
   getIt.registerSingleton(packageInfo);
   getIt.registerSingleton(sharedPreferences);
 }

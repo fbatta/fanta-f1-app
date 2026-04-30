@@ -1,4 +1,5 @@
 import 'package:fanta_f1/component/error_card.dart';
+import 'package:fanta_f1/component/race_recap_card.dart';
 import 'package:fanta_f1/component/scores_list.dart';
 import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
@@ -81,6 +82,7 @@ class _RaceResultsViewState extends ConsumerState<RaceResultsView> {
                   driver.acronym: driver,
               },
             ),
+            RaceRecapCard(raceId: widget.raceId),
           ],
         ),
       ),
