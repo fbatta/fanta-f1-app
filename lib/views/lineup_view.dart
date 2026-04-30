@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fanta_f1/component/driver_summary_bottom_sheet.dart';
 import 'package:fanta_f1/component/error_snack_bar.dart';
 import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
@@ -237,20 +238,16 @@ class _LineupViewState extends ConsumerState<LineupView>
         Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                image: DecorationImage(
-                  image: driver.driverAvatar == 'UNKNOWN'
-                      ? AssetImage('assets/images/unknown_driver_avatar.png')
-                      : NetworkImage(driver.driverAvatar),
-                ),
-              ),
+            GestureDetector(
+              onTap: driver.driverId != 'emptyDriver'
+                  ? () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) => DriverSummaryBottomSheet(
+                          driverId: driver.driverId,
+                        ),
+                      )
+                  : null,
+              child: _driverAvatar(driver, size: 60),
             ),
             driver.driverId != 'emptyDriver'
                 ? Positioned(
@@ -294,17 +291,70 @@ class _LineupViewState extends ConsumerState<LineupView>
         contentPadding: EdgeInsets.zero,
         onTap: () => _onDriverSelected(driver, driverCost),
         enabled: _isDriverEnabled(driver, driverCost),
-        leading: Container(
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Theme.of(context).colorScheme.primary),
-            image: DecorationImage(image: NetworkImage(driver.driverAvatar)),
+        leading: GestureDetector(
+          onTap: () => showModalBottomSheet(
+            context: context,
+            builder: (context) => DriverSummaryBottomSheet(
+              driverId: driver.driverId,
+            ),
           ),
+          child: _driverAvatar(driver, size: 80),
         ),
         title: Text(driver.name),
         subtitle: Text('\$ ${driverCost.driverCost.toString()}'),
+      ),
+    );
+  }
+
+  Widget _driverAvatar(Driver driver, {required double size}) {
+    if (driver.driverAvatar == 'UNKNOWN') {
+      return Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Theme.of(context).colorScheme.primary),
+          image: DecorationImage(
+            image: const AssetImage('assets/images/unknown_driver_avatar.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+
+    return ClipOval(
+      child: Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          border: Border.all(color: Theme.of(context).colorScheme.primary),
+        ),
+        child: Image.network(
+          driver.driverAvatar,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: Icon(
+                Icons.person,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                size: size * 0.5,
+              ),
+            );
+          },
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+                strokeWidth: 2,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

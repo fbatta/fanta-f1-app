@@ -12,18 +12,14 @@ part 'driver_provider.g.dart';
 @riverpod
 class DriverProvider extends _$DriverProvider {
   final _getIt = GetIt.instance;
-  late DriverRepository _driverRepository;
-  late DriverCostRepository _driverCostRepository;
-  late DriverSummaryRepository _driverSummaryRepository;
 
   @override
   FutureOr<Map<Driver, DriverCost>> build() async {
-    _driverRepository = _getIt();
-    _driverCostRepository = _getIt();
-    _driverSummaryRepository = _getIt();
+    final driverRepository = _getIt<DriverRepository>();
+    final driverCostRepository = _getIt<DriverCostRepository>();
 
-    final drivers = await _driverRepository.getDrivers();
-    final driverCosts = await _driverCostRepository.getDriverCosts();
+    final drivers = await driverRepository.getDrivers();
+    final driverCosts = await driverCostRepository.getDriverCosts();
 
     return {
       for (final driver in drivers)
@@ -36,7 +32,8 @@ class DriverProvider extends _$DriverProvider {
 
   Future<DriverSummary?> getDriverSummary(String driverId) async {
     try {
-      return await _driverSummaryRepository.getDriverSummary(driverId);
+      final summaryRepository = _getIt<DriverSummaryRepository>();
+      return await summaryRepository.getDriverSummary(driverId);
     } catch (_) {
       // TODO: report error
       return null;
