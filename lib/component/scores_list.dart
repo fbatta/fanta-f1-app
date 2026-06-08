@@ -126,7 +126,7 @@ Widget _teamScore(double score) {
   return Builder(
     builder: (context) {
       return Text(
-        score.toString(),
+        score.toStringAsFixed(1),
         style: Theme.of(context).textTheme.labelLarge,
       );
     },
