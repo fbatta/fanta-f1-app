@@ -125,7 +125,7 @@ class _HomeState extends ConsumerState<Home> {
             ),
           ),
           trailing: Text(
-            team.points[DateTime.now().year].toString(),
+            (team.points[DateTime.now().year] ?? 0.0).toStringAsFixed(1),
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
