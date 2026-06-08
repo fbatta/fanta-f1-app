@@ -4,7 +4,7 @@ import 'package:fanta_f1/component/race_recap_card.dart';
 import 'package:fanta_f1/dto/race_recap/race_recap.dart';
 import 'package:fanta_f1/provider/race_recap_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
