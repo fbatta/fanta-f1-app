@@ -3,7 +3,7 @@ import 'package:fanta_f1/dto/driver_summary/driver_summary.dart';
 import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DriverSummaryBottomSheet extends ConsumerStatefulWidget {

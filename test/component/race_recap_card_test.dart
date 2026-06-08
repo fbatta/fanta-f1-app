@@ -56,10 +56,9 @@ void main() {
     testWidgets('renders recap card when data is available', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        recap: testRecap,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', recap: testRecap),
+      );
       await tester.pumpAndSettle();
 
       expect(
@@ -102,28 +101,18 @@ void main() {
         ],
       );
 
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'spa-2025',
-        recap: recapWithMultipleParagraphs,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(
+          raceId: 'spa-2025',
+          recap: recapWithMultipleParagraphs,
+        ),
+      );
       await tester.pumpAndSettle();
 
-      expect(
-        find.byType(MarkdownBody),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('First paragraph'),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('overtakes'),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('podium'),
-        findsOneWidget,
-      );
+      expect(find.byType(MarkdownBody), findsOneWidget);
+      expect(find.textContaining('First paragraph'), findsOneWidget);
+      expect(find.textContaining('overtakes'), findsOneWidget);
+      expect(find.textContaining('podium'), findsOneWidget);
     });
 
     testWidgets('renders markdown with bold text', (WidgetTester tester) async {
@@ -133,20 +122,13 @@ void main() {
         recapParagraphs: ['**Verstappen** dominated the **qualifying**.'],
       );
 
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        recap: recapWithMarkdown,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', recap: recapWithMarkdown),
+      );
       await tester.pumpAndSettle();
 
-      expect(
-        find.byType(MarkdownBody),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('dominated'),
-        findsOneWidget,
-      );
+      expect(find.byType(MarkdownBody), findsOneWidget);
+      expect(find.textContaining('dominated'), findsOneWidget);
     });
 
     testWidgets('renders markdown with blockquotes', (
@@ -158,85 +140,51 @@ void main() {
         recapParagraphs: ['> A historic moment in Monaco.'],
       );
 
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        recap: recapWithBlockquote,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', recap: recapWithBlockquote),
+      );
       await tester.pumpAndSettle();
 
-      expect(
-        find.byType(MarkdownBody),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('historic'),
-        findsOneWidget,
-      );
+      expect(find.byType(MarkdownBody), findsOneWidget);
+      expect(find.textContaining('historic'), findsOneWidget);
     });
 
     testWidgets('renders empty when recap is null', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        recap: null,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', recap: null),
+      );
       await tester.pumpAndSettle();
 
-      expect(
-        find.text('Race weekend recap'),
-        findsNothing,
-      );
-      expect(
-        find.byType(MarkdownBody),
-        findsNothing,
-      );
-      expect(
-        find.byType(Card),
-        findsNothing,
-      );
+      expect(find.text('Race weekend recap'), findsNothing);
+      expect(find.byType(MarkdownBody), findsNothing);
+      expect(find.byType(Card), findsNothing);
     });
 
     testWidgets('renders empty when provider throws error', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        shouldThrow: true,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', shouldThrow: true),
+      );
       await tester.pumpAndSettle();
 
-      expect(
-        find.text('Race weekend recap'),
-        findsNothing,
-      );
-      expect(
-        find.byType(MarkdownBody),
-        findsNothing,
-      );
+      expect(find.text('Race weekend recap'), findsNothing);
+      expect(find.byType(MarkdownBody), findsNothing);
     });
 
     testWidgets('renders empty while loading', (WidgetTester tester) async {
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        recap: testRecap,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', recap: testRecap),
+      );
 
-      expect(
-        find.text('Race weekend recap'),
-        findsNothing,
-      );
-      expect(
-        find.byType(MarkdownBody),
-        findsNothing,
-      );
+      expect(find.text('Race weekend recap'), findsNothing);
+      expect(find.byType(MarkdownBody), findsNothing);
 
       await tester.pumpAndSettle();
 
-      expect(
-        find.text('Race weekend recap'),
-        findsOneWidget,
-      );
+      expect(find.text('Race weekend recap'), findsOneWidget);
     });
 
     testWidgets('renders empty with single paragraph', (
@@ -248,20 +196,13 @@ void main() {
         recapParagraphs: ['A single paragraph recap.'],
       );
 
-      await tester.pumpWidget(makeTestableWidget(
-        raceId: 'monaco-2025',
-        recap: singleParagraphRecap,
-      ));
+      await tester.pumpWidget(
+        makeTestableWidget(raceId: 'monaco-2025', recap: singleParagraphRecap),
+      );
       await tester.pumpAndSettle();
 
-      expect(
-        find.byType(MarkdownBody),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('single paragraph'),
-        findsOneWidget,
-      );
+      expect(find.byType(MarkdownBody), findsOneWidget);
+      expect(find.textContaining('single paragraph'), findsOneWidget);
     });
   });
 }
