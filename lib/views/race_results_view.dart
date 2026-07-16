@@ -1,5 +1,7 @@
 import 'package:fanta_f1/component/error_card.dart';
+import 'package:fanta_f1/component/race_recap_card.dart';
 import 'package:fanta_f1/component/scores_list.dart';
+import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/lineup/lineup.dart';
@@ -70,7 +72,7 @@ class _RaceResultsViewState extends ConsumerState<RaceResultsView> {
     return Scaffold(
       appBar: _appBar(),
       body: Padding(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 8.0),
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
             _raceInfo(),
@@ -80,6 +82,7 @@ class _RaceResultsViewState extends ConsumerState<RaceResultsView> {
                   driver.acronym: driver,
               },
             ),
+            RaceRecapCard(raceId: widget.raceId),
           ],
         ),
       ),
@@ -107,7 +110,7 @@ class _RaceResultsViewState extends ConsumerState<RaceResultsView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16.0),
-            Text('Race info:', style: Theme.of(context).textTheme.titleLarge),
+            sectionHeader('Race info'),
             SizedBox(height: 8.0),
             Card(
               child: Padding(
@@ -201,7 +204,7 @@ class _RaceResultsViewState extends ConsumerState<RaceResultsView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16.0),
-            Text("Results:", style: Theme.of(context).textTheme.titleLarge),
+            sectionHeader('Results'),
             SizedBox(height: 8.0),
             Card(child: scoresList(scoresAndAvatars)),
           ],

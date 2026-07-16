@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget teamAvatarSmall(
+Widget teamAvatarCircle(
   String? teamAvatarUrl, {
   double height = 30,
   double width = 30,

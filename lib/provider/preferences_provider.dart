@@ -44,9 +44,7 @@ class PreferencesProvider extends _$PreferencesProvider {
 
   Future<void> setNotificationsPermission(bool isGranted, String? token) async {
     if (isGranted && token != null) {
-      await ref
-          .read(userProviderProvider.notifier)
-          .addDeviceRegistrationToken(token);
+      updateDeviceToken(token);
     }
     await _sharedPreferences.setBool(
       SharedPreferencesKeys.hasRequestedNotificationsPermission.name,
@@ -62,5 +60,11 @@ class PreferencesProvider extends _$PreferencesProvider {
     );
 
     state = AsyncValue.data(newState);
+  }
+
+  Future<void> updateDeviceToken(String token) async {
+    await ref
+        .read(userProviderProvider.notifier)
+        .addDeviceRegistrationToken(token);
   }
 }

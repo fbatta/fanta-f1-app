@@ -71,7 +71,7 @@ void main() {
 
       expect(
         paddingWidget.padding,
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
       );
     });
   });

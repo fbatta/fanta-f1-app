@@ -56,7 +56,7 @@ class _SignUpState extends ConsumerState<SignUp> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Form(
               key: _formKey,
               child: AutofillGroup(
