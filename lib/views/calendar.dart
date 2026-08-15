@@ -6,6 +6,7 @@ import 'package:fanta_f1/dto/race/race.dart';
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
+import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -235,12 +236,7 @@ class _CalendarState extends ConsumerState<Calendar> {
   }
 
   Future<void> _onGoToLineupPressed(String raceId) async {
-    final team = await showModalBottomSheet<Team?>(
-      context: context,
-      builder: (context) {
-        return TeamSelectModalBottomSheet();
-      },
-    );
+    final team = await _resolveTeam();
     if (team == null || !mounted) {
       return;
     }
@@ -251,13 +247,7 @@ class _CalendarState extends ConsumerState<Calendar> {
   }
 
   Future<void> _onGoToResultsPressed(String raceId) async {
-    final team = await showModalBottomSheet<Team?>(
-      context: context,
-      builder: (context) {
-        return TeamSelectModalBottomSheet();
-      },
-    );
-
+    final team = await _resolveTeam();
     if (team == null || !mounted) {
       return;
     }
@@ -267,6 +257,24 @@ class _CalendarState extends ConsumerState<Calendar> {
         'teamId': team.teamId,
         'lobbyId': team.lobbyId,
         'raceId': raceId,
+      },
+    );
+  }
+
+  Future<Team?> _resolveTeam() async {
+    try {
+      final teams = await ref.read(teamProviderProvider.future);
+      if (teams.length == 1) {
+        return teams.values.single;
+      }
+    } catch (_) {}
+    if (!mounted) {
+      return null;
+    }
+    return showModalBottomSheet<Team?>(
+      context: context,
+      builder: (context) {
+        return TeamSelectModalBottomSheet();
       },
     );
   }
