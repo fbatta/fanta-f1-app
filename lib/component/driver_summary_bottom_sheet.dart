@@ -1,4 +1,4 @@
-import 'package:fanta_f1/dto/driver/driver.dart';
+import 'package:fanta_f1/component/circular_avatar.dart';
 import 'package:fanta_f1/dto/driver_summary/driver_summary.dart';
 import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
@@ -66,7 +66,7 @@ class _DriverSummaryBottomSheetState
             children: [
               Row(
                 children: [
-                  _driverAvatar(driver),
+                  CircularAvatar(imageUrl: driver.driverAvatar, size: 70),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -136,58 +136,6 @@ class _DriverSummaryBottomSheetState
           ),
         );
       },
-    );
-  }
-
-  Widget _driverAvatar(Driver driver) {
-    if (driver.driverAvatar == 'UNKNOWN') {
-      return Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-          image: DecorationImage(
-            image: const AssetImage('assets/images/unknown_driver_avatar.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
-
-    return ClipOval(
-      child: Container(
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-        ),
-        child: Image.network(
-          driver.driverAvatar,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              child: Icon(
-                Icons.person,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            );
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
-                    : null,
-                strokeWidth: 2,
-              ),
-            );
-          },
-        ),
-      ),
     );
   }
 }

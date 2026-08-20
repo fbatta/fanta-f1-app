@@ -1,5 +1,5 @@
+import 'package:fanta_f1/component/circular_avatar.dart';
 import 'package:fanta_f1/component/error_card.dart';
-import 'package:fanta_f1/component/team_avatar_circle.dart';
 import 'package:material_ui/material_ui.dart';
 
 class ScoresAndAvatars {
@@ -37,7 +37,10 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                     onTap: scoresAndAvatars[0].onPressed,
                     child: Column(
                       children: [
-                        teamAvatarCircle(scoresAndAvatars[0].avatar),
+                        CircularAvatar(
+                          imageUrl: scoresAndAvatars[0].avatar,
+                          size: 40,
+                        ),
                         SizedBox(
                           width: 120,
                           child: Text(
@@ -58,7 +61,10 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                     onTap: scoresAndAvatars[1].onPressed,
                     child: Column(
                       children: [
-                        teamAvatarCircle(scoresAndAvatars[1].avatar),
+                        CircularAvatar(
+                          imageUrl: scoresAndAvatars[1].avatar,
+                          size: 40,
+                        ),
                         SizedBox(
                           width: 110,
                           child: Text(
@@ -79,7 +85,10 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                     onTap: scoresAndAvatars[2].onPressed,
                     child: Column(
                       children: [
-                        teamAvatarCircle(scoresAndAvatars[2].avatar),
+                        CircularAvatar(
+                          imageUrl: scoresAndAvatars[2].avatar,
+                          size: 40,
+                        ),
                         SizedBox(
                           width: 110,
                           child: Text(
@@ -108,7 +117,10 @@ Widget scoresList(List<ScoresAndAvatars> scoresAndAvatars) {
                       dense: true,
                       contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
                       minVerticalPadding: 0,
-                      leading: teamAvatarCircle(scoreAndAvatar.avatar),
+                      leading: CircularAvatar(
+                        imageUrl: scoreAndAvatar.avatar,
+                        size: 35,
+                      ),
                       title: Text(scoreAndAvatar.name),
                       trailing: _teamScore(scoreAndAvatar.score),
                     ),

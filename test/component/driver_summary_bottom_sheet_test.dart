@@ -1,16 +1,21 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:fanta_f1/component/circular_avatar.dart';
 import 'package:fanta_f1/component/driver_summary_bottom_sheet.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/driver_cost/driver_cost.dart';
 import 'package:fanta_f1/dto/driver_summary/driver_summary.dart';
+import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/repository/driver_summary_repository.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:material_ui/material_ui.dart';
+
+import '../helper/http_overrides.dart';
 
 // Fake driver summary repository for tests
 class FakeDriverSummaryRepository implements DriverSummaryRepository {
@@ -42,6 +47,10 @@ class TestDriverProvider extends DriverProvider {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  setUpAll(() {
+    HttpOverrides.global = TestHttpOverrides();
+  });
+
   const testDriver = Driver(
     driverId: 'test-driver-1',
     name: 'Max Verstappen',
@@ -70,7 +79,11 @@ void main() {
   );
 
   setUp(() {
-    GetIt.instance.registerSingleton<DriverSummaryRepository>(
+    final getIt = GetIt.instance;
+    if (getIt.isRegistered<DriverSummaryRepository>()) {
+      getIt.unregister<DriverSummaryRepository>();
+    }
+    getIt.registerSingleton<DriverSummaryRepository>(
       FakeDriverSummaryRepository(summary: testSummary),
     );
   });
@@ -133,11 +146,23 @@ void main() {
         reason: 'Driver cost should be displayed',
       );
 
+      // CircularAvatar
+      final avatarFinder = find.byType(CircularAvatar);
+      expect(avatarFinder, findsOneWidget);
+      final avatarWidget = tester.widget<CircularAvatar>(avatarFinder);
+      expect(avatarWidget.size, 70);
+      expect(avatarWidget.imageUrl, 'UNKNOWN');
+
       // Markdown is rendered
       expect(
         find.byType(MarkdownBody),
         findsOneWidget,
         reason: 'MarkdownBody should be present',
+      );
+      expect(
+        find.textContaining('AI-generated summary'),
+        findsOneWidget,
+        reason: 'Markdown header should be rendered',
       );
       expect(
         find.textContaining('three-time'),
@@ -222,7 +247,9 @@ void main() {
       );
     });
 
-    testWidgets('renders markdown content', (WidgetTester tester) async {
+    testWidgets('renders markdown content with formatting', (
+      WidgetTester tester,
+    ) async {
       GetIt.instance.unregister<DriverSummaryRepository>();
       GetIt.instance.registerSingleton<DriverSummaryRepository>(
         FakeDriverSummaryRepository(
@@ -231,7 +258,7 @@ void main() {
             driverAcronym: 'VER',
             driverName: 'Max Verstappen',
             driverNumber: 1,
-            summaryParagraphs: ['> This is a quote'],
+            summaryParagraphs: ['> This is a quote', 'Second paragraph.'],
           ),
         ),
       );
@@ -248,6 +275,74 @@ void main() {
         find.textContaining('quote'),
         findsOneWidget,
         reason: 'Markdown content should be rendered',
+      );
+      expect(
+        find.textContaining('Second paragraph.'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('falls back to first driver entry when driverId is not found', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        makeTestableWidget(driverId: 'non-existent-driver-id'),
+      );
+      await tester.pumpAndSettle();
+
+      // Should fall back to the first driver in the map (testDriver)
+      expect(find.text('Max Verstappen'), findsOneWidget);
+      expect(find.text('\$28.5'), findsOneWidget);
+      expect(find.text('1 · Red Bull Racing'), findsOneWidget);
+    });
+
+    testWidgets('displays team color correctly on team text', (
+      WidgetTester tester,
+    ) async {
+      const customDriver = Driver(
+        driverId: 'driver-ferrari',
+        name: 'Charles Leclerc',
+        teamName: 'Ferrari',
+        teamColour: 'E80020',
+        driverNumber: 16,
+        acronym: 'LEC',
+        driverAvatar: 'https://example.com/lec.png',
+        isActive: true,
+      );
+      const customCost = DriverCost(
+        driverId: 'driver-ferrari',
+        driverCost: 22.0,
+      );
+
+      GetIt.instance.unregister<DriverSummaryRepository>();
+      GetIt.instance.registerSingleton<DriverSummaryRepository>(
+        FakeDriverSummaryRepository(
+          summary: DriverSummary(
+            driverId: 'driver-ferrari',
+            driverAcronym: 'LEC',
+            driverName: 'Charles Leclerc',
+            driverNumber: 16,
+            summaryParagraphs: ['Scuderia Ferrari driver.'],
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(
+        makeTestableWidget(
+          driverId: 'driver-ferrari',
+          driverMap: {customDriver: customCost},
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Charles Leclerc'), findsOneWidget);
+      expect(find.text('16 · Ferrari'), findsOneWidget);
+      expect(find.text('\$22.0'), findsOneWidget);
+
+      final teamText = tester.widget<Text>(find.text('16 · Ferrari'));
+      expect(
+        teamText.style?.color,
+        ColorUtils.convertHexToColor(customDriver.teamColour),
       );
     });
   });

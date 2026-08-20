@@ -1,8 +1,8 @@
+import 'package:fanta_f1/component/circular_avatar.dart';
 import 'package:fanta_f1/component/error_card.dart';
 import 'package:fanta_f1/component/scores_list.dart';
 import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/component/spinner_centered.dart';
-import 'package:fanta_f1/component/team_avatar_circle.dart';
 import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/driver_cost/driver_cost.dart';
 import 'package:fanta_f1/dto/team/team.dart' as team_dto;
@@ -11,9 +11,9 @@ import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/provider/lineup_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 class Team extends ConsumerStatefulWidget {
   final String teamId;
@@ -56,7 +56,7 @@ class _TeamState extends ConsumerState<Team> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
-            teamAvatarCircle(team.teamAvatarUrl, height: 150, width: 150),
+            CircularAvatar(imageUrl: team.teamAvatarUrl, size: 110),
             _currentStandingsCard(team),
             _latestLineupCard(team, drivers.requireValue),
           ],
@@ -165,19 +165,7 @@ class _TeamState extends ConsumerState<Team> {
                         .key;
                     return Column(
                       children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            image: DecorationImage(
-                              image: NetworkImage(driver.driverAvatar),
-                            ),
-                          ),
-                        ),
+                        CircularAvatar(imageUrl: driver.driverAvatar, size: 60),
                         SizedBox(height: 8.0),
                         Text(driver.name),
                         Text(
