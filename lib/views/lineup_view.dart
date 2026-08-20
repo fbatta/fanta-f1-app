@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fanta_f1/component/circular_avatar.dart';
 import 'package:fanta_f1/component/driver_summary_bottom_sheet.dart';
 import 'package:fanta_f1/component/error_snack_bar.dart';
 import 'package:fanta_f1/component/section_header.dart';
@@ -15,9 +16,9 @@ import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/provider/lineup_provider.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:uuid/v4.dart';
 
 class LineupView extends ConsumerStatefulWidget {
@@ -241,13 +242,12 @@ class _LineupViewState extends ConsumerState<LineupView>
             GestureDetector(
               onTap: driver.driverId != 'emptyDriver'
                   ? () => showModalBottomSheet(
-                        context: context,
-                        builder: (context) => DriverSummaryBottomSheet(
-                          driverId: driver.driverId,
-                        ),
-                      )
+                      context: context,
+                      builder: (context) =>
+                          DriverSummaryBottomSheet(driverId: driver.driverId),
+                    )
                   : null,
-              child: _driverAvatar(driver, size: 60),
+              child: CircularAvatar(imageUrl: driver.driverAvatar, size: 60),
             ),
             driver.driverId != 'emptyDriver'
                 ? Positioned(
@@ -294,67 +294,13 @@ class _LineupViewState extends ConsumerState<LineupView>
         leading: GestureDetector(
           onTap: () => showModalBottomSheet(
             context: context,
-            builder: (context) => DriverSummaryBottomSheet(
-              driverId: driver.driverId,
-            ),
+            builder: (context) =>
+                DriverSummaryBottomSheet(driverId: driver.driverId),
           ),
-          child: _driverAvatar(driver, size: 80),
+          child: CircularAvatar(imageUrl: driver.driverAvatar, size: 80),
         ),
         title: Text(driver.name),
         subtitle: Text('\$ ${driverCost.driverCost.toString()}'),
-      ),
-    );
-  }
-
-  Widget _driverAvatar(Driver driver, {required double size}) {
-    if (driver.driverAvatar == 'UNKNOWN') {
-      return Container(
-        height: size,
-        width: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-          image: DecorationImage(
-            image: const AssetImage('assets/images/unknown_driver_avatar.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
-
-    return ClipOval(
-      child: Container(
-        height: size,
-        width: size,
-        decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).colorScheme.primary),
-        ),
-        child: Image.network(
-          driver.driverAvatar,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              child: Icon(
-                Icons.person,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                size: size * 0.5,
-              ),
-            );
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-                strokeWidth: 2,
-              ),
-            );
-          },
-        ),
       ),
     );
   }
