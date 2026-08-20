@@ -6,7 +6,7 @@ import 'package:fanta_f1/dto/driver_cost/driver_cost.dart';
 import 'package:fanta_f1/dto/driver_summary/driver_summary.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/repository/driver_summary_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

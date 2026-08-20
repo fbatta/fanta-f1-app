@@ -15,7 +15,7 @@ import 'package:fanta_f1/provider/driver_provider.dart';
 import 'package:fanta_f1/provider/lineup_provider.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:uuid/v4.dart';
