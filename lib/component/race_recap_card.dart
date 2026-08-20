@@ -1,10 +1,9 @@
 import 'package:fanta_f1/component/section_header.dart';
 import 'package:fanta_f1/dto/race_recap/race_recap.dart';
 import 'package:fanta_f1/provider/race_recap_provider.dart';
-import 'package:flutter/src/material/theme_data.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:material_ui/material_ui.dart' hide ThemeData;
+import 'package:material_ui/material_ui.dart';
 
 class RaceRecapCard extends ConsumerWidget {
   final String raceId;
@@ -48,26 +47,21 @@ class RaceRecapCard extends ConsumerWidget {
                   const SizedBox(height: 8),
                   MarkdownBody(
                     data: recap.recapParagraphs.join('\n\n'),
-                    styleSheet:
-                        MarkdownStyleSheet.fromTheme(
-                          Theme.of(context) as ThemeData,
-                        ).copyWith(
-                          p: Theme.of(context).textTheme.bodyMedium,
-                          blockquoteDecoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          blockquote: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          strong: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
+                    styleSheet: MarkdownStyleSheet(
+                      p: Theme.of(context).textTheme.bodyMedium,
+                      blockquoteDecoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      blockquote: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      strong: Theme.of(context).textTheme.bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 8),
                 ],
