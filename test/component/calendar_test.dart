@@ -8,7 +8,7 @@ import 'package:fanta_f1/provider/race_weekend_provider.dart';
 import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/views/calendar.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';

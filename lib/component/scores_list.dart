@@ -1,6 +1,6 @@
 import 'package:fanta_f1/component/error_card.dart';
 import 'package:fanta_f1/component/team_avatar_circle.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ScoresAndAvatars {
   final String name;

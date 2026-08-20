@@ -1,6 +1,6 @@
 import 'package:fanta_f1/component/error_card.dart';
 import 'package:fanta_f1/component/scores_list.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

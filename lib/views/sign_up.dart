@@ -5,7 +5,7 @@ import 'package:fanta_f1/route/route_names.dart';
 import 'package:fanta_f1/validator/password_validator.dart';
 import 'package:fanta_f1/validator/username_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';

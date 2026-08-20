@@ -2,9 +2,10 @@ import 'package:fanta_f1/dto/driver/driver.dart';
 import 'package:fanta_f1/dto/driver_summary/driver_summary.dart';
 import 'package:fanta_f1/helper/color_utils.dart';
 import 'package:fanta_f1/provider/driver_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/src/material/theme_data.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart' hide ThemeData;
 
 class DriverSummaryBottomSheet extends ConsumerStatefulWidget {
   final String driverId;
@@ -115,23 +116,25 @@ class _DriverSummaryBottomSheetState
               MarkdownBody(
                 data:
                     '**AI-generated summary**\n\n${summary.summaryParagraphs.join('\n\n')}',
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
-                    .copyWith(
-                      p: Theme.of(context).textTheme.bodyMedium,
-                      blockquoteDecoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      blockquote: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      strong: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                styleSheet:
+                    MarkdownStyleSheet.fromTheme(Theme.of(context) as ThemeData)
+                        .copyWith(
+                          p: Theme.of(context).textTheme.bodyMedium,
+                          blockquoteDecoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          blockquote: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant,
+                            fontStyle: FontStyle.italic,
+                          ),
+                          strong: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
               ),
               const SizedBox(height: 40),
             ],
