@@ -29,6 +29,9 @@ jobs:
     uses: ./.github/workflows/create-new-release.yaml
     needs:
       - build_app
+    permissions:
+      contents: write
+      pull-requests: read
     with:
       prerelease: true
       tag_suffix: -SNAPSHOT

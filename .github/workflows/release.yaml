@@ -28,5 +28,8 @@ jobs:
   create_release:
     name: Create releases
     uses: ./.github/workflows/create-new-release.yaml
+    permissions:
+      contents: write
+      pull-requests: read
     needs:
       - build_app
