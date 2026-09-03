@@ -2,11 +2,12 @@ import 'dart:core';
 
 import 'package:fanta_f1/route/route_names.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../validator/username_validator.dart';
 
@@ -44,10 +45,14 @@ class _SignInState extends ConsumerState<SignIn> {
 
   @override
   void initState() {
-    if (_auth.currentUser != null) {
-      _onSignInSuccessful();
-    }
     super.initState();
+    if (_auth.currentUser != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _onSignInSuccessful();
+        }
+      });
+    }
   }
 
   @override
@@ -152,14 +157,23 @@ class _SignInState extends ConsumerState<SignIn> {
 
   void _onGoogleSignInPressed() async {
     try {
-      final userCredential = await _auth.signInWithProvider(
-        _googleAuthProvider,
-      );
-      if (userCredential.user != null && context.mounted) {
-        return _onSignInSuccessful();
+      setState(() {
+        isLoading = true;
+      });
+      final userCredential = kIsWeb
+          ? await _auth.signInWithPopup(_googleAuthProvider)
+          : await _auth.signInWithProvider(_googleAuthProvider);
+      if (userCredential.user != null && mounted) {
+        _onSignInSuccessful();
       }
     } on FirebaseAuthException catch (e) {
       _onAuthFailed(e);
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -172,17 +186,22 @@ class _SignInState extends ConsumerState<SignIn> {
       setState(() {
         isLoading = true;
       });
-      await _auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: _usernameController.text,
         password: _passwordController.text,
       );
       TextInput.finishAutofillContext();
+      if (userCredential.user != null && mounted) {
+        _onSignInSuccessful();
+      }
     } on FirebaseAuthException catch (e) {
       _onAuthFailed(e);
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
