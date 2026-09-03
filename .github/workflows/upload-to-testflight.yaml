@@ -1,0 +1,37 @@
+name: upload_to_testflight
+run-name: Upload app to TestFlight
+
+on:
+  workflow_call:
+    secrets:
+      appstore_private_key:
+        description: App Store Connect private key
+        required: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  upload_to_testflight:
+    name: Upload app to TestFlight
+    runs-on: macos-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v6
+      - name: Download built iOS app
+        uses: actions/download-artifact@v8
+        with:
+          name: ios_ipa
+          path: build_artifacts
+      - name: Upload app to TestFlight
+        uses: apple-actions/upload-testflight-build@v5
+        with:
+          app-path: ./build_artifacts/fanta_f1.ipa
+          issuer-id: ${{ vars.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ vars.APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.appstore_private_key }}
+          release-notes: ${{ github.event.pull_request.body }}
+          uses-non-exempt-encryption: false # optional: "true" or "false" maps directly to App Store Connect usesNonExemptEncryption
+          wait-for-processing: true # optional: set to "false" to skip waiting (metadata updates will be skipped)
+          backend: AppStoreAPI # optional: AppStoreAPI | transporter | altool (default: AppStoreAPI; case insensitive)

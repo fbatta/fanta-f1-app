@@ -42,10 +42,10 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ steps.grab_version.outputs.APP_VERSION }}+${{ github.run_number }}${{ inputs.tag_suffix }}
+          tag_name: ${{ steps.grab_version.outputs.APP_VERSION }}+${{ github.run_id }}${{ inputs.tag_suffix }}
           prerelease: ${{ inputs.prerelease }}
           body: |
-            Release for version ${{ steps.grab_version.outputs.APP_VERSION }}+${{ github.run_number }}
+            Release for version ${{ steps.grab_version.outputs.APP_VERSION }}+${{ github.run_id }}
             ${{ github.event.pull_request.body }}
           make_latest: true
           files: |

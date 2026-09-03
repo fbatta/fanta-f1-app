@@ -33,3 +33,14 @@ jobs:
       pull-requests: read
     needs:
       - build_app
+    if: github.event.pull_request.merged == true
+  upload_to_testflight:
+    name: Upload app to TestFlight
+    uses: ./.github/workflows/upload-to-testflight.yaml
+    needs:
+      - create_release
+    secrets:
+      appstore_private_key: ${{ secrets.APP_STORE_CONNECT_UPLOAD_KEY_SECRET }}
+    permissions:
+      contents: read
+      pull-requests: read
