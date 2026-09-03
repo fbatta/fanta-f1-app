@@ -1,10 +1,11 @@
-name: pull_request
-run-name: Test and build app for Android and iOS
+name: release
+run-name: Create releases for Android and iOS
 on:
   pull_request:
     branches:
       - main
-      - releases/**
+    types:
+      - closed
 jobs:
   run_tests:
     name: Run all tests
@@ -24,11 +25,8 @@ jobs:
       apple_development_certificate_password: ${{ secrets.APPLE_DEVELOPMENT_CERTIFICATE_PASSWORD }}
       keychain_password: ${{ github.run_id }}
       provisioning_profile: ${{ secrets.BUILD_PROVISION_PROFILE }}
-  create_prerelease:
-    name: Create prerelease
+  create_release:
+    name: Create releases
     uses: ./.github/workflows/create-new-release.yaml
     needs:
       - build_app
-    with:
-      prerelease: true
-      tag_suffix: -SNAPSHOT

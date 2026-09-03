@@ -1,5 +1,6 @@
 name: build_app
 run-name: Build app for Android iOS
+
 on:
   workflow_call:
     secrets:
@@ -31,15 +32,13 @@ on:
         description: The contents of the Apple provisioning profile
         required: true
 
-
-
 jobs:
   build_android:
     name: Build app for Android
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -69,7 +68,7 @@ jobs:
       - name: Make build available as artifact
         uses: actions/upload-artifact@v6
         with:
-          name: android
+          name: android_appbundle
           path: ./build/app/outputs/bundle/release/app-release.aab
 
   build_ios:
@@ -126,7 +125,7 @@ jobs:
       - name: Make build available as artifact
         uses: actions/upload-artifact@v6
         with:
-          name: ios
+          name: ios_ipa
           path: ./build/ios/ipa/fanta_f1.ipa
       - name: Clean up keychain
         if: ${{ always() }}
