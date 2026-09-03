@@ -3,6 +3,7 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
 import 'dart:async' as _i5;
 
 import 'package:firebase_auth/firebase_auth.dart' as _i4;
@@ -603,6 +604,15 @@ class MockFirebaseAuth extends _i1.Mock implements _i4.FirebaseAuth {
           as _i5.Future<void>);
 
   @override
+  _i5.Future<void> revokeAccessToken(String? accessToken) =>
+      (super.noSuchMethod(
+            Invocation.method(#revokeAccessToken, [accessToken]),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
   _i5.Future<void> signOut() =>
       (super.noSuchMethod(
             Invocation.method(#signOut, []),
@@ -1022,6 +1032,11 @@ class MockUser extends _i1.Mock implements _i4.User {
           )
           as _i5.Future<void>);
 }
+
+/// A class which mocks [UserCredential].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserCredential extends _i1.Mock implements _i4.UserCredential {}
 
 /// A class which mocks [GoogleAuthProvider].
 ///

@@ -33,7 +33,7 @@ final class DriverProviderProvider
   DriverProvider create() => DriverProvider();
 }
 
-String _$driverProviderHash() => r'e9a3cd0e478a961bed14c62f7cf976332c95c7e3';
+String _$driverProviderHash() => r'8a18639f7171625794408709d03beb2a2a610c40';
 
 abstract class _$DriverProvider
     extends $AsyncNotifier<Map<Driver, DriverCost>> {
