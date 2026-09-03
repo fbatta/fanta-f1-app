@@ -1,0 +1,53 @@
+name: create_release
+run-name: Create new release
+
+on:
+  workflow_call:
+    inputs:
+      prerelease:
+        description: Whether the release should be marked as a prerelease
+        required: false
+        default: false
+        type: boolean
+      tag_suffix:
+        description: The suffix to append to the tag name
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v6
+      - name: Download built iOS app
+        uses: actions/download-artifact@v8
+        with:
+          name: ios_ipa
+          path: build_artifacts
+      - name: Download built Android app
+        uses: actions/download-artifact@v8
+        with:
+          name: android_appbundle
+          path: build_artifacts
+      - name: Grab app version from pubspec.yaml
+        id: grab_version
+        run: |
+          echo "APP_VERSION=$(sed -n 's/^version:[[:space:]]*\([^+]*\).*/\1/p' pubspec.yaml)" >> $GITHUB_OUTPUT
+      - name: Create release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.grab_version.outputs.APP_VERSION }}+${{ github.run_number }}${{ inputs.tag_suffix }}
+          prerelease: ${{ inputs.prerelease }}
+          body: |
+            Release for version ${{ steps.grab_version.outputs.APP_VERSION }}+${{ github.run_number }}
+            ${{ github.event.pull_request.body }}
+          make_latest: true
+          files: |
+            ./build_artifacts/fanta_f1.ipa
+            ./build_artifacts/app-release.aab
