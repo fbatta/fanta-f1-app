@@ -16,7 +16,7 @@ class LineupProvider extends _$LineupProvider {
   late TimeUtils _timeUtils;
 
   @override
-  FutureOr<void> build() async {
+  FutureOr<void> build() {
     _lineupRepository = _getIt();
     _timeUtils = _getIt();
   }

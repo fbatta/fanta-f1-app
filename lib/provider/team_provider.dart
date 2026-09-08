@@ -31,6 +31,17 @@ class TeamProvider extends _$TeamProvider {
     return {for (var team in teams) team.teamId: team};
   }
 
+  Future<Team?> getTeamById(String teamId) async {
+    final currentTeams = state.value;
+    if (currentTeams != null && currentTeams.containsKey(teamId)) {
+      return currentTeams[teamId];
+    }
+    final teamRepository = _getIt.isRegistered<TeamRepository>()
+        ? _getIt<TeamRepository>()
+        : null;
+    return teamRepository?.findTeamById(teamId);
+  }
+
   Future<String> addTeam({
     required String teamName,
     required String lobbyId,

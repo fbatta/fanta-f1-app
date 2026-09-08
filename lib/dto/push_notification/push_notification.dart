@@ -11,8 +11,17 @@ class PushNotification with _$PushNotification {
   final PushNotificationType type;
   @override
   final String? raceId;
+  @override
+  final String? teamId;
+  @override
+  final String? lobbyId;
 
-  const PushNotification({required this.type, required this.raceId});
+  const PushNotification({
+    required this.type,
+    this.raceId,
+    this.teamId,
+    this.lobbyId,
+  });
 
   factory PushNotification.fromJson(Map<String, dynamic> json) =>
       _$PushNotificationFromJson(json);

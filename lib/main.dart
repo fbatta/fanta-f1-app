@@ -7,6 +7,7 @@ import 'package:fanta_f1/dto/push_notification/push_notification_type.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
 import 'package:fanta_f1/provider/preferences_provider.dart';
 import 'package:fanta_f1/provider/race_weekend_provider.dart';
+import 'package:fanta_f1/provider/team_provider.dart';
 import 'package:fanta_f1/repository/driver_cost_repository.dart';
 import 'package:fanta_f1/repository/driver_repository.dart';
 import 'package:fanta_f1/repository/driver_summary_repository.dart';
@@ -72,7 +73,13 @@ Future<void> _registerInstances() async {
 }
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
+  final GoRouter? routerConfig;
+  final Stream<RemoteMessage>? onMessageOpenedApp;
+  const MyApp({
+    super.key,
+    this.routerConfig,
+    this.onMessageOpenedApp,
+  });
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
@@ -82,6 +89,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   final _getIt = GetIt.instance;
   late final FirebaseMessaging _messaging;
   late final FirebaseAuth _auth;
+
+  GoRouter get _router => widget.routerConfig ?? router;
 
   @override
   void initState() {
@@ -98,7 +107,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: _router,
       title: 'IDGAF-1',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
     );
@@ -117,13 +126,15 @@ class _MyAppState extends ConsumerState<MyApp> {
       _handleMessage(initialMessage);
     }
 
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    final messageOpenedStream =
+        widget.onMessageOpenedApp ?? FirebaseMessaging.onMessageOpenedApp;
+    messageOpenedStream.listen(_handleMessage);
   }
 
   Future<void> _handleMessage(RemoteMessage message) async {
     final data = PushNotification.fromJson(message.data);
     if (_auth.currentUser == null) {
-      context.goNamed(RouteNames.signIn.name);
+      _router.goNamed(RouteNames.signIn.name);
       return;
     }
 
@@ -136,18 +147,53 @@ class _MyAppState extends ConsumerState<MyApp> {
             .getRaceById(data.raceId ?? '');
         if (!mounted) return;
         if (race == null) {
-          context.goNamed(RouteNames.signIn.name);
+          _router.goNamed(RouteNames.signIn.name);
         }
-        context.goNamed(RouteNames.calendar.name);
+        _router.goNamed(RouteNames.calendar.name);
         break;
       case PushNotificationType.lineupClosed:
         // TODO: Handle this case.
         throw UnimplementedError();
       case PushNotificationType.raceWeekendResultsAvailable:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        final raceId = data.raceId;
+        final teamId = data.teamId;
+        if (raceId == null ||
+            raceId.isEmpty ||
+            teamId == null ||
+            teamId.isEmpty) {
+          _router.goNamed(RouteNames.calendar.name);
+          break;
+        }
+
+        final team = await ref
+            .read(teamProviderProvider.notifier)
+            .getTeamById(teamId);
+        if (!mounted) return;
+        if (team == null) {
+          _router.goNamed(RouteNames.calendar.name);
+          break;
+        }
+
+        final lobbyId = (data.lobbyId != null && data.lobbyId!.isNotEmpty)
+            ? data.lobbyId!
+            : team.lobbyId;
+
+        if (lobbyId.isEmpty) {
+          _router.goNamed(RouteNames.calendar.name);
+          break;
+        }
+
+        _router.goNamed(
+          RouteNames.raceResults.name,
+          pathParameters: {
+            'raceId': raceId,
+            'teamId': teamId,
+            'lobbyId': lobbyId,
+          },
+        );
+        break;
       case PushNotificationType.driversPricesUpdated:
-        context.goNamed(RouteNames.home.name);
+        _router.goNamed(RouteNames.home.name);
         break;
     }
   }

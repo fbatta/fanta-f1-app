@@ -6,9 +6,21 @@
 
 import 'dart:async' as _i3;
 
+import 'package:fanta_f1/dto/driver/driver.dart' as _i16;
+import 'package:fanta_f1/dto/lineup/lineup.dart' as _i10;
+import 'package:fanta_f1/dto/lobby/lobby.dart' as _i12;
+import 'package:fanta_f1/dto/race/race.dart' as _i14;
+import 'package:fanta_f1/dto/team/team.dart' as _i6;
 import 'package:fanta_f1/dto/user/user.dart' as _i4;
+import 'package:fanta_f1/repository/driver_repository.dart' as _i15;
+import 'package:fanta_f1/repository/lineup_repository.dart' as _i9;
+import 'package:fanta_f1/repository/lobby_repository.dart' as _i11;
+import 'package:fanta_f1/repository/race_weekend_repository.dart' as _i13;
+import 'package:fanta_f1/repository/team_repository.dart' as _i5;
 import 'package:fanta_f1/repository/user_repository.dart' as _i2;
+import 'package:image_picker/image_picker.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -46,4 +58,266 @@ class MockUserRepository extends _i1.Mock implements _i2.UserRepository {
             returnValueForMissingStub: _i3.Future<void>.value(),
           )
           as _i3.Future<void>);
+}
+
+/// A class which mocks [TeamRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTeamRepository extends _i1.Mock implements _i5.TeamRepository {
+  @override
+  _i3.Future<_i6.Team?> findTeamById(String? teamId) =>
+      (super.noSuchMethod(
+            Invocation.method(#findTeamById, [teamId]),
+            returnValue: _i3.Future<_i6.Team?>.value(),
+            returnValueForMissingStub: _i3.Future<_i6.Team?>.value(),
+          )
+          as _i3.Future<_i6.Team?>);
+
+  @override
+  _i3.Future<List<_i6.Team>> getTeamsByOwnerId(String? ownerId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getTeamsByOwnerId, [ownerId]),
+            returnValue: _i3.Future<List<_i6.Team>>.value(<_i6.Team>[]),
+            returnValueForMissingStub: _i3.Future<List<_i6.Team>>.value(
+              <_i6.Team>[],
+            ),
+          )
+          as _i3.Future<List<_i6.Team>>);
+
+  @override
+  _i3.Future<List<_i6.Team>> getTeamsInLobby(String? lobbyId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getTeamsInLobby, [lobbyId]),
+            returnValue: _i3.Future<List<_i6.Team>>.value(<_i6.Team>[]),
+            returnValueForMissingStub: _i3.Future<List<_i6.Team>>.value(
+              <_i6.Team>[],
+            ),
+          )
+          as _i3.Future<List<_i6.Team>>);
+
+  @override
+  _i3.Future<bool> hasTeamInLobby(String? lobbyId, String? ownerId) =>
+      (super.noSuchMethod(
+            Invocation.method(#hasTeamInLobby, [lobbyId, ownerId]),
+            returnValue: _i3.Future<bool>.value(false),
+            returnValueForMissingStub: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
+
+  @override
+  _i3.Future<void> updateTeam(_i6.Team? team) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateTeam, [team]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> createTeam(_i6.Team? team) =>
+      (super.noSuchMethod(
+            Invocation.method(#createTeam, [team]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Future<String> uploadAvatar(
+    String? teamId,
+    String? userId,
+    _i7.XFile? file,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#uploadAvatar, [teamId, userId, file]),
+            returnValue: _i3.Future<String>.value(
+              _i8.dummyValue<String>(
+                this,
+                Invocation.method(#uploadAvatar, [teamId, userId, file]),
+              ),
+            ),
+            returnValueForMissingStub: _i3.Future<String>.value(
+              _i8.dummyValue<String>(
+                this,
+                Invocation.method(#uploadAvatar, [teamId, userId, file]),
+              ),
+            ),
+          )
+          as _i3.Future<String>);
+}
+
+/// A class which mocks [LineupRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLineupRepository extends _i1.Mock implements _i9.LineupRepository {
+  @override
+  _i3.Future<_i10.Lineup?> findLineupById(String? teamId, String? raceId) =>
+      (super.noSuchMethod(
+            Invocation.method(#findLineupById, [teamId, raceId]),
+            returnValue: _i3.Future<_i10.Lineup?>.value(),
+            returnValueForMissingStub: _i3.Future<_i10.Lineup?>.value(),
+          )
+          as _i3.Future<_i10.Lineup?>);
+
+  @override
+  _i3.Future<_i10.Lineup?> findLatestLineupByTeamId(
+    String? teamId,
+    int? year,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#findLatestLineupByTeamId, [teamId, year]),
+            returnValue: _i3.Future<_i10.Lineup?>.value(),
+            returnValueForMissingStub: _i3.Future<_i10.Lineup?>.value(),
+          )
+          as _i3.Future<_i10.Lineup?>);
+
+  @override
+  _i3.Future<List<_i10.Lineup>> getLineupsByTeamId(String? teamId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getLineupsByTeamId, [teamId]),
+            returnValue: _i3.Future<List<_i10.Lineup>>.value(<_i10.Lineup>[]),
+            returnValueForMissingStub: _i3.Future<List<_i10.Lineup>>.value(
+              <_i10.Lineup>[],
+            ),
+          )
+          as _i3.Future<List<_i10.Lineup>>);
+
+  @override
+  _i3.Future<List<_i10.Lineup>> getLineupsByTeamIdsAndRaceId(
+    List<String>? teamIds,
+    String? raceId,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getLineupsByTeamIdsAndRaceId, [teamIds, raceId]),
+            returnValue: _i3.Future<List<_i10.Lineup>>.value(<_i10.Lineup>[]),
+            returnValueForMissingStub: _i3.Future<List<_i10.Lineup>>.value(
+              <_i10.Lineup>[],
+            ),
+          )
+          as _i3.Future<List<_i10.Lineup>>);
+
+  @override
+  _i3.Future<_i10.Lineup?> findLineup(_i10.Lineup? lineup) =>
+      (super.noSuchMethod(
+            Invocation.method(#findLineup, [lineup]),
+            returnValue: _i3.Future<_i10.Lineup?>.value(),
+            returnValueForMissingStub: _i3.Future<_i10.Lineup?>.value(),
+          )
+          as _i3.Future<_i10.Lineup?>);
+
+  @override
+  _i3.Future<void> createOrUpdateLineup(_i10.Lineup? lineup) =>
+      (super.noSuchMethod(
+            Invocation.method(#createOrUpdateLineup, [lineup]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+}
+
+/// A class which mocks [LobbyRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLobbyRepository extends _i1.Mock implements _i11.LobbyRepository {
+  @override
+  _i3.Future<List<_i12.Lobby>> getLobbies() =>
+      (super.noSuchMethod(
+            Invocation.method(#getLobbies, []),
+            returnValue: _i3.Future<List<_i12.Lobby>>.value(<_i12.Lobby>[]),
+            returnValueForMissingStub: _i3.Future<List<_i12.Lobby>>.value(
+              <_i12.Lobby>[],
+            ),
+          )
+          as _i3.Future<List<_i12.Lobby>>);
+
+  @override
+  _i3.Future<List<_i12.Lobby>> getLobbiesByIds(List<String>? lobbyIds) =>
+      (super.noSuchMethod(
+            Invocation.method(#getLobbiesByIds, [lobbyIds]),
+            returnValue: _i3.Future<List<_i12.Lobby>>.value(<_i12.Lobby>[]),
+            returnValueForMissingStub: _i3.Future<List<_i12.Lobby>>.value(
+              <_i12.Lobby>[],
+            ),
+          )
+          as _i3.Future<List<_i12.Lobby>>);
+
+  @override
+  _i3.Future<void> createLobby(_i12.Lobby? lobby) =>
+      (super.noSuchMethod(
+            Invocation.method(#createLobby, [lobby]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> updateLobby(_i12.Lobby? lobby) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateLobby, [lobby]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+}
+
+/// A class which mocks [RaceWeekendRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRaceWeekendRepository extends _i1.Mock
+    implements _i13.RaceWeekendRepository {
+  @override
+  _i3.Future<_i14.Race?> getRaceById(String? raceId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getRaceById, [raceId]),
+            returnValue: _i3.Future<_i14.Race?>.value(),
+            returnValueForMissingStub: _i3.Future<_i14.Race?>.value(),
+          )
+          as _i3.Future<_i14.Race?>);
+
+  @override
+  _i3.Future<List<_i14.Race>> getFutureRacesForYear(int? year) =>
+      (super.noSuchMethod(
+            Invocation.method(#getFutureRacesForYear, [year]),
+            returnValue: _i3.Future<List<_i14.Race>>.value(<_i14.Race>[]),
+            returnValueForMissingStub: _i3.Future<List<_i14.Race>>.value(
+              <_i14.Race>[],
+            ),
+          )
+          as _i3.Future<List<_i14.Race>>);
+
+  @override
+  _i3.Future<_i14.Race?> getCurrentRace() =>
+      (super.noSuchMethod(
+            Invocation.method(#getCurrentRace, []),
+            returnValue: _i3.Future<_i14.Race?>.value(),
+            returnValueForMissingStub: _i3.Future<_i14.Race?>.value(),
+          )
+          as _i3.Future<_i14.Race?>);
+
+  @override
+  _i3.Future<List<_i14.Race>> getPastRacesForYear(int? year) =>
+      (super.noSuchMethod(
+            Invocation.method(#getPastRacesForYear, [year]),
+            returnValue: _i3.Future<List<_i14.Race>>.value(<_i14.Race>[]),
+            returnValueForMissingStub: _i3.Future<List<_i14.Race>>.value(
+              <_i14.Race>[],
+            ),
+          )
+          as _i3.Future<List<_i14.Race>>);
+}
+
+/// A class which mocks [DriverRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDriverRepository extends _i1.Mock implements _i15.DriverRepository {
+  @override
+  _i3.Future<List<_i16.Driver>> getDrivers() =>
+      (super.noSuchMethod(
+            Invocation.method(#getDrivers, []),
+            returnValue: _i3.Future<List<_i16.Driver>>.value(<_i16.Driver>[]),
+            returnValueForMissingStub: _i3.Future<List<_i16.Driver>>.value(
+              <_i16.Driver>[],
+            ),
+          )
+          as _i3.Future<List<_i16.Driver>>);
 }

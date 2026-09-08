@@ -32,7 +32,7 @@ class RaceWeekendProvider extends _$RaceWeekendProvider {
   }
 
   Future<Race?> getRaceById(String raceId) async {
-    final currentState = state.requireValue;
+    final currentState = state.value ?? await future;
 
     final race = currentState.allRaces.firstWhere(
       (race) => race.raceId == raceId,
