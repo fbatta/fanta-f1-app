@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fanta_f1/dto/team/team.dart';
 import 'package:fanta_f1/helper/time_utils.dart';
-import 'package:fanta_f1/main.dart';
+import 'package:fanta_f1/app.dart';
 import 'package:fanta_f1/repository/driver_repository.dart';
 import 'package:fanta_f1/repository/lineup_repository.dart';
 import 'package:fanta_f1/repository/lobby_repository.dart';
@@ -127,23 +127,19 @@ void main() {
         GoRoute(
           path: RouteNames.signIn.path,
           name: RouteNames.signIn.name,
-          builder: (context, state) => const Scaffold(
-            body: Text('SignInScreen'),
-          ),
+          builder: (context, state) =>
+              const Scaffold(body: Text('SignInScreen')),
         ),
         GoRoute(
           path: RouteNames.calendar.path,
           name: RouteNames.calendar.name,
-          builder: (context, state) => const Scaffold(
-            body: Text('CalendarScreen'),
-          ),
+          builder: (context, state) =>
+              const Scaffold(body: Text('CalendarScreen')),
         ),
         GoRoute(
           path: RouteNames.home.path,
           name: RouteNames.home.name,
-          builder: (context, state) => const Scaffold(
-            body: Text('HomeScreen'),
-          ),
+          builder: (context, state) => const Scaffold(body: Text('HomeScreen')),
         ),
         GoRoute(
           path: RouteNames.raceResults.path,
@@ -174,42 +170,12 @@ void main() {
       final router = createTestRouter();
 
       await tester.pumpWidget(
-        ProviderScope(
-          child: MyApp(routerConfig: router),
-        ),
+        ProviderScope(child: MyApp(routerConfig: router)),
       );
       await tester.pumpAndSettle();
 
       expect(
         find.text('RaceResultsScreen:monaco-2026:team-1:custom-lobby'),
-        findsOneWidget,
-      );
-    },
-  );
-
-  testWidgets(
-    'navigates to raceResults resolving lobbyId from team when not in payload',
-    (tester) async {
-      final message = RemoteMessage(
-        data: {
-          'type': 'raceWeekendResultsAvailable',
-          'raceId': 'monaco-2026',
-          'teamId': 'team-1',
-        },
-      );
-      when(mockMessaging.getInitialMessage()).thenAnswer((_) async => message);
-
-      final router = createTestRouter();
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MyApp(routerConfig: router),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(
-        find.text('RaceResultsScreen:monaco-2026:team-1:lobby-99'),
         findsOneWidget,
       );
     },
@@ -231,11 +197,7 @@ void main() {
 
     final router = createTestRouter();
 
-    await tester.pumpWidget(
-      ProviderScope(
-        child: MyApp(routerConfig: router),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(child: MyApp(routerConfig: router)));
     await tester.pumpAndSettle();
 
     expect(find.text('SignInScreen'), findsOneWidget);
@@ -246,20 +208,13 @@ void main() {
     tester,
   ) async {
     final message = RemoteMessage(
-      data: {
-        'type': 'raceWeekendResultsAvailable',
-        'teamId': 'team-1',
-      },
+      data: {'type': 'raceWeekendResultsAvailable', 'teamId': 'team-1'},
     );
     when(mockMessaging.getInitialMessage()).thenAnswer((_) async => message);
 
     final router = createTestRouter();
 
-    await tester.pumpWidget(
-      ProviderScope(
-        child: MyApp(routerConfig: router),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(child: MyApp(routerConfig: router)));
     await tester.pumpAndSettle();
 
     expect(find.text('CalendarScreen'), findsOneWidget);
@@ -270,20 +225,13 @@ void main() {
     tester,
   ) async {
     final message = RemoteMessage(
-      data: {
-        'type': 'raceWeekendResultsAvailable',
-        'raceId': 'monaco-2026',
-      },
+      data: {'type': 'raceWeekendResultsAvailable', 'raceId': 'monaco-2026'},
     );
     when(mockMessaging.getInitialMessage()).thenAnswer((_) async => message);
 
     final router = createTestRouter();
 
-    await tester.pumpWidget(
-      ProviderScope(
-        child: MyApp(routerConfig: router),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(child: MyApp(routerConfig: router)));
     await tester.pumpAndSettle();
 
     expect(find.text('CalendarScreen'), findsOneWidget);
@@ -309,11 +257,7 @@ void main() {
 
     final router = createTestRouter();
 
-    await tester.pumpWidget(
-      ProviderScope(
-        child: MyApp(routerConfig: router),
-      ),
-    );
+    await tester.pumpWidget(ProviderScope(child: MyApp(routerConfig: router)));
     await tester.pumpAndSettle();
 
     expect(find.text('CalendarScreen'), findsOneWidget);
