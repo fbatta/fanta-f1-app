@@ -33,7 +33,7 @@ final class TeamProviderProvider
   TeamProvider create() => TeamProvider();
 }
 
-String _$teamProviderHash() => r'3f3c01a9a3de4496fd662882154b2effd3104d17';
+String _$teamProviderHash() => r'c37aedd833157493ca4f96b1b234bf4a3c489867';
 
 abstract class _$TeamProvider extends $AsyncNotifier<Map<String, Team>> {
   FutureOr<Map<String, Team>> build();

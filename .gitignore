@@ -128,5 +128,9 @@ app.*.symbols
 # FVM Version Cache
 .fvm/
 
-# Opencode
+# Opencode and other AI stuff
 .opencode
+.ocx
+.hermes
+.agent
+.agents
